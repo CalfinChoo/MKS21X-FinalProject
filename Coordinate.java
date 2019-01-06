@@ -27,4 +27,5 @@ public class Coordinate{
 	public void minusY(){
 		--y;
 	}
+	// this coordinate system begins in the top left corner with the x and y increaing right and down respectivly
 }
