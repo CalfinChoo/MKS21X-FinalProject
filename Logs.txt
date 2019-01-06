@@ -1,4 +1,5 @@
 Day 1 (1/3/19):
   we learned how to use lanterna, to place strings down and stuff
 Day 2 (1/4/19):
-  we started creating the graphics class and adding sprites
+  we started creating the graphics class and adding sprites to it
+  - finished adding sprite models for the player, small enemy, medium enemy, and (temp) large enemy
