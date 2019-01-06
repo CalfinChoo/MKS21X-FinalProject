@@ -1,4 +1,11 @@
 public class Graphics{
+  /*
+ * Contains all the sprites used in the game.
+ * Sprites are saved as static 3-Dimensional String Arrays containing the different orientations/directions of the model.
+ * The common format used in storing the orientations is 1) Up, 2) Right, 3) Down, 4) Left
+ */
+
+ // Sprite of the player model (7x5)
   public static String Player[][][] =
   {
     {
@@ -30,6 +37,8 @@ public class Graphics{
       {" ", "d", "H", " ", "d", "H", " "}
     }
   };
+
+  //  Sprite of the TinyEnemy, or Devilish Imp (9x5)
   public static String TinyEnemy[][][] =
   {
     {
@@ -61,6 +70,8 @@ public class Graphics{
       {" ", "|", " ", "d", " ", "b", " ", " ", " "}
     }
   };
+
+  //  Sprite of SmallEnemy, or Skeleton (9x7)
   public static String SmallEnemy[][][] =
   {
     {
@@ -100,6 +111,8 @@ public class Graphics{
       {" ", " ", "V", " ", " ", " ", "V", " ", " "}
     }
   };
+
+  //  Sprite of MediumEnemy, or Bow Centaur (12x9 vertically, 19x9 horizontally)
   public static String MediumEnemy[][][] =
   {
     {
@@ -147,6 +160,8 @@ public class Graphics{
       {" ", " ", " ", " ", " ", " ", " ", "\\", "/", " ", "|", "|", " ", "|", "|", " ", "|", "|", " "}
     }
   };
+
+  //  Sprite of LargeEnemy, or Dragon (24x11 vertically, 30x11 horizontally)
   public static String LargeEnemy[][][] =
   {
     {
@@ -202,6 +217,8 @@ public class Graphics{
       {" ", " ", " ", "`", "`", "`", " ", " ", " ", " ", " ", " ", " ", "`", "`", "`", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "}
     }
   };
+
+  //  Sprite of BossOne, or Grim Reaper (21x16)
   public static String BossOne[][][] =
   {
     {
