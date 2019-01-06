@@ -2,4 +2,12 @@ Day 1 (1/3/19):
   we learned how to use lanterna, to place strings down and stuff
 Day 2 (1/4/19):
   we started creating the graphics class and adding sprites to it
-  - finished adding sprite models for the player, small enemy, medium enemy, and (temp) large enemy
+  -> finished adding sprite models for the player, small enemy, medium enemy, and (temp) large enemy
+Day 3 (1/5/19):
+  we made the following changes to the graphics class:
+  - the small enemy was demoted to a tiny enemy
+  - the medium enemy was demoted to a small enemy
+  - the large enemy was promoted to a boss
+  - a new medium enemy sprite was created
+  - a new large enemy sprite was created
+
