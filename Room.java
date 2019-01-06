@@ -63,4 +63,18 @@ public class Room{
 		}
 		return room;
 	}
+	private static void printView(String[][] view){
+		String out = "";
+		for (int y = 0; y < view.length; y++){
+			for (int x = 0; x < view[0].length;x++){
+				out+=view[y][x]+" ";
+			}
+			out += "\n";
+		}
+		System.out.println(out);
+	}
+	public static void main(String[] args){
+		Room rooms = new Room();
+		printView(rooms.getShopRoom());
+	}
 }
