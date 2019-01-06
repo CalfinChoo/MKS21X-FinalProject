@@ -4,24 +4,24 @@ public class Room{
 	private String[][] BattleRoom = new String[45][45];
 	private String[][] TreasureRoom = new String[15][15];
 	private String[][] BossRoom = new String[75][75];
+
+	Room(){
+		fillRoom(SpawnRoom);fillRoom(ShopRoom);fillRoom(BattleRoom);
+		fillRoom(TreasureRoom);fillRoom(BossRoom);
+	}
 	public String[][] getSpawnRoom() {
-		if (isEmpty(SpawnRoom)) fillRoom(SpawnRoom);
 		return SpawnRoom;
 	}
 	public String[][] getShopRoom() {
-		if (isEmpty(ShopRoom)) fillRoom(ShopRoom);
 		return ShopRoom;
 	}
 	public String[][] getBattleRoom() {
-		if (isEmpty(BattleRoom)) fillRoom(BattleRoom);
 		return BattleRoom;
 	}
 	public String[][] getTreasureRoom() {
-		if (isEmpty(TreasureRoom)) fillRoom(TreasureRoom);
 		return TreasureRoom;
 	}
 	public String[][] getBossRoom() {
-		if (isEmpty(BossRoom)) fillRoom(BossRoom);
 		return BossRoom;
 	}
 	private boolean isEmpty(String[][] room) {
