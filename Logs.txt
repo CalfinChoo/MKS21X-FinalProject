@@ -13,3 +13,4 @@ Day 3 (1/5/19):
 Day 4 (1/6/19):
   - made the player view display to the screen, that got a section of the entire map
   - allowed movement with the wasd keys and qezx for diagonal movement
+  - fixed broken room designs + started adding lava pits to battle rooms and introduced colored arrays
