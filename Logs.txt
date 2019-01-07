@@ -10,4 +10,6 @@ Day 3 (1/5/19):
   - the large enemy was promoted to a boss
   - a new medium enemy sprite was created
   - a new large enemy sprite was created
-
+Day 4 (1/6/19):
+  - made the player view display to the screen, that got a section of the entire map
+  - allowed movement with the wasd keys and qezx for diagonal movement
