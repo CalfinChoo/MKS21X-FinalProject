@@ -295,7 +295,7 @@ public class Graphics{
     }
   };
   public static void main(String[] args) {
-    for (String[][] x : BossOne) {
+    for (String[][] x : LargeEnemy) {
       for (String[] y : x) {
         for (String z : y) {
           System.out.print(z);
