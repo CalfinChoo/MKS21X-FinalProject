@@ -23,4 +23,9 @@ Ever wished for a fun game you can use your terminal to open? (I doubt it) well 
   - made the player view display to the screen, that got a section of the entire map
   - allowed movement with the wasd keys and qezx for diagonal movement
   - fixed broken room designs + started adding lava pits to battle rooms and introduced colored arrays
+</p>Day 5 (1/7/19):
+  - changed lava pool to a random spawning algorithm that generates random pits of lava
+  - created a basic boss room layout
+  - organized pre-existing code
+  - small tweak to treasure room
 </p>
