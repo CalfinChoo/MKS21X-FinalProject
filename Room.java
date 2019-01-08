@@ -2,18 +2,18 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.lang.Math;
 import java.util.Random;
 public class Room{
-	private Terminal.Color[][] SpawnRoomCM = new Terminal.Color[15][15];
+	/*private Terminal.Color[][] SpawnRoomCM = new Terminal.Color[15][15];
 	private Terminal.Color[][] ShopRoomCM = new Terminal.Color[35][35];
 	private Terminal.Color[][] SmallBattleRoomCM = new Terminal.Color[75][75];
 	private Terminal.Color[][] BigBattleRoomCM = new Terminal.Color[95][95];
 	private Terminal.Color[][] TreasureRoomCM = new Terminal.Color[25][25];
-	private Terminal.Color[][] BossRoomCM = new Terminal.Color[115][115];
-	private String[][] SpawnRoom = new String[15][15];
-	private String[][] ShopRoom = new String[35][35];
-	private String[][] SmallBattleRoom = new String[75][75];
-	private String[][] BigBattleRoom = new String[95][95];
-	private String[][] TreasureRoom = new String[25][25];
-	private String[][] BossRoom = new String[115][115];
+	private Terminal.Color[][] BossRoomCM = new Terminal.Color[115][115]; */
+	private String[][] SpawnRoom = new String[15][30];
+	private String[][] ShopRoom = new String[35][75];
+	private String[][] SmallBattleRoom = new String[75][150];
+	private String[][] BigBattleRoom = new String[95][190];
+	private String[][] TreasureRoom = new String[25][50];
+	private String[][] BossRoom = new String[115][230];
 	private int randRow1, randRow2, randRow3, randCol1, randCol2, randCol3, randRow4, randCol4, randRow5, randCol5 = 0;
 	private Random rand;
 
@@ -56,19 +56,21 @@ public class Room{
 		for (int row = 0; row < room.length; row++) {
 			for (int col = 0; col < room[row].length; col++) {
 				if (room.equals(SmallBattleRoom) || room.equals(BigBattleRoom)) {
-					if (Math.pow((row - randRow1), 2) + Math.pow((col - randCol1), 2) <= 25) {
+					int minor = 5;
+					int major = 9;
+					if (Math.pow((row - randRow1), 2) / (minor * minor) + Math.pow((col - randCol1), 2) / (major * major) <= 1) {
 						room[row][col] = "l";
 					}
-					if (Math.pow((row - randRow2), 2) + Math.pow((col - randCol2), 2) <= 25) {
+					if (Math.pow((row - randRow2), 2) / (minor * minor) + Math.pow((col - randCol2), 2) / (major * major) <= 1) {
 						room[row][col] = "l";
 					}
-					if (Math.pow((row - randRow3), 2) + Math.pow((col - randCol3), 2) <= 25) {
+					if (Math.pow((row - randRow3), 2) / (minor * minor) + Math.pow((col - randCol3), 2) / (major * major) <= 1) {
 						room[row][col] = "l";
 					}
-					if (Math.pow((row - randRow4), 2) + Math.pow((col - randCol4), 2) <= 25) {
+					if (Math.pow((row - randRow4), 2) / (minor * minor) + Math.pow((col - randCol4), 2) / (major * major) <= 1) {
 						room[row][col] = "l";
 					}
-					if (room.equals(BigBattleRoom) && Math.pow((row - randRow5), 2) + Math.pow((col - randCol5), 2) <= 25) {
+					if (room.equals(BossRoom) && Math.pow((row - randRow1), 2) / (minor * minor) + Math.pow((col - randCol1), 2) / (major * major) <= 1) {
 						room[row][col] = "l";
 					}
 				}
@@ -128,8 +130,8 @@ public class Room{
 		String out = "";
 		for (int y = 0; y < view.length; y++){
 			for (int x = 0; x < view[0].length;x++){
-				if (view[y][x] == null) out += "  ";
-				else out+=view[y][x]+" ";
+				if (view[y][x] == null) out += " ";
+				else out+=view[y][x] + "";
 			}
 			out += "\n";
 		}
@@ -138,6 +140,6 @@ public class Room{
 
 	public static void main(String[] args){
 		Room rooms = new Room();
-		printView(rooms.getTreasureRoom());
+		printView(rooms.getBigBattleRoom());
 	}
 }

@@ -1,3 +1,4 @@
+import com.googlecode.lanterna.terminal.Terminal;
 public class Graphics{
   /*
  * Contains all the sprites used in the game.
@@ -37,7 +38,37 @@ public class Graphics{
       {" ", "d", "H", " ", "d", "H", " "}
     }
   };
-
+  public static Terminal.Color[][][] PlayerCM =
+    {
+      {
+        {Terminal.Color.BROWN, Terminal.Color.BROWN, Terminal.Color.WHITE, Terminal.Color.WHITE, Terminal.Color.WHITE, Terminal.Color.BROWN, Terminal.Color.BROWN},
+        {"(", " ", " ", " ", " ", " ", ")"},
+        {"/", "\\", "X", "X", "X", "/", "\\"},
+        {"V", "/", "_", "_", "_", "\\", "V"},
+        {" ", "d", "b", " ", "d", "b", " "}
+      },
+      {
+        {"_", "/", "X", "X", "X", "\\", "_"},
+        {"(", " ", " ", "o", "~", "o", ")"},
+        {"/", "\\", "X", "X", "/", "\\", "_"},
+        {"V", "/", "_", "_", "\\", " ", " "},
+        {" ", "H", "b", " ", "H", "b", " "}
+      },
+      {
+        {"_", "/", "X", "X", "X", "\\", "_"},
+        {"(", " ", "o", "~", "o", " ", ")"},
+        {"/", "\\", "X", "X", "X", "/", "\\"},
+        {"V", "/", "_", "_", "_", "\\", "V"},
+        {" ", "d", "b", " ", "d", "b", " "}
+      },
+      {
+        {"_", "/", "X", "X", "X", "\\", "_"},
+        {"(", "o", "~", "o", " ", " ", ")"},
+        {"_", "/", "\\", "X", "X", "/", "\\"},
+        {" ", " ", "/", "_", "_", "\\", "V"},
+        {" ", "d", "H", " ", "d", "H", " "}
+      }
+    };
   //  Sprite of the TinyEnemy, or Devilish Imp (9x5)
   public static String TinyEnemy[][][] =
   {
