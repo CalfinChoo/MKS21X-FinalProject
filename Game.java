@@ -24,19 +24,17 @@ public class Game{
 			}
 		}
 	}
-	private static String getPS(String[] line){ //returns a string from a 1D array of strings
-		String out = "";
-		for (String i:line){
-			out += i;
-		}
-		return out;
-	}
 	private static void putToScreen(MapGen view, Screen screen, Coordinate tlcorner){ //Top Left Corner of the SCREEN
-		for (int y = tlcorner.getY(), my = 0; y < view.getHeight(); y++,my++){
-			for (int x = tlcorner.getX(), mx = 0; x< view.getWidth(); x++, mx++){
-				screen.putString(x,y,view.getMap()[my][mx],view.getCMP(mx,my), Terminal.Color.BLACK);
+		//System.out.println(view.getWidth());
+		for (int y = tlcorner.getY(), my = 0; my < view.getHeight(); y++,my++){
+			for (int x = tlcorner.getX(), mx = 0; mx< view.getWidth(); x++, mx++){
+				screen.putString(x,y,view.getMap()[my][mx],view.getCMP(mx,my), view.getBCM()[my][mx]);
+				// add diff things based upon symbols in view.map
 			}
 		}
+	}
+	private static void updatePlayerCoord(Coordinate playerCoord, Coordinate oldPlayerCoord, MapGen currentMap){
+		
 	}
 	private static void updateView(MapGen view, MapGen currentMap, Coordinate playerCoord){
 		Coordinate topLeft = new Coordinate(playerCoord.getX() - ((view.getWidth() - 1) / 2), playerCoord.getY() - ((view.getHeight() -1)/2));
@@ -62,20 +60,18 @@ public class Game{
 		//TerminalSize wantedTSize = new TerminalSize(142,38);
 		TerminalSize currentTSize = screen.getTerminalSize();
  
-		int vWidth = 51; int vHeight = 35; //should always be odd, but the max is even b/c it starts from 0
+		int vWidth = 51; int vHeight = 35; //should always be odd, but the max is even b/c it starts from 0,  (51,35)
 		Coordinate playerCoord = new Coordinate((vWidth-1)/2,(vHeight-1)/2); //player coord must be between vwidth and currentMapWidth - vwidth (same for height)
 		Coordinate oldPlayerCoord = new Coordinate(playerCoord.getX(), playerCoord.getY());
 		MapGen view = new MapGen(vWidth,vHeight); //player's view
 		int mWidth = 500; int mHeight = 500; 
-		MapGen currentMap = new MapGen(mWidth+vWidth,mHeight+vHeight);
+		MapGen currentMap = new MapGen(mWidth+vWidth,mHeight+vHeight, vWidth, vHeight);
 		updateView(view,currentMap, playerCoord);
-		currentMap.setMap(playerCoord.getX(),playerCoord.getY(),"P");
 		//testing with random objects
 		currentMap.setMap(10,10,"H"); currentMap.setMap(10,11,"H"); currentMap.setMap(9,10,"H");currentMap.setMap(9,11,"H");
 		playerCoord.setX(525); playerCoord.setY(517);
 
 		//printView(view.getMap());
-
 		screen.startScreen();
 		try{ // stops the screen in the even of an exception
 			while (running){
@@ -147,14 +143,12 @@ public class Game{
 					//System.out.println("height: " + currentTSize.getRows());
 					//System.out.println("width: " + currentTSize.getColumns());
 
-					currentMap.setMap(playerCoord.getX(),playerCoord.getY(),"P");
-					currentMap.setMap(oldPlayerCoord.getX(),oldPlayerCoord.getY(),"O");
-					updateView(view,currentMap, playerCoord);
-					putToScreen(view,screen, new Coordinate(1,1));
+					updateView(view,currentMap, playerCoord); //System.out.println(view.getHeight());
+					putToScreen(view,screen, new Coordinate(3,1));
 					screen.putString(1,0,"playerCoord:("+playerCoord.getX()+","+playerCoord.getY()+")",Terminal.Color.BLACK,Terminal.Color.WHITE);
 					//screen.putString(playerCoord.getX(),playerCoord.getY(),"P", Terminal.Color.YELLOW,Terminal.Color.BLUE); 
 
-					screen.updateScreenSize(); currentTSize = screen.getTerminalSize();
+					//screen.updateScreenSize(); currentTSize = screen.getTerminalSize();
 					if (currentTSize.getRows() != wantedTSize.getRows() || currentTSize.getColumns() != wantedTSize.getColumns()){
 						//currentTerminal.onResized(wantedTSize);
 					}
