@@ -1,1 +1,3 @@
-
+public class Bullet{
+  Bullet(){};
+}

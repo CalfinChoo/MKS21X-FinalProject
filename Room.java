@@ -126,6 +126,6 @@ public class Room{
 	}
 	public static void main(String[] args){
 		Room rooms = new Room();
-		printView(rooms.getBossRoom());
+		printView(rooms.getSmallBattleRoom());
 	}
 }
