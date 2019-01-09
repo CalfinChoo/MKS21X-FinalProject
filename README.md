@@ -29,9 +29,12 @@ Ever wished for a fun game you can use your terminal to open? (I doubt it) well 
   - created a basic boss room layout
   - organized pre-existing code
   - small tweak to treasure room
+  - got started on game.java
 </p>
 <p>Day 6 (1/8/19):
   - revamped Room class as it was rather unorganized and not executed optimally
   - added comments to Room class
   - began colored array in Graphics class to assign colors to sprites
+  - fixed game.java to display a view of the correct coordinates 
+  - made map gen add a border where the player cannot go
 </p>
