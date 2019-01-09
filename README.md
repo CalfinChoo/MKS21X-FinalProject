@@ -28,4 +28,8 @@ Ever wished for a fun game you can use your terminal to open? (I doubt it) well 
   - created a basic boss room layout
   - organized pre-existing code
   - small tweak to treasure room
-</p>
+</p>Day 6 (1/8/19):
+  - revamped Room class as it was rather unorganized and not executed optimally
+  - added comments to Room class
+  - began colored array in Graphics class to assign colors to sprites
+
