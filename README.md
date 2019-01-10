@@ -38,3 +38,6 @@ Ever wished for a fun game you can use your terminal to open? (I doubt it) well 
   - fixed game.java to display a view of the correct coordinates 
   - made map gen add a border where the player cannot go
 </p>
+<p>Day 7 (1/10/19):
+  - started Player, Person, and Bullet classes
+</p>
