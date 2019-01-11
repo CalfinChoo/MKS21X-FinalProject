@@ -14,14 +14,22 @@ public class Room{
 	private String[][] BigBattleRoom = new String[95][190];
 	private String[][] TreasureRoom = new String[25][50];
 	private String[][] BossRoom = new String[115][230];
-	private int randRow1, randRow2, randRow3, randCol1, randCol2, randCol3, randRow4, randCol4, randRow5, randCol5 = 0;
+	private int randRow, randCol;
 	private Random rand;
+	private int randRC[][];
+	/*
+ * Contains all the different rooms used in the game.
+ * Rooms are saved as 2-Dimensional String Arrays containing the layouts of the rooms.
+ * Some rooms include randomized placement of objects while others are always the same.
+ */
 
+//  Constructs rooms
 	public Room(){
 		rand = new Random();
 		fillRoom(SpawnRoom);fillRoom(ShopRoom);fillRoom(SmallBattleRoom);
 		fillRoom(TreasureRoom);fillRoom(BossRoom);fillRoom(BigBattleRoom);
 	}
+//  Room getters
 	public String[][] getSpawnRoom() {
 		return SpawnRoom;
 	}
@@ -40,44 +48,45 @@ public class Room{
 	public String[][] getBossRoom() {
 		return BossRoom;
 	}
-	public String[][] fillRoom(String[][] room) {
-		if (room.equals(SmallBattleRoom) || room.equals(BigBattleRoom)) {
-			randRow1 = rand.nextInt(room.length - 30) + 15;
-			randCol1 = rand.nextInt(room.length - 30) + 15;
-			randRow2 = rand.nextInt(room.length - 30) + 15;
-			randCol2 = rand.nextInt(room.length - 30) + 15;
-			randRow3 = rand.nextInt(room.length - 30) + 15;
-			randCol3 = rand.nextInt(room.length - 30) + 15;
-			randRow4 = rand.nextInt(room.length - 30) + 15;
-			randCol4 = rand.nextInt(room.length - 30) + 15;
-			randRow5 = rand.nextInt(room.length - 30) + 15;
-			randCol5 = rand.nextInt(room.length - 30) + 15;
+//  Helper functions for Lava placement for BattleRooms in fillroom command:
+//  initiateLava creates number of pits of lava to be placed
+	public void initiateLava(String[][] room, int count, int major, int minor) {
+		randRC = new int[count][2];
+		for (int i = 0; i < count; i++) {
+			randRow = rand.nextInt(room.length);
+			while (randRow + minor >= room.length - 6 || randRow - minor <= 5) randRow = rand.nextInt(room.length);
+			randCol = rand.nextInt(room[randRow].length);
+			while (randCol + major >= room[randRow].length - 6 || randCol - major <= 5) randCol = rand.nextInt(room[randRow].length);
+			randRC[i][1] = randRow;
+			randRC[i][0] = randCol;
 		}
+	}
+//  lavaIsPlaceable checks to see if current position in room filling is part of a designated lava pit
+	public boolean lavaIsPlaceable(String[][] room, int row, int col, int randRow, int randCol, int major, int minor) {
+			if (Math.pow((row - randRow), 2) / (minor * minor) + Math.pow((col - randCol), 2) / (major * major) <= 1) {
+				return true;
+			}
+		return false;
+	}
+//  Fills rooms with room-specific objects (e.g. Treasure in TreasureRoom), as well as shared objects (i.e. walls, doors, floor)
+	public String[][] fillRoom(String[][] room) {
+		if (room.equals(SmallBattleRoom)) initiateLava(SmallBattleRoom, 4, 9, 5);  // initiateLava(room, # of pits, major axis length, minor axis length)
+		if (room.equals(BigBattleRoom)) initiateLava(BigBattleRoom, 5, 9, 5);
 		for (int row = 0; row < room.length; row++) {
 			for (int col = 0; col < room[row].length; col++) {
+				//  Room-specific objects
 				if (room.equals(SmallBattleRoom) || room.equals(BigBattleRoom)) {
-					int minor = 5;
-					int major = 9;
-					if (Math.pow((row - randRow1), 2) / (minor * minor) + Math.pow((col - randCol1), 2) / (major * major) <= 1) {
-						room[row][col] = "l";
-					}
-					if (Math.pow((row - randRow2), 2) / (minor * minor) + Math.pow((col - randCol2), 2) / (major * major) <= 1) {
-						room[row][col] = "l";
-					}
-					if (Math.pow((row - randRow3), 2) / (minor * minor) + Math.pow((col - randCol3), 2) / (major * major) <= 1) {
-						room[row][col] = "l";
-					}
-					if (Math.pow((row - randRow4), 2) / (minor * minor) + Math.pow((col - randCol4), 2) / (major * major) <= 1) {
-						room[row][col] = "l";
-					}
-					if (room.equals(BossRoom) && Math.pow((row - randRow1), 2) / (minor * minor) + Math.pow((col - randCol1), 2) / (major * major) <= 1) {
-						room[row][col] = "l";
+					for (int i = 0; i < randRC.length; i++) {
+						if (lavaIsPlaceable(room, row, col, randRC[i][1], randRC[i][0], 9, 5)) {
+							room[row][col] = "l";
+						}
 					}
 				}
 				if (room.equals(BossRoom)) {
-				  if (row < 10 || row > room.length - 11 || col < 10 || col > room[row].length - 11) {
+				  if ((row < 10 && row > 0) || (row > room.length - 11 && row < room.length - 1) || (col < 10 && col > 0) || (col > room[row].length - 11 && col < room[row].length - 1)) {
 						room[row][col] = "l";
 					}
+					if ((row > 0 && row < room.length - 1 && col >= room[row].length / 2 - 3 && col <= room[row].length / 2 + 3) || (col > 0 && col < room[row].length - 1 && row >= room.length / 2 - 3 && row <= room.length / 2 + 3)) room[row][col] = null;
 				}
 				if (room.equals(TreasureRoom)) {
 					room[12][12] = "t";
@@ -85,61 +94,38 @@ public class Room{
 				if (room.equals(ShopRoom) && (((row == 14 || row == 20) && (col >= 14 && col <= 20)) || (col == 14 || col == 20) && (row >= 14 && row <= 20))) {
 					room[row][col] = "m";
 				}
-			}
-		}
-		for (int r = 0; r < room.length; r++) {
-			for (int c = 0; c < room[r].length; c++) {
-				if ((r == 0 || r == room.length - 1 || c == 0 || c == room[r].length - 1) && room[r][c] != "d") {
-					room[r][c] = "w";
+				//  Objects shared by all rooms
+				if ((row == 0 || row == room.length - 1 || col == 0 || col == room[row].length - 1) && room[row][col] != "d") {
+					room[row][col] = "w";
 				}
-				if ((c == 0 || c == room[r].length -1) && r == room.length / 2) {
-					for (int count = r - 3; count < r + 4; count++) {
-						room[count][c] = "d";
-						if (room.equals(BossRoom) && c == 0) {
-							for (int del = c + 1; del < c + 10; del++) {
-								room[count][del] = null;
-							}
-						}
-						if (room.equals(BossRoom) && c == room[r].length -1) {
-							for (int del = c - 1; del > c - 11; del--) {
-								room[count][del] = null;
-							}
-						}
+				if ((col == 0 || col == room[row].length -1) && row == room.length / 2) {
+					for (int count = row - 3; count < row + 4; count++) {
+						room[count][col] = "d";
 					}
 				}
-				if ((r == 0 || r == room.length - 1) && c == room[r].length / 2) {
-					for (int count = c - 3; count < c + 4; count++) {
-						room[r][count] = "d";
-						if (room.equals(BossRoom) && r == 0) {
-							for (int del = r + 1; del < r + 10; del++) {
-								room[del][count] = null;
-							}
-						}
-						if (room.equals(BossRoom) && r == room.length - 1) {
-							for (int del = r - 1; del > r - 11; del--) {
-								room[del][count] = null;
-							}
-						}
+				if ((row == 0 || row == room.length - 1) && col == room[row].length / 2) {
+					for (int count = col - 3; count < col + 4; count++) {
+						room[row][count] = "d";
 					}
 				}
 			}
 		}
 		return room;
 	}
+
 	private static void printView(String[][] view){
 		String out = "";
 		for (int y = 0; y < view.length; y++){
 			for (int x = 0; x < view[0].length;x++){
 				if (view[y][x] == null) out += " ";
-				else out+=view[y][x] + "";
+				else out+=view[y][x];
 			}
 			out += "\n";
 		}
 		System.out.println(out);
 	}
-
 	public static void main(String[] args){
 		Room rooms = new Room();
-		printView(rooms.getBigBattleRoom());
+		printView(rooms.getSmallBattleRoom());
 	}
 }

@@ -22,10 +22,22 @@ Ever wished for a fun game you can use your terminal to open? (I doubt it) well 
 <p>Day 4 (1/6/19):
   - made the player view display to the screen, that got a section of the entire map
   - allowed movement with the wasd keys and qezx for diagonal movement
-  - fixed broken room designs + started adding lava pits to battle rooms and introduced colored arrays
-</p>Day 5 (1/7/19):
+  - fixed broken room designs + started adding lava pits to battle rooms and introduced colored array
+</p>
+<p>Day 5 (1/7/19):
   - changed lava pool to a random spawning algorithm that generates random pits of lava
   - created a basic boss room layout
   - organized pre-existing code
   - small tweak to treasure room
+  - got started on game.java
+</p>
+<p>Day 6 (1/8/19):
+  - revamped Room class as it was rather unorganized and not executed optimally
+  - added comments to Room class
+  - began colored array in Graphics class to assign colors to sprites
+  - fixed game.java to display a view of the correct coordinates 
+  - made map gen add a border where the player cannot go
+</p>
+<p>Day 7 (1/10/19):
+  - started Player, Person, and Bullet classes
 </p>
