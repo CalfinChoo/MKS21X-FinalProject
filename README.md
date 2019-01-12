@@ -41,3 +41,8 @@ Ever wished for a fun game you can use your terminal to open? (I doubt it) well 
 <p>Day 7 (1/10/19):
   - started Player, Person, and Bullet classes
 </p>
+<p>Day 8 (1/11/19):
+  - converted to Lanterna 3.0
+  - developed more of Player, Person, Bullet, Weapon, and WeaponList classes
+  - added a new BulletType class to store properties of bullets
+</p>
