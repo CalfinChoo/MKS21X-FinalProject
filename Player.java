@@ -11,7 +11,17 @@ public class Player extends Person{
     weapon = defaultWeap;
     facing = initialDir;
   }
-  public int recieveDamage(int dam) {
+  public int recieveDamage(int dam, Bullet inflictor) {
     health -= dam;
+    inflictor = null;
+  }
+  public Coordinate getMyPos() {
+    return myPos;
+  }
+  public boolean move() {
+
+  }
+  public boolean shoot() {
+    weapon.shoot(myPos, 0);
   }
 }

@@ -326,6 +326,8 @@ public class Graphics{
     }
   };
   public static String pistol[][][] = {{{}}};
+  public static String smg[][][] = {{{}}};
+  public static String rifle[][][] = {{{}}};
   public static void main(String[] args) {
     for (String[][] x : LargeEnemy) {
       for (String[] y : x) {
