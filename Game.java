@@ -55,10 +55,10 @@ public class Game{
 			}
 		}
 	}
-	private static void placePlayer(Screen screen, MapGen view, Coordinate tlcorner){
+	private static void placePlayer(Screen screen, MapGen view, Coordinate tlcorner, int direction){
 		for (int y = view.getHeight() / 2 - 2 + tlcorner.getY(), gy = 0; gy < 5;gy++,y++){
 			for (int x = view.getWidth() / 2 - 3 + tlcorner.getX(), gx = 0; gx < 7; gx++,x++){
-				screen.setCharacter(x,y,new TextCharacter(Graphics.Player[2][gy][gx].charAt(0), Graphics.PlayerCM[2][gy][gx], new TextColor.RGB(244,43,43),SGR.BOLD));
+				screen.setCharacter(x,y,new TextCharacter(Graphics.Player[direction][gy][gx].charAt(0), Graphics.PlayerCM[2][gy][gx], new TextColor.RGB(244,43,43),SGR.BOLD));
 			}
 		}
 	}
@@ -90,9 +90,10 @@ public class Game{
 		//printView(view.getMap());
 		Boolean isLastNull = false;
 		Boolean doorOpen = true;
-		//1,2,3
-		//8,0,4
-		//7,6,5
+		int direction = 0;
+		//~,0,~
+		//3,~,1
+		//~,2,~
 		screen.startScreen();
 		try{ // stops the screen in the event of an exception
 			while (running){
@@ -108,21 +109,25 @@ public class Game{
 							if (playerCoord.getY() > (view.getHeight() - 1) /2 + 2){
 								playerCoord.minusY();
 							}
+							direction = 0;
 							break;
 						case 'a':
 							if (playerCoord.getX() > (view.getWidth()-1) / 2 + 3){
 								playerCoord.minusX();
 							}
+							direction = 3;
 							break;
 						case 's':
 							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2) - 2){
 								playerCoord.plusY();
 							}
+							direction = 2;
 							break;
 						case 'd':
 							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2) - 3){
 								playerCoord.plusX();
 							}
+							direction = 1;
 							break;
 						case 'q':
 							if (playerCoord.getY() > (view.getHeight() - 1) /2 + 2){
@@ -177,7 +182,7 @@ public class Game{
 					updateView(view,currentMap, playerCoord); //System.out.println(view.getHeight());
 					putToScreen(view,screen, tlcorner);
 
-					placePlayer(screen, view, tlcorner);
+					placePlayer(screen, view, tlcorner, direction);
 
 					putString(screen,1,0,"playerCoord:("+playerCoord.getX()+","+playerCoord.getY()+")",
 						TextColor.ANSI.BLACK,new TextColor.RGB(255,255,255));
