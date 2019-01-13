@@ -595,8 +595,8 @@ public class Graphics{
       } */
 
     Screen screen = new DefaultTerminalFactory().createScreen();
-    String[][][] model = BossOne;
-    TextColor[][][] modelCM = BossOneCM;
+    String[][][] model = Player;
+    TextColor[][][] modelCM = PlayerCM;
 		screen.startScreen();
     int countRows = 1;
     int countCols = 0;
