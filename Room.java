@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> d6e4fe3218831d6bc4be8e4bdffc23c3a2777ac5
 import java.lang.Math;
 import java.util.Random;
 public class Room{
