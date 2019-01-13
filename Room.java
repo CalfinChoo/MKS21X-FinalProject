@@ -1,4 +1,3 @@
-import com.googlecode.lanterna.terminal.Terminal;
 import java.lang.Math;
 import java.util.Random;
 public class Room{
@@ -95,19 +94,19 @@ public class Room{
 					room[row][col] = "m";
 				}
 				//  Objects shared by all rooms
-				if ((row == 0 || row == room.length - 1 || col == 0 || col == room[row].length - 1) && room[row][col] != "d") {
+				if ((row == 0 || row == room.length - 1 || col == 0 || col == 1 || col == room[row].length - 1 || col == room[row].length - 2)) {
 					room[row][col] = "w";
 				}
-				if ((col == 0 || col == room[row].length -1) && row == room.length / 2) {
-					for (int count = row - 3; count < row + 4; count++) {
-						room[count][col] = "d";
-					}
-				}
-				if ((row == 0 || row == room.length - 1) && col == room[row].length / 2) {
-					for (int count = col - 3; count < col + 4; count++) {
-						room[row][count] = "d";
-					}
-				}
+				// if ((col == 0 || col == room[row].length -1) && row == room.length / 2) {
+				// 	for (int count = row - 3; count < row + 4; count++) {
+				// 		room[count][col] = "d";
+				// 	}
+				// }
+				// if ((row == 0 || row == room.length - 1) && col == room[row].length / 2) {
+				// 	for (int count = col - 3; count < col + 4; count++) {
+				// 		room[row][count] = "d";
+				// 	}
+				// }
 			}
 		}
 		return room;
