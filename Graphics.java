@@ -1,4 +1,10 @@
-import com.googlecode.lanterna.terminal.Terminal;
+import com.googlecode.lanterna.*;
+import com.googlecode.lanterna.input.*;
+import com.googlecode.lanterna.terminal.*;
+import com.googlecode.lanterna.screen.*;
+import com.googlecode.lanterna.SGR;
+import com.googlecode.lanterna.screen.AbstractScreen;
+import java.io.IOException;
 public class Graphics{
   /*
  * Contains all the sprites used in the game.
@@ -13,61 +19,61 @@ public class Graphics{
       {"_", "/", "X", "X", "X", "\\", "_"},
       {"(", " ", " ", " ", " ", " ", ")"},
       {"/", "\\", "X", "X", "X", "/", "\\"},
-      {"V", "/", "_", "_", "_", "\\", "V"},
+      {"V", "/", ".", "-", ".", "\\", "V"},
       {" ", "d", "b", " ", "d", "b", " "}
     },
     {
       {"_", "/", "X", "X", "X", "\\", "_"},
       {"(", " ", " ", "o", "~", "o", ")"},
       {"/", "\\", "X", "X", "/", "\\", "_"},
-      {"V", "/", "_", "_", "\\", " ", " "},
+      {"V", "/", "/", "\\", "\\", " ", " "},
       {" ", "H", "b", " ", "H", "b", " "}
     },
     {
       {"_", "/", "X", "X", "X", "\\", "_"},
       {"(", " ", "o", "~", "o", " ", ")"},
       {"/", "\\", "X", "X", "X", "/", "\\"},
-      {"V", "/", "_", "_", "_", "\\", "V"},
+      {"V", "/", ".", "-", ".", "\\", "V"},
       {" ", "d", "b", " ", "d", "b", " "}
     },
     {
       {"_", "/", "X", "X", "X", "\\", "_"},
       {"(", "o", "~", "o", " ", " ", ")"},
       {"_", "/", "\\", "X", "X", "/", "\\"},
-      {" ", " ", "/", "_", "_", "\\", "V"},
+      {" ", " ", "/", "/", "\\", "\\", "V"},
       {" ", "d", "H", " ", "d", "H", " "}
     }
   };
-  public static Terminal.Color[][][] PlayerCM =
+  public static TextColor[][][] PlayerCM =
     {
       {
-        {Terminal.Color.BROWN, Terminal.Color.BROWN, Terminal.Color.WHITE, Terminal.Color.WHITE, Terminal.Color.WHITE, Terminal.Color.BROWN, Terminal.Color.BROWN},
-        {"(", " ", " ", " ", " ", " ", ")"},
-        {"/", "\\", "X", "X", "X", "/", "\\"},
-        {"V", "/", "_", "_", "_", "\\", "V"},
-        {" ", "d", "b", " ", "d", "b", " "}
+        {new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38)},
+        {new TextColor.RGB(255, 221, 153), TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, new TextColor.RGB(255, 221, 153)},
+        {new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210)},
+        {new TextColor.RGB(255, 221, 153), TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, new TextColor.RGB(255, 221, 153)},
+        {TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT}
       },
       {
-        {"_", "/", "X", "X", "X", "\\", "_"},
-        {"(", " ", " ", "o", "~", "o", ")"},
-        {"/", "\\", "X", "X", "/", "\\", "_"},
-        {"V", "/", "_", "_", "\\", " ", " "},
-        {" ", "H", "b", " ", "H", "b", " "}
+        {new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38)},
+        {new TextColor.RGB(255, 221, 153), TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, new TextColor.RGB(255, 221, 153)},
+        {new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(255, 221, 153)},
+        {new TextColor.RGB(255, 221, 153), TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.DEFAULT},
+        {TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT}
       },
       {
-        {"_", "/", "X", "X", "X", "\\", "_"},
-        {"(", " ", "o", "~", "o", " ", ")"},
-        {"/", "\\", "X", "X", "X", "/", "\\"},
-        {"V", "/", "_", "_", "_", "\\", "V"},
-        {" ", "d", "b", " ", "d", "b", " "}
+        {new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38)},
+        {new TextColor.RGB(255, 221, 153), TextColor.ANSI.BLACK, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.BLACK, new TextColor.RGB(255, 221, 153)},
+        {new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210)},
+        {new TextColor.RGB(255, 221, 153), TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, new TextColor.RGB(255, 221, 153)},
+        {TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT}
       },
       {
-        {"_", "/", "X", "X", "X", "\\", "_"},
-        {"(", "o", "~", "o", " ", " ", ")"},
-        {"_", "/", "\\", "X", "X", "/", "\\"},
-        {" ", " ", "/", "_", "_", "\\", "V"},
-        {" ", "d", "H", " ", "d", "H", " "}
-      }
+        {new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38)},
+        {new TextColor.RGB(255, 221, 153), TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, new TextColor.RGB(255, 221, 153)},
+        {new TextColor.RGB(255, 221, 153), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210)},
+        {TextColor.ANSI.DEFAULT, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, new TextColor.RGB(255, 221, 153)},
+        {TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT}
+      },
     };
   //  Sprite of the TinyEnemy, or Devilish Imp (9x5)
   public static String TinyEnemy[][][] =
@@ -81,24 +87,55 @@ public class Graphics{
     },
     {
       {" ", " ", " ", "(", "_", ")", "L", "|", "J"},
-      {" ", " ", "(", " ", "ò", "ó", ")", "|", " "},
+      {" ", " ", "(", " ", "o", "o", ")", "|", " "},
       {"A", " ", "o", "/", " ", "\\", "0", "|", " "},
       {" ", "\\", "_", "\\", "_", "/", " ", "|", " "},
       {" ", " ", " ", "d", " ", "b", " ", "|", " "}
     },
     {
       {"L", "|", "J", "(", "_", ")", " ", " ", " "},
-      {" ", "|", "(", "ò", " ", "ó", ")", " ", " "},
+      {" ", "|", "(", "o", " ", "o", ")", " ", " "},
       {" ", "|", "0", "/", " ", "\\", "o", " ", "y"},
       {" ", "|", " ", "\\", "_", "/", "_", "/", " "},
       {" ", "|", " ", "d", " ", "b", " ", " ", " "}
     },
     {
       {"L", "|", "J", "(", "_", ")", " ", " ", " "},
-      {" ", "|", "(", "ò", "ó", " ", ")", " ", " "},
+      {" ", "|", "(", "o", "o", " ", ")", " ", " "},
       {" ", "|", "0", "/", " ", "\\", "o", " ", "y"},
       {" ", "|", " ", "\\", "_", "/", "_", "/", " "},
       {" ", "|", " ", "d", " ", "b", " ", " ", " "}
+    }
+  };
+  public static TextColor[][][] TinyCM =
+  {
+    {
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.RED, new TextColor.RGB(255, 255, 128), new TextColor.RGB(255, 255, 128), new TextColor.RGB(255, 255, 128)},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, TextColor.ANSI.RED, new TextColor.RGB(255, 255, 128), TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.BLACK, TextColor.ANSI.RED, TextColor.ANSI.RED, new TextColor.RGB(255, 255, 128), TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 255, 128), TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 255, 128), TextColor.ANSI.DEFAULT}
+    },
+    {
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.RED, new TextColor.RGB(255, 255, 128), new TextColor.RGB(255, 255, 128), new TextColor.RGB(255, 255, 128)},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.BLACK, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.RED, new TextColor.RGB(255, 255, 128), TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.BLACK, TextColor.ANSI.RED, TextColor.ANSI.RED, new TextColor.RGB(255, 255, 128), TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 255, 128), TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 255, 128), TextColor.ANSI.DEFAULT}
+    },
+    {
+      {new TextColor.RGB(255, 255, 128), new TextColor.RGB(255, 255, 128), new TextColor.RGB(255, 255, 128), TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 255, 128), TextColor.ANSI.RED, TextColor.ANSI.WHITE, TextColor.ANSI.BLACK, TextColor.ANSI.WHITE, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 255, 128), TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.BLACK, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, TextColor.ANSI.RED},
+      {TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 255, 128), TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 255, 128), TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT}
+    },
+    {
+      {new TextColor.RGB(255, 255, 128), new TextColor.RGB(255, 255, 128), new TextColor.RGB(255, 255, 128), TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 255, 128), TextColor.ANSI.RED, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.BLACK, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 255, 128), TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.BLACK, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, TextColor.ANSI.RED},
+      {TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 255, 128), TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 255, 128), TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, TextColor.ANSI.RED, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT}
     }
   };
 
@@ -108,38 +145,77 @@ public class Graphics{
     {
       {" ", " ", ".", "-", "-", "-", ".", " ", " "},
       {" ", "(", " ", " ", "_", " ", " ", ")", " "},
-      {" ", " ", "\\", "_", "_", "_", "/", " ", " "},
-      {" ", "/", "/", "{", "8", "}", "\\", "\\", " "},
-      {" ", "U", " ", "{", "8", "}", " ", "U", " "},
-      {" ", " ", "/", "/", " ", "\\", "\\", " ", " "},
+      {" ", " ", "\\", "_", "_", "_", "/", "@", " "},
+      {" ", "/", "/", "{", "8", "}", "\\", "\\", "@"},
+      {" ", "U", " ", "{", "8", "}", " ", "|", "@"},
+      {" ", " ", "/", "/", " ", "\\", "\\", "@", " "},
       {" ", " ", "V", " ", " ", " ", "V", " ", " "}
     },
     {
       {" ", " ", ".", "-", "-", "-", ".", " ", " "},
-      {" ", "(", "_", " ", "ò", " ", "ó", ")", " "},
-      {" ", " ", " ", "\\", "W", "W", "/", " ", " "},
-      {" ", "/", "/", "{", "8", "}", "\\", "\\", " "},
-      {" ", "U", " ", "{", "8", "}", " ", "\\", ")"},
-      {" ", " ", "/", "/", " ", "\\", "\\", " ", " "},
+      {" ", "(", "_", " ", "o", " ", "o", ")", " "},
+      {" ", " ", " ", "\\", "W", "W", "/", "@", " "},
+      {" ", "/", "/", "{", "8", "}", "\\", "|", "@"},
+      {" ", "U", " ", "{", "8", "}", " ", "|", "@"},
+      {" ", " ", "/", "/", " ", "\\", "\\", "@", " "},
       {" ", " ", "V", " ", " ", " ", "V", " ", " "}
     },
     {
       {" ", " ", ".", "-", "-", "-", ".", " ", " "},
-      {" ", "(", " ", "ò", " ", "ó", " ", ")", " "},
-      {" ", " ", "\\", "W", "w", "W", "/", " ", " "},
-      {" ", "/", "/", "{", "8", "}", "\\", "\\", " "},
-      {" ", "U", " ", "{", "8", "}", " ", "U", " "},
-      {" ", " ", "/", "/", " ", "\\", "\\", " ", " "},
+      {" ", "(", " ", "o", " ", "o", " ", ")", " "},
+      {" ", "@", "\\", "W", "w", "W", "/", " ", " "},
+      {"@", "|", "/", "{", "8", "}", "\\", "\\", " "},
+      {"@", "|", " ", "{", "8", "}", " ", "U", " "},
+      {" ", "@", "/", "/", " ", "\\", "\\", " ", " "},
       {" ", " ", "V", " ", " ", " ", "V", " ", " "}
     },
     {
       {" ", " ", ".", "-", "-", "-", ".", " ", " "},
-      {" ", "(", "ò", " ", "ó", " ", "_", ")", " "},
-      {" ", " ", "\\", "W", "W", "/", " ", " ", " "},
-      {" ", "/", "/", "{", "8", "}", "\\", "\\", " "},
-      {"(", "/", " ", "{", "8", "}", " ", "U", " "},
-      {" ", " ", "/", "/", " ", "\\", "\\", " ", " "},
+      {" ", "(", "o", " ", "o", " ", "_", ")", " "},
+      {" ", "@", "\\", "W", "W", "/", " ", " ", " "},
+      {"@", "|", "/", "{", "8", "}", "\\", "\\", " "},
+      {"@", "|", " ", "{", "8", "}", " ", "U", " "},
+      {" ", "@", "/", "/", " ", "\\", "\\", " ", " "},
       {" ", " ", "V", " ", " ", " ", "V", " ", " "}
+    }
+  };
+  public static TextColor[][][] SmallCM =
+  {
+    {
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, TextColor.ANSI.WHITE, TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, new TextColor.RGB(115, 77, 38), TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, new TextColor.RGB(115, 77, 38)},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, new TextColor.RGB(115, 77, 38)},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, new TextColor.RGB(115, 77, 38), TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT}
+    },
+    {
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.BLACK, TextColor.ANSI.WHITE, TextColor.ANSI.BLACK, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, new TextColor.RGB(115, 77, 38), TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, new TextColor.RGB(115, 77, 38)},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, new TextColor.RGB(115, 77, 38)},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, new TextColor.RGB(115, 77, 38), TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT}
+    },
+    {
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.BLACK, TextColor.ANSI.WHITE, TextColor.ANSI.BLACK, TextColor.ANSI.WHITE, TextColor.ANSI.BLACK, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, new TextColor.RGB(115, 77, 38), TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT},
+      {new TextColor.RGB(115, 77, 38), TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT},
+      {new TextColor.RGB(115, 77, 38), TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, new TextColor.RGB(115, 77, 38), TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT}
+    },
+    {
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.BLACK, TextColor.ANSI.WHITE, TextColor.ANSI.BLACK, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, new TextColor.RGB(115, 77, 38), TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT},
+      {new TextColor.RGB(115, 77, 38), TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT},
+      {new TextColor.RGB(115, 77, 38), TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, new TextColor.RGB(115, 77, 38), TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT},
+      {TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, TextColor.ANSI.WHITE, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT}
     }
   };
 
@@ -325,11 +401,15 @@ public class Graphics{
       {" ", " ", " ", " ", " ", " ", "\\", " ", " ", "\\", ".", "_", "_", ".", "_", "_", ".", "-", ".", "_", ")"}
     }
   };
-  public static String pistol[][][] = {{{}}};
+  public static String pistol[][][] = {
+    {
+      {}
+    }
+  };
   public static String smg[][][] = {{{}}};
   public static String rifle[][][] = {{{}}};
-  public static void main(String[] args) {
-    for (String[][] x : LargeEnemy) {
+  public static void main(String[] args) throws InterruptedException, IOException {
+  /*  for (String[][] x : Player) {
       for (String[] y : x) {
         for (String z : y) {
           System.out.print(z);
@@ -337,6 +417,34 @@ public class Graphics{
         System.out.println();
       }
       System.out.println();
+    } */
+
+    Screen screen = new DefaultTerminalFactory().createScreen();
+    String[][][] model = SmallEnemy;
+    TextColor[][][] modelCM = SmallCM;
+		screen.startScreen();
+    int countRows = 1;
+    int countCols = 0;
+    TextCharacter chr = new TextCharacter('h', TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT, SGR.BOLD);
+    for (int x = 0; x < model.length; x++) {
+      for (int y = 0; y < model[x].length; y++) {
+        for (int z = 0; z < model[x][y].length; z ++) {
+          chr = new TextCharacter(model[x][y][z].charAt(0), modelCM[x][y][z], TextColor.ANSI.DEFAULT, SGR.BOLD);
+            if (z == model[x][y].length - 1) {
+              screen.setCharacter(countCols, countRows, chr);
+              countRows += 1;
+              countCols = 0;
+              if (y == model[x].length - 1) countRows += 1;
+            }
+            else {
+              screen.setCharacter(countCols, countRows, chr);
+              countCols++;
+            }
+            screen.refresh();
+        }
+      }
     }
+		//Thread.sleep(3000);
+    //screen.close();
   }
 }
