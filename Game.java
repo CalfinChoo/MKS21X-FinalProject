@@ -50,11 +50,11 @@ public class Game{
 		long currentTime = System.currentTimeMillis();
 		Boolean running = true;
 
-		//TerminalSize wantedTSize = new TerminalSize(142,38);
 		TerminalSize currentTSize = screen.getTerminalSize();
+		TerminalSize viewTSize = new TerminalSize(currentTSize.getColumns(), currentTSize.getRows());
  
-		int vWidth = 51; int vHeight = 35; //should always be odd, but the max is even b/c it starts from 0,  (51,35)
-		Coordinate playerCoord = new Coordinate((vWidth-1)/2,(vHeight-1)/2); //player coord must be between vwidth and currentMapWidth - vwidth (same for height)
+		int vWidth = currentTSize.getColumns() - 5; int vHeight = currentTSize.getRows() - 2; //should always be odd, but the max is even b/c it starts from 0,  (51,35)
+		Coordinate playerCoord = new Coordinate((vWidth-1)/2,(vHeight-1)/2); //player coord must be between vWidth and currentMapWidth - vWidth (same for height)
 		MapGen view = new MapGen(vWidth,vHeight); //player's view
 		int mWidth = 500; int mHeight = 500; 
 		MapGen currentMap = new MapGen(mWidth+vWidth,mHeight+vHeight, vWidth, vHeight);
@@ -64,11 +64,13 @@ public class Game{
 		//playerCoord.setX(525); playerCoord.setY(517);
 
 		//printView(view.getMap());
+		Boolean isLastNull = false;
 		screen.startScreen();
 		try{ // stops the screen in the event of an exception
 			while (running){
+				KeyStroke key = screen.pollInput();
 				if (currentTime - lastUpdTime >= 90){
-					KeyStroke key = screen.pollInput();
+					if (key == null) {isLastNull = true;} else {isLastNull = false;}
 					if (key != null && key.getKeyType() == KeyType.Escape){
 						running = false; break;
 					}
@@ -129,6 +131,15 @@ public class Game{
 						}
 					}
 
+					screen.doResizeIfNecessary(); currentTSize = screen.getTerminalSize();
+					if (currentTSize.getRows() != viewTSize.getRows() || currentTSize.getColumns() != viewTSize.getColumns()){
+
+						vWidth = currentTSize.getColumns() - 5; vHeight = currentTSize.getRows() - 2;
+						view = new MapGen(vWidth,vHeight);
+						viewTSize = currentTSize;
+						//System.out.println("resizing");
+					}
+
 					screen.clear();
 					//screen.putString(0,0," ",Terminal.Color.BLACK,Terminal.Color.WHITE);
 
@@ -143,14 +154,12 @@ public class Game{
 					//screen.setCharacter(1,1,new TextCharacter('T', TextColor.ANSI.WHITE, TextColor.ANSI.WHITE));
 					//screen.putString(playerCoord.getX(),playerCoord.getY(),"P", Terminal.Color.YELLOW,Terminal.Color.BLUE); 
 
-					screen.doResizeIfNecessary(); currentTSize = screen.getTerminalSize();
-
 					lastUpdTime = System.currentTimeMillis();
 					screen.refresh();
 				}
-				Thread.sleep(2);
-				while(screen.pollInput()!=null){}
-				Thread.sleep(88);
+				Thread.sleep(1);
+				if (!isLastNull) {while(screen.pollInput()!=null){}}
+				Thread.sleep(120);
 
 				currentTime = System.currentTimeMillis();
 			}
