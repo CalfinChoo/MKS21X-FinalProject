@@ -3,6 +3,7 @@ import com.googlecode.lanterna.TextColor;
 public class MapGen{
 	private int width, height;
 	private TextCharacter [][] map;
+	private String[][] symMap;
 
 	MapGen(int width, int height, int vWidth, int vHeight){
 		map = new TextCharacter[height][width];

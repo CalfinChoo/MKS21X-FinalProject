@@ -1,40 +1,39 @@
-import com.googlecode.lanterna.TerminalFacade;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.TerminalSize;
-import com.googlecode.lanterna.input.InputProvider;
-import com.googlecode.lanterna.input.Key;
-// javac -cp "lanterna.jar;." Game.java && java -cp "lanterna.jar;." Game
+import com.googlecode.lanterna.*;
+import com.googlecode.lanterna.input.*;
+import com.googlecode.lanterna.terminal.*;
+import com.googlecode.lanterna.screen.*;
+import java.io.IOException;
+//javac -cp "lanterna(3).jar;." Game.java && java -cp "lanterna(3).jar;." Game
 public class Game{
-	private static void printView(String[][] view){
+	private static void putString(Screen screen, int row, int width, String message, TextColor fore, TextColor back){
+		for (int x = 0; x < message.length(); x++){
+			screen.setCharacter(row+x,width, new TextCharacter(message.charAt(x), fore, back));
+		}
+	}
+	private static void putStringV(Screen screen, int row, int width, String message, TextColor fore, TextColor back){
+		for (int x = 0; x < message.length(); x++){
+			screen.setCharacter(row,width+x, new TextCharacter(message.charAt(x), fore, back));
+		}
+	}
+	private static void printView(TextCharacter[][] view){
 		String out = "";
 		for (int y = 0; y < view.length; y++){
 			for (int x = 0; x < view[0].length;x++){
-				out+=view[y][x]+" ";
+				out+=view[y][x].getCharacter()+" ";
 			}
 			out += "\n";
 		}
 		System.out.println(out);
 		System.out.println("-----------------------------------------------------------------");
 	}
-	private static void fill(String[][] stuff){
-		for (int y = 0; y < stuff.length; y++){
-			for (int x = 0; x < stuff[0].length; x++){
-				stuff[y][x] = "0";
-			}
-		}
-	}
 	private static void putToScreen(MapGen view, Screen screen, Coordinate tlcorner){ //Top Left Corner of the SCREEN
 		//System.out.println(view.getWidth());
 		for (int y = tlcorner.getY(), my = 0; my < view.getHeight(); y++,my++){
 			for (int x = tlcorner.getX(), mx = 0; mx< view.getWidth(); x++, mx++){
-				screen.putString(x,y,view.getMap()[my][mx],view.getCMP(mx,my), view.getBCM()[my][mx]);
+				screen.setCharacter(x,y,view.getMap()[my][mx]);
 				// add diff things based upon symbols in view.map
 			}
 		}
-	}
-	private static void updatePlayerCoord(Coordinate playerCoord, Coordinate oldPlayerCoord, MapGen currentMap){
-		
 	}
 	private static void updateView(MapGen view, MapGen currentMap, Coordinate playerCoord){
 		Coordinate topLeft = new Coordinate(playerCoord.getX() - ((view.getWidth() - 1) / 2), playerCoord.getY() - ((view.getHeight() -1)/2));
@@ -42,17 +41,11 @@ public class Game{
 		for (int h = topLeft.getY(), vh = 0; vh < view.getHeight(); h++, vh++){
 			for (int w = topLeft.getX(),vw = 0; vw < view.getWidth();w++, vw++){
 				view.setMap(vw,vh, currentMap.getMapP(w,h));
-				view.setCM(vw,vh, currentMap.getCMP(w,h));
 			}
 		}
 	}
-	public static void main (String[] args)throws InterruptedException{
-		//Screen screen = TerminalFacade.createScreen();
-		TerminalSize wantedTSize = new TerminalSize(142,38);
-		Terminal currentTerminal = TerminalFacade.createTerminal();
-		Screen screen = new Screen(currentTerminal, wantedTSize);
-		//screen.setCursorPosition(120,10);
-
+	public static void main(String[] args) throws InterruptedException, IOException{
+		Screen screen = new DefaultTerminalFactory().createScreen();
 		long lastUpdTime = System.currentTimeMillis();
 		long currentTime = System.currentTimeMillis();
 		Boolean running = true;
@@ -62,78 +55,78 @@ public class Game{
  
 		int vWidth = 51; int vHeight = 35; //should always be odd, but the max is even b/c it starts from 0,  (51,35)
 		Coordinate playerCoord = new Coordinate((vWidth-1)/2,(vHeight-1)/2); //player coord must be between vwidth and currentMapWidth - vwidth (same for height)
-		Coordinate oldPlayerCoord = new Coordinate(playerCoord.getX(), playerCoord.getY());
 		MapGen view = new MapGen(vWidth,vHeight); //player's view
 		int mWidth = 500; int mHeight = 500; 
 		MapGen currentMap = new MapGen(mWidth+vWidth,mHeight+vHeight, vWidth, vHeight);
 		updateView(view,currentMap, playerCoord);
 		//testing with random objects
-		currentMap.setMap(10,10,"H"); currentMap.setMap(10,11,"H"); currentMap.setMap(9,10,"H");currentMap.setMap(9,11,"H");
-		playerCoord.setX(525); playerCoord.setY(517);
+		//currentMap.setMap(10,10,"H"); currentMap.setMap(10,11,"H"); currentMap.setMap(9,10,"H");currentMap.setMap(9,11,"H");
+		//playerCoord.setX(525); playerCoord.setY(517);
 
 		//printView(view.getMap());
 		screen.startScreen();
-		try{ // stops the screen in the even of an exception
+		try{ // stops the screen in the event of an exception
 			while (running){
 				if (currentTime - lastUpdTime >= 90){
-					Key key = screen.readInput();
-					if (key != null && key.getKind() == Key.Kind.Escape){
-						running = false; 
+					KeyStroke key = screen.pollInput();
+					if (key != null && key.getKeyType() == KeyType.Escape){
+						running = false; break;
 					}
-					String input = (key == null ? "":Character.toString(key.getCharacter()));
-					switch(input){ // wasd for moving and qezx for diagonal moving
-					case "w":
-						if (playerCoord.getY() > (view.getHeight() - 1) /2 ){
-							playerCoord.minusY();
+					if (key != null && key.getKeyType() == KeyType.Character){
+						switch(key.getCharacter()){ // wasd for moving and qezx for diagonal moving
+						case 'w':
+							if (playerCoord.getY() > (view.getHeight() - 1) /2 ){
+								playerCoord.minusY();
+							}
+							break;
+						case 'a':
+							if (playerCoord.getX() > (view.getWidth()-1) / 2){
+								playerCoord.minusX();
+							}
+							break;
+						case 's':
+							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2)){
+								playerCoord.plusY();
+							}
+							break;
+						case 'd':
+							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2)){
+								playerCoord.plusX();
+							}
+							break;
+						case 'q':
+							if (playerCoord.getY() > (view.getHeight() - 1) /2 ){
+								playerCoord.minusY(); // w
+							}
+							if (playerCoord.getX() > (view.getWidth()-1) / 2){
+								playerCoord.minusX(); // a
+							}
+							break;
+						case 'e':
+							if (playerCoord.getY() > (view.getHeight() - 1) /2 ){
+								playerCoord.minusY(); // w
+							}
+							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2)){
+								playerCoord.plusX(); // d
+							}
+							break;
+						case 'x':
+							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2)){
+								playerCoord.plusX(); // d
+							}
+							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2)){
+								playerCoord.plusY(); //s
+							}
+							break;
+						case 'z':
+							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2)){
+								playerCoord.plusY(); //s
+							}
+							if (playerCoord.getX() > (view.getWidth()-1) / 2){
+								playerCoord.minusX(); // a
+							}
+							break;
 						}
-						break;
-					case "a":
-						if (playerCoord.getX() > (view.getWidth()-1) / 2){
-							playerCoord.minusX();
-						}
-						break;
-					case "s":
-						if(playerCoord.getY() < mHeight + ((vHeight-1) / 2)){
-							playerCoord.plusY();
-						}
-						break;
-					case "d":
-						if(playerCoord.getX() < mWidth + ((vWidth-1) / 2)){
-							playerCoord.plusX();
-						}
-						break;
-					case "q":
-						if (playerCoord.getY() > (view.getHeight() - 1) /2 ){
-							playerCoord.minusY(); // w
-						}
-						if (playerCoord.getX() > (view.getWidth()-1) / 2){
-							playerCoord.minusX(); // a
-						}
-						break;
-					case "e":
-						if (playerCoord.getY() > (view.getHeight() - 1) /2 ){
-							playerCoord.minusY(); // w
-						}
-						if(playerCoord.getX() < mWidth + ((vWidth-1) / 2)){
-							playerCoord.plusX(); // d
-						}
-						break;
-					case "x":
-						if(playerCoord.getX() < mWidth + ((vWidth-1) / 2)){
-							playerCoord.plusX(); // d
-						}
-						if(playerCoord.getY() < mHeight + ((vHeight-1) / 2)){
-							playerCoord.plusY(); //s
-						}
-						break;
-					case "z":
-						if(playerCoord.getY() < mHeight + ((vHeight-1) / 2)){
-							playerCoord.plusY(); //s
-						}
-						if (playerCoord.getX() > (view.getWidth()-1) / 2){
-							playerCoord.minusX(); // a
-						}
-						break;
 					}
 
 					screen.clear();
@@ -145,20 +138,19 @@ public class Game{
 
 					updateView(view,currentMap, playerCoord); //System.out.println(view.getHeight());
 					putToScreen(view,screen, new Coordinate(3,1));
-					screen.putString(1,0,"playerCoord:("+playerCoord.getX()+","+playerCoord.getY()+")",Terminal.Color.BLACK,Terminal.Color.WHITE);
+					putString(screen,1,0,"playerCoord:("+playerCoord.getX()+","+playerCoord.getY()+")",
+						TextColor.ANSI.BLACK,new TextColor.RGB(255,255,255));
+					//screen.setCharacter(1,1,new TextCharacter('T', TextColor.ANSI.WHITE, TextColor.ANSI.WHITE));
 					//screen.putString(playerCoord.getX(),playerCoord.getY(),"P", Terminal.Color.YELLOW,Terminal.Color.BLUE); 
 
-					//screen.updateScreenSize(); currentTSize = screen.getTerminalSize();
-					if (currentTSize.getRows() != wantedTSize.getRows() || currentTSize.getColumns() != wantedTSize.getColumns()){
-						//currentTerminal.onResized(wantedTSize);
-					}
+					screen.doResizeIfNecessary(); currentTSize = screen.getTerminalSize();
 
 					lastUpdTime = System.currentTimeMillis();
 					screen.refresh();
 				}
-				Thread.sleep(5);
-				while(screen.readInput()!=null){}
-				Thread.sleep(85);
+				Thread.sleep(2);
+				while(screen.pollInput()!=null){}
+				Thread.sleep(88);
 
 				currentTime = System.currentTimeMillis();
 			}
