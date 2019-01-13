@@ -1,4 +1,4 @@
-import com.googlecode.lanterna.terminal.Terminal;
+
 import java.lang.Math;
 import java.util.Random;
 public class Room{
