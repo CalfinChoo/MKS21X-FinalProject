@@ -2,8 +2,6 @@ import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.input.*;
 import com.googlecode.lanterna.terminal.*;
 import com.googlecode.lanterna.screen.*;
-import com.googlecode.lanterna.SGR;
-import com.googlecode.lanterna.screen.AbstractScreen;
 import java.io.IOException;
 public class Graphics{
   /*
