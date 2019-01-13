@@ -3,7 +3,7 @@ import com.googlecode.lanterna.input.*;
 import com.googlecode.lanterna.terminal.*;
 import com.googlecode.lanterna.screen.*;
 import java.io.IOException;
-//javac -cp "lanterna(3).jar;." Game.java && java -cp "lanterna(3).jar;." Game
+// javac -cp "lanterna(3).jar;." Game.java && java -cp "lanterna(3).jar;." Game
 public class Game{
 	private static void putString(Screen screen, int row, int width, String message, TextColor fore, TextColor back){
 		for (int x = 0; x < message.length(); x++){
@@ -14,6 +14,17 @@ public class Game{
 		for (int x = 0; x < message.length(); x++){
 			screen.setCharacter(row,width+x, new TextCharacter(message.charAt(x), fore, back));
 		}
+	}
+	private static void printView(String[][] view){
+		String out = "";
+		for (int y = 0; y < view.length; y++){
+			for (int x = 0; x < view[0].length;x++){
+				out+=view[y][x]+" ";
+			}
+			out += "\n";
+		}
+		System.out.println(out);
+		System.out.println("-----------------------------------------------------------------");
 	}
 	private static void printView(TextCharacter[][] view){
 		String out = "";
@@ -44,6 +55,16 @@ public class Game{
 			}
 		}
 	}
+	private static void placePlayer(Screen screen, MapGen view, Coordinate tlcorner){
+		for (int y = view.getHeight() / 2 - 2 + tlcorner.getY(), gy = 0; gy < 5;gy++,y++){
+			for (int x = view.getWidth() / 2 - 3 + tlcorner.getX(), gx = 0; gx < 7; gx++,x++){
+				screen.setCharacter(x,y,new TextCharacter(Graphics.Player[2][gy][gx].charAt(0), Graphics.PlayerCM[2][gy][gx], new TextColor.RGB(244,43,43),SGR.BOLD));
+			}
+		}
+	}
+	private static Boolean canMove(Coordinate playerCoord, MapGen map, int direction){
+		return true;
+	}
 	public static void main(String[] args) throws InterruptedException, IOException{
 		Screen screen = new DefaultTerminalFactory().createScreen();
 		long lastUpdTime = System.currentTimeMillis();
@@ -53,18 +74,25 @@ public class Game{
 		TerminalSize currentTSize = screen.getTerminalSize();
 		TerminalSize viewTSize = new TerminalSize(currentTSize.getColumns(), currentTSize.getRows());
  
-		int vWidth = currentTSize.getColumns() - 5; int vHeight = currentTSize.getRows() - 2; //should always be odd, but the max is even b/c it starts from 0,  (51,35)
-		Coordinate playerCoord = new Coordinate((vWidth-1)/2,(vHeight-1)/2); //player coord must be between vWidth and currentMapWidth - vWidth (same for height)
+		int vWidth = 69; int vHeight = 19; //should always be odd, but the max is even b/c it starts from 0,  (51,35)
+		Coordinate playerCoord = new Coordinate((vWidth-1)/2 + 3,(vHeight-1)/2 + 2); //player coord must be between vWidth and currentMapWidth - vWidth (same for height)
 		MapGen view = new MapGen(vWidth,vHeight); //player's view
 		int mWidth = 500; int mHeight = 500; 
 		MapGen currentMap = new MapGen(mWidth+vWidth,mHeight+vHeight, vWidth, vHeight);
 		updateView(view,currentMap, playerCoord);
+
+		//System.out.println(vWidth);
+		//System.out.println(vHeight);
 		//testing with random objects
 		//currentMap.setMap(10,10,"H"); currentMap.setMap(10,11,"H"); currentMap.setMap(9,10,"H");currentMap.setMap(9,11,"H");
-		//playerCoord.setX(525); playerCoord.setY(517);
+		//playerCoord.setX(534); playerCoord.setY(509);
 
 		//printView(view.getMap());
 		Boolean isLastNull = false;
+		Boolean doorOpen = true;
+		//1,2,3
+		//8,0,4
+		//7,6,5
 		screen.startScreen();
 		try{ // stops the screen in the event of an exception
 			while (running){
@@ -77,54 +105,54 @@ public class Game{
 					if (key != null && key.getKeyType() == KeyType.Character){
 						switch(key.getCharacter()){ // wasd for moving and qezx for diagonal moving
 						case 'w':
-							if (playerCoord.getY() > (view.getHeight() - 1) /2 ){
+							if (playerCoord.getY() > (view.getHeight() - 1) /2 + 2){
 								playerCoord.minusY();
 							}
 							break;
 						case 'a':
-							if (playerCoord.getX() > (view.getWidth()-1) / 2){
+							if (playerCoord.getX() > (view.getWidth()-1) / 2 + 3){
 								playerCoord.minusX();
 							}
 							break;
 						case 's':
-							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2)){
+							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2) - 2){
 								playerCoord.plusY();
 							}
 							break;
 						case 'd':
-							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2)){
+							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2) - 3){
 								playerCoord.plusX();
 							}
 							break;
 						case 'q':
-							if (playerCoord.getY() > (view.getHeight() - 1) /2 ){
+							if (playerCoord.getY() > (view.getHeight() - 1) /2 + 2){
 								playerCoord.minusY(); // w
 							}
-							if (playerCoord.getX() > (view.getWidth()-1) / 2){
+							if (playerCoord.getX() > (view.getWidth()-1) / 2 + 3){
 								playerCoord.minusX(); // a
 							}
 							break;
 						case 'e':
-							if (playerCoord.getY() > (view.getHeight() - 1) /2 ){
+							if (playerCoord.getY() > (view.getHeight() - 1) /2 + 2){
 								playerCoord.minusY(); // w
 							}
-							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2)){
+							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2) - 3){
 								playerCoord.plusX(); // d
 							}
 							break;
 						case 'x':
-							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2)){
+							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2) - 3){
 								playerCoord.plusX(); // d
 							}
-							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2)){
+							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2) - 2){
 								playerCoord.plusY(); //s
 							}
 							break;
 						case 'z':
-							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2)){
+							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2) - 2){
 								playerCoord.plusY(); //s
 							}
-							if (playerCoord.getX() > (view.getWidth()-1) / 2){
+							if (playerCoord.getX() > (view.getWidth()-1) / 2 + 3){
 								playerCoord.minusX(); // a
 							}
 							break;
@@ -132,13 +160,12 @@ public class Game{
 					}
 
 					screen.doResizeIfNecessary(); currentTSize = screen.getTerminalSize();
-					if (currentTSize.getRows() != viewTSize.getRows() || currentTSize.getColumns() != viewTSize.getColumns()){
-
-						vWidth = currentTSize.getColumns() - 5; vHeight = currentTSize.getRows() - 2;
-						view = new MapGen(vWidth,vHeight);
-						viewTSize = currentTSize;
+					//if (currentTSize.getRows() != viewTSize.getRows() || currentTSize.getColumns() != viewTSize.getColumns()){
+						//vWidth = currentTSize.getColumns() - 5; vHeight = currentTSize.getRows() - 2;
+						//view = new MapGen(vWidth,vHeight);
+						//viewTSize = currentTSize;
 						//System.out.println("resizing");
-					}
+					//}
 
 					screen.clear();
 					//screen.putString(0,0," ",Terminal.Color.BLACK,Terminal.Color.WHITE);
@@ -146,9 +173,12 @@ public class Game{
 					//screen.putString(10,5,input, Terminal.Color.BLACK,Terminal.Color.WHITE); see input
 					//System.out.println("height: " + currentTSize.getRows());
 					//System.out.println("width: " + currentTSize.getColumns());
-
+					Coordinate tlcorner = new Coordinate(2,2);
 					updateView(view,currentMap, playerCoord); //System.out.println(view.getHeight());
-					putToScreen(view,screen, new Coordinate(3,1));
+					putToScreen(view,screen, tlcorner);
+
+					placePlayer(screen, view, tlcorner);
+
 					putString(screen,1,0,"playerCoord:("+playerCoord.getX()+","+playerCoord.getY()+")",
 						TextColor.ANSI.BLACK,new TextColor.RGB(255,255,255));
 					//screen.setCharacter(1,1,new TextCharacter('T', TextColor.ANSI.WHITE, TextColor.ANSI.WHITE));
@@ -159,7 +189,7 @@ public class Game{
 				}
 				Thread.sleep(1);
 				if (!isLastNull) {while(screen.pollInput()!=null){}}
-				Thread.sleep(120);
+				Thread.sleep(90);
 
 				currentTime = System.currentTimeMillis();
 			}
