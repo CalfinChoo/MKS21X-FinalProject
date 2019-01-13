@@ -46,3 +46,8 @@ Ever wished for a fun game you can use your terminal to open? (I doubt it) well 
   - developed more of Player, Person, Bullet, Weapon, and WeaponList classes
   - added a new BulletType class to store properties of bullets
 </p>
+<p>Day 9 (1/12/19):
+  - fixed up Game.java for movement (continuous and otherwise)
+  - developed colors for the graphics
+  - 
+</p>
