@@ -49,5 +49,5 @@ Ever wished for a fun game you can use your terminal to open? (I doubt it) well 
 <p>Day 9 (1/12/19):
   - fixed up Game.java for movement (continuous and otherwise)
   - developed colors for the graphics
-  - 
+  - color maps added to each sprite & created test main for graphics to view colored sprites
 </p>
