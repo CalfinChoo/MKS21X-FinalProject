@@ -58,7 +58,9 @@ public class Game{
 	private static void placePlayer(Screen screen, MapGen view, Coordinate tlcorner, int direction){
 		for (int y = view.getHeight() / 2 - 2 + tlcorner.getY(), gy = 0; gy < 5;gy++,y++){
 			for (int x = view.getWidth() / 2 - 3 + tlcorner.getX(), gx = 0; gx < 7; gx++,x++){
-				screen.setCharacter(x,y,new TextCharacter(Graphics.Player[direction][gy][gx].charAt(0), Graphics.PlayerCM[direction][gy][gx], new TextColor.RGB(244,43,43),SGR.BOLD));
+				screen.setCharacter(x,y,new TextCharacter(Graphics.Player[direction][gy][gx].charAt(0), Graphics.PlayerCM[direction][gy][gx], 
+					view.getMap()[y-tlcorner.getY()][x-tlcorner.getX()].getBackgroundColor(),
+					SGR.BOLD));
 			}
 		}
 	}
@@ -66,7 +68,7 @@ public class Game{
 		if (direction == 0){
 			for (int x = playerCoord.getX() - 3; x<playerCoord.getX() +4;x++){
 				//System.out.println("|"+map.getSymMap()[playerCoord.getY()-3][x]+"|");
-				if (map.getSymMap()[playerCoord.getY()-3][x] != " "){
+				if (map.getSymMap()[playerCoord.getY()-3][x] == "w"){
 					return false;
 				}
 			}
@@ -74,7 +76,7 @@ public class Game{
 		}
 		else if (direction == 1){
 			for (int y = playerCoord.getY() - 2; y < playerCoord.getY() +3; y++){
-				if (map.getSymMap()[y][playerCoord.getX() + 4] != " "){
+				if (map.getSymMap()[y][playerCoord.getX() + 4] == "w"){
 					return false;
 				}
 			}
@@ -83,7 +85,7 @@ public class Game{
 		if (direction == 2){
 			for (int x = playerCoord.getX() - 3; x<playerCoord.getX() +4;x++){
 				//System.out.println("|"+map.getSymMap()[playerCoord.getY()-3][x]+"|");
-				if (map.getSymMap()[playerCoord.getY()+3][x] != " "){
+				if (map.getSymMap()[playerCoord.getY()+3][x] == "w"){
 					return false;
 				}
 			}
@@ -91,7 +93,7 @@ public class Game{
 		}
 		else if (direction == 3){
 			for (int y = playerCoord.getY() - 2; y < playerCoord.getY() +3; y++){
-				if (map.getSymMap()[y][playerCoord.getX() - 4] != " "){
+				if (map.getSymMap()[y][playerCoord.getX() - 4] == "w"){
 					return false;
 				}
 			}
