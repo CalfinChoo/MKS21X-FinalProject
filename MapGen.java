@@ -13,7 +13,6 @@ public class MapGen{
 		symMap = createSymMap(width,height, vWidth, vHeight);
 		//printView(symMap,30,20);
 		map = createMap(width,height,symMap,vWidth, vHeight);
-		printView(generateHallway(30,14, true));
 	}
 	MapGen(int width, int height){
 		map = new TextCharacter[height][width];		
@@ -77,6 +76,8 @@ public class MapGen{
 		}
 		int zeroX = (vWidth-1)/2; int zeroY = (vHeight-1)/2;
 		stickOnMap(fauxMap, rooms.getSpawnRoom(), zeroX+1,zeroY+1);
+		stickOnMap(fauxMap, rooms.getSmallBattleRoom(), zeroX +56, zeroY +1);
+		stickOnMap(fauxMap, generateHallway(29, 9, false), 63, 13);
 		for (int h = 0; h<height;h++){
 			for (int w = 0 ; w<width;w++){
 				if (fauxMap[h][w] == null){fauxMap[h][w] = " ";}
@@ -112,7 +113,7 @@ public class MapGen{
 					out[h][w] = new TextCharacter('^', TextColor.ANSI.DEFAULT, TextColor.ANSI.BLACK);
 				}
 				else if(symMap[h][w] == "l"){
-					out[h][w] = new TextCharacter('^', TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 128, 0));
+					out[h][w] = new TextCharacter('~', TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 128, 0));
 				}
 				else {
 					out[h][w] = new TextCharacter(' ', TextColor.ANSI.CYAN, new TextColor.RGB(red[r.nextInt(2)],43,43));
