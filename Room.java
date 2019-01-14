@@ -47,6 +47,19 @@ public class Room{
 	public String[][] getBossRoom() {
 		return BossRoom;
 	}
+// Helper function to place enemiy spawnpoints in fillroom command
+  public void placeEnemies(String[][] room, int count){
+		while (count > 0) {
+			randRow = rand.nextInt(room.length);
+			while (randRow + (Graphics.LargeEnemy[1].length / 2) >= room.length - 2 || randRow - (Graphics.LargeEnemy[1].length / 2) <= 1) randRow = rand.nextInt(room.length);
+			randCol = rand.nextInt(room[randRow].length);
+			while (randCol + (Graphics.LargeEnemy[1][0].length / 2) >= room[randRow].length - 3 || randCol - (Graphics.LargeEnemy[1][0].length / 2) <= 2) randCol = rand.nextInt(room[randRow].length);
+			if (room[randRow][randCol] != "l") {
+				room[randRow][randCol] = "e";
+				count--;
+			}
+		}
+	}
 //  Helper functions for Lava placement for BattleRooms in fillroom command:
 //  initiateLava creates number of pits of lava to be placed
 	public void initiateLava(String[][] room, int count, int major, int minor) {
@@ -55,7 +68,7 @@ public class Room{
 			randRow = rand.nextInt(room.length);
 			while (randRow + minor >= room.length - 6 || randRow - minor <= 5) randRow = rand.nextInt(room.length);
 			randCol = rand.nextInt(room[randRow].length);
-			while (randCol + major >= room[randRow].length - 6 || randCol - major <= 5) randCol = rand.nextInt(room[randRow].length);
+			while (randCol + major >= room[randRow].length - 7 || randCol - major <= 6) randCol = rand.nextInt(room[randRow].length);
 			randRC[i][1] = randRow;
 			randRC[i][0] = randCol;
 		}
@@ -109,6 +122,8 @@ public class Room{
 				// }
 			}
 		}
+		if (room.equals(SmallBattleRoom)) placeEnemies(room, 7); // placeEnemies(room, # of spawnpoints)
+		if (room.equals(BigBattleRoom))	placeEnemies(room, 10);
 		return room;
 	}
 
