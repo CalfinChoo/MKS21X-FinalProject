@@ -63,7 +63,41 @@ public class Game{
 		}
 	}
 	private static Boolean canMove(Coordinate playerCoord, MapGen map, int direction){
-		return true;
+		if (direction == 0){
+			for (int x = playerCoord.getX() - 3; x<playerCoord.getX() +4;x++){
+				//System.out.println("|"+map.getSymMap()[playerCoord.getY()-3][x]+"|");
+				if (map.getSymMap()[playerCoord.getY()-3][x] != " "){
+					return false;
+				}
+			}
+			return true;
+		}
+		else if (direction == 1){
+			for (int y = playerCoord.getY() - 2; y < playerCoord.getY() +3; y++){
+				if (map.getSymMap()[y][playerCoord.getX() + 4] != " "){
+					return false;
+				}
+			}
+			return true;
+		}
+		if (direction == 2){
+			for (int x = playerCoord.getX() - 3; x<playerCoord.getX() +4;x++){
+				//System.out.println("|"+map.getSymMap()[playerCoord.getY()-3][x]+"|");
+				if (map.getSymMap()[playerCoord.getY()+3][x] != " "){
+					return false;
+				}
+			}
+			return true;
+		}
+		else if (direction == 3){
+			for (int y = playerCoord.getY() - 2; y < playerCoord.getY() +3; y++){
+				if (map.getSymMap()[y][playerCoord.getX() - 4] != " "){
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 	public static void main(String[] args) throws InterruptedException, IOException{
 		Screen screen = new DefaultTerminalFactory().createScreen();
@@ -81,16 +115,14 @@ public class Game{
 		MapGen currentMap = new MapGen(mWidth+vWidth,mHeight+vHeight, vWidth, vHeight);
 		updateView(view,currentMap, playerCoord);
 
-		//System.out.println(vWidth);
-		//System.out.println(vHeight);
-		//testing with random objects
-		//currentMap.setMap(10,10,"H"); currentMap.setMap(10,11,"H"); currentMap.setMap(9,10,"H");currentMap.setMap(9,11,"H");
+		Coordinate spawnPoint = new Coordinate(49,17);
+		playerCoord = new Coordinate(spawnPoint);
 		//playerCoord.setX(534); playerCoord.setY(509);
 
 		//printView(view.getMap());
 		Boolean isLastNull = false;
 		Boolean doorOpen = true;
-		int direction = 0;
+		int direction = 2;
 		//~,0,~
 		//3,~,1
 		//~,2,~
@@ -106,25 +138,25 @@ public class Game{
 					if (key != null && key.getKeyType() == KeyType.Character){
 						switch(key.getCharacter()){ // wasd for moving and qezx for diagonal moving
 						case 'w':
-							if (playerCoord.getY() > (view.getHeight() - 1) /2 + 2){
+							if (playerCoord.getY() > (view.getHeight() - 1) /2 + 2 && canMove(playerCoord, currentMap, 0)){
 								playerCoord.minusY();
 							}
 							direction = 0;
 							break;
 						case 'a':
-							if (playerCoord.getX() > (view.getWidth()-1) / 2 + 3){
+							if (playerCoord.getX() > (view.getWidth()-1) / 2 + 3 && canMove(playerCoord,currentMap, 3)){
 								playerCoord.minusX();
 							}
 							direction = 3;
 							break;
 						case 's':
-							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2) - 2){
+							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2) - 2 && canMove(playerCoord,currentMap,2)){
 								playerCoord.plusY();
 							}
 							direction = 2;
 							break;
 						case 'd':
-							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2) - 3){
+							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2) - 3 && canMove(playerCoord,currentMap,1)){
 								playerCoord.plusX();
 							}
 							direction = 1;
@@ -136,6 +168,7 @@ public class Game{
 							if (playerCoord.getX() > (view.getWidth()-1) / 2 + 3){
 								playerCoord.minusX(); // a
 							}
+							direction = 3;
 							break;
 						case 'e':
 							if (playerCoord.getY() > (view.getHeight() - 1) /2 + 2){
@@ -144,6 +177,7 @@ public class Game{
 							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2) - 3){
 								playerCoord.plusX(); // d
 							}
+							direction = 1;
 							break;
 						case 'x':
 							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2) - 3){
@@ -152,6 +186,7 @@ public class Game{
 							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2) - 2){
 								playerCoord.plusY(); //s
 							}
+							direction = 1;
 							break;
 						case 'z':
 							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2) - 2){
@@ -160,6 +195,7 @@ public class Game{
 							if (playerCoord.getX() > (view.getWidth()-1) / 2 + 3){
 								playerCoord.minusX(); // a
 							}
+							direction = 3;
 							break;
 						}
 					}
