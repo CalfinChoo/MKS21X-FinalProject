@@ -15,7 +15,7 @@ public class MapGen{
 		map = createMap(width,height,symMap,vWidth, vHeight);
 	}
 	MapGen(int width, int height){
-		map = new TextCharacter[height][width];		
+		map = new TextCharacter[height][width];
 		this.width = width; this.height = height;
 		map = createMap(width,height);
 	}
@@ -76,8 +76,8 @@ public class MapGen{
 		}
 		int zeroX = (vWidth-1)/2; int zeroY = (vHeight-1)/2;
 		stickOnMap(fauxMap, rooms.getSpawnRoom(), zeroX+1,zeroY+1);
-		stickOnMap(fauxMap, rooms.getSmallBattleRoom(), zeroX +56, zeroY +1);
-		stickOnMap(fauxMap, generateHallway(29, 9, false), 63, 13);
+		stickOnMap(fauxMap, rooms.getBossRoom(), zeroX +56, zeroY +1);
+		stickOnMap(fauxMap, generateHallway(29, 9, false), zeroX + 29, zeroY + 4);
 		for (int h = 0; h<height;h++){
 			for (int w = 0 ; w<width;w++){
 				if (fauxMap[h][w] == null){fauxMap[h][w] = " ";}

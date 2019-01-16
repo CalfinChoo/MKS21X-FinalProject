@@ -58,7 +58,7 @@ public class Game{
 	private static void placePlayer(Screen screen, MapGen view, Coordinate tlcorner, int direction){
 		for (int y = view.getHeight() / 2 - 2 + tlcorner.getY(), gy = 0; gy < 5;gy++,y++){
 			for (int x = view.getWidth() / 2 - 3 + tlcorner.getX(), gx = 0; gx < 7; gx++,x++){
-				screen.setCharacter(x,y,new TextCharacter(Graphics.Player[direction][gy][gx].charAt(0), Graphics.PlayerCM[direction][gy][gx], 
+				screen.setCharacter(x,y,new TextCharacter(Graphics.Player[direction][gy][gx].charAt(0), Graphics.PlayerCM[direction][gy][gx],
 					view.getMap()[y-tlcorner.getY()][x-tlcorner.getX()].getBackgroundColor(),
 					SGR.BOLD));
 			}
@@ -110,14 +110,14 @@ public class Game{
 		TerminalSize currentTSize = screen.getTerminalSize();
 		TerminalSize viewTSize = new TerminalSize(currentTSize.getColumns(), currentTSize.getRows());
 
-		int vWidth = 69; int vHeight = 19; //should always be odd, but the max is even b/c it starts from 0,  (51,35)
+		int vWidth = 121; int vHeight = 35; //should always be odd, but the max is even b/c it starts from 0,  (51,35)
 		Coordinate playerCoord = new Coordinate((vWidth-1)/2 + 3,(vHeight-1)/2 + 2); //player coord must be between vWidth and currentMapWidth - vWidth (same for height)
 		MapGen view = new MapGen(vWidth,vHeight); //player's view
 		int mWidth = 500; int mHeight = 500;
 		MapGen currentMap = new MapGen(mWidth+vWidth,mHeight+vHeight, vWidth, vHeight);
 		updateView(view,currentMap, playerCoord);
 
-		Coordinate spawnPoint = new Coordinate(49,17);
+		Coordinate spawnPoint = new Coordinate((vWidth-1)/2 + 16,(vHeight-1)/2 + 8);
 		playerCoord = new Coordinate(spawnPoint);
 		//playerCoord.setX(534); playerCoord.setY(509);
 
