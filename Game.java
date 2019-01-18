@@ -110,7 +110,10 @@ public class Game{
 		TerminalSize currentTSize = screen.getTerminalSize();
 		TerminalSize viewTSize = new TerminalSize(currentTSize.getColumns(), currentTSize.getRows());
 
-		int vWidth = 121; int vHeight = 35; //should always be odd, but the max is even b/c it starts from 0,  (51,35)
+		int vWidth = currentTSize.getColumns() % 2 == 0 ? currentTSize.getColumns() - 3: currentTSize.getColumns() - 2;
+		int vHeight = currentTSize.getRows() % 2 == 0 ? currentTSize.getRows() - 5: currentTSize.getRows() - 4;
+		//should always be odd, but the max is even b/c it starts from 0,  (51,35)
+		
 		Coordinate playerCoord = new Coordinate((vWidth-1)/2 + 3,(vHeight-1)/2 + 2); //player coord must be between vWidth and currentMapWidth - vWidth (same for height)
 		MapGen view = new MapGen(vWidth,vHeight); //player's view
 		int mWidth = 500; int mHeight = 500;
@@ -216,7 +219,7 @@ public class Game{
 					//screen.putString(10,5,input, Terminal.Color.BLACK,Terminal.Color.WHITE); see input
 					//System.out.println("height: " + currentTSize.getRows());
 					//System.out.println("width: " + currentTSize.getColumns());
-					Coordinate tlcorner = new Coordinate(2,2);
+					Coordinate tlcorner = new Coordinate(1,1);
 					updateView(view,currentMap, playerCoord); //System.out.println(view.getHeight());
 					putToScreen(view,screen, tlcorner);
 
