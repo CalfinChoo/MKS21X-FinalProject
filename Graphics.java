@@ -3,6 +3,7 @@ import com.googlecode.lanterna.input.*;
 import com.googlecode.lanterna.terminal.*;
 import com.googlecode.lanterna.screen.*;
 import java.io.IOException;
+//javac -cp "lanterna(3).jar;." Graphics.java && java -cp "lanterna(3).jar;." Graphics
 public class Graphics{
   /*
  * Contains all the sprites used in the game.

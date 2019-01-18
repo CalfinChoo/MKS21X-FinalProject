@@ -3,6 +3,7 @@ import com.googlecode.lanterna.TextColor;
 import java.util.Random;
 public class MapGen{
 	private int width, height;
+	private int vWidth, vHeight;
 	private TextCharacter [][] map;
 	private String[][] symMap;
 	private int totalRooms, smallBR;
@@ -12,6 +13,7 @@ public class MapGen{
 	MapGen(int width, int height, int vWidth, int vHeight, int level){
 		map = new TextCharacter[height][width];
 		this.width = width; this.height = height;
+		this.vWidth = vWidth; this.vHeight = vHeight;
 		smallBR = level;
 		if (level % 5 == 0) {
 			bigBR++;
@@ -29,6 +31,41 @@ public class MapGen{
 		this.width = width; this.height = height;
 		map = createMap(width,height);
 	}
+	MapGen(MapGen copyMap, int vWidth, int vHeight){
+		width = copyMap.getWidth() - copyMap.getVW() + vWidth; this.vWidth = vWidth;
+		height = copyMap.getHeight() - copyMap.getVH() + vHeight; this.vHeight = vHeight;
+		//Coordinate tlcorner = new Coordinate((copyMap.getVW() - 1)/2 - (vWidth - 1)/2, (copyMap.getVH() - 1)/2 - (vHeight - 1)/2);
+		Coordinate tlcorner = new Coordinate((copyMap.getVW() - 1)/2, (copyMap.getVH() - 1)/2);
+		//System.out.println(copyMap.getSymMap()[tlcorner.getY()+500][tlcorner.getX()+500]);
+		symMap = new String[height][width];
+		for (int y = tlcorner.getY(), ny = (vHeight-1)/2; ny < height - (vHeight-1)/2 - 1; y++, ny++){
+			for (int x=tlcorner.getX(), nx = (vWidth-1)/2; nx <width - (vWidth-1)/2 - 1; x++, nx++){
+				//System.out.println(copyMap.getSymMap()[y][x]);
+				symMap[ny][nx] = copyMap.getSymMap()[y][x];
+			}
+		}
+		for(int y = 0; y < height;y++){
+			for (int x = 0; x < width; x++){
+				if (x < (vWidth-1)/2 || y < (vHeight-1)/2 || x > width - (vWidth-1)/2 - 1 || y > height - (vHeight-1)/2 -1){
+					symMap[y][x] = "@";
+				}
+			}
+		}
+		for (int h = 0; h<height;h++){
+			for (int w = 0 ; w<width;w++){
+				if (symMap[h][w] == null){symMap[h][w] = " ";}
+			}
+		}
+		map = createMap(width,height,symMap,vWidth, vHeight);
+	}
+
+	public int getVW(){
+		return vWidth;
+	}
+	public int getVH(){
+		return vHeight;
+	}
+
 	public TextCharacter[][] getMap(){
 		return map;
 	}
@@ -99,22 +136,18 @@ public class MapGen{
 	public static TextCharacter[][] createMap(int width, int height){
 		// for testing, fills the string with empty stuff
 		TextCharacter[][] out = new TextCharacter[height][width];
-		int[] red = {244,220,244}; Random r = new Random();
-		for (int h = 0; h < height; h++){
-			for (int w = 0; w<width;w++){
-				out[h][w] = new TextCharacter(' ', TextColor.ANSI.CYAN, new TextColor.RGB(red[r.nextInt(2)],43,43));
-			}
-		}
 		return out;
 	};
 	public static TextCharacter[][] createMap(int width, int height,String[][] symMap, int vWidth, int vHeight){
 		// for testing, fills the string with empty stuff
 		TextCharacter[][] out = new TextCharacter[height][width];
-		int[] red = {244,220,244}; Random r = new Random();
+		int[] red = {244,220,244}; 
+		TextColor.RGB[] colors = {};
+		Random r = new Random();
 		for (int h = 0; h < height; h++){
 			for (int w = 0; w<width;w++){
 				if (symMap[h][w] == "w"){
-					out[h][w] = new TextCharacter(' ', TextColor.ANSI.DEFAULT, new TextColor.RGB(100,100,100));
+					out[h][w] = new TextCharacter(' ', TextColor.ANSI.DEFAULT, new TextColor.RGB(80,80,80));
 				}
 				else if(symMap[h][w] == "d"){
 					//out[h][w] = new TextCharacter(' ', TextColor.ANSI.DEFAULT, new TextColor.RGB(153, 102, 51));

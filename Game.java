@@ -113,7 +113,7 @@ public class Game{
 		TerminalSize viewTSize = new TerminalSize(currentTSize.getColumns(), currentTSize.getRows());
 
 		int vWidth = currentTSize.getColumns() % 2 == 0 ? currentTSize.getColumns() - 3: currentTSize.getColumns() - 2;
-		int vHeight = currentTSize.getRows() % 2 == 0 ? currentTSize.getRows() - 5: currentTSize.getRows() - 4;
+		int vHeight = currentTSize.getRows() % 2 == 0 ? currentTSize.getRows() - 3: currentTSize.getRows() - 2;
 		//should always be odd, but the max is even b/c it starts from 0,  (51,35)
 		
 		Coordinate playerCoord = new Coordinate((vWidth-1)/2 + 3,(vHeight-1)/2 + 2); //player coord must be between vWidth and currentMapWidth - vWidth (same for height)
@@ -121,6 +121,13 @@ public class Game{
 		int mWidth = 500; int mHeight = 500;
 		MapGen currentMap = new MapGen(mWidth+vWidth,mHeight+vHeight, vWidth, vHeight, currentLevel);
 		updateView(view,currentMap, playerCoord);
+		//MapGen newMap = new MapGen(currentMap, 11,11);
+
+		//Testing area
+		//MapGen test = new MapGen(20,20,9,9);
+		//printView(test.getSymMap());
+		//test = new MapGen(test,9,11);
+		//printView(test.getSymMap());
 
 		Coordinate spawnPoint = new Coordinate((vWidth-1)/2 + 16,(vHeight-1)/2 + 8);
 		playerCoord = new Coordinate(spawnPoint);
@@ -208,13 +215,17 @@ public class Game{
 					}
 
 					screen.doResizeIfNecessary(); currentTSize = screen.getTerminalSize();
-					//if (currentTSize.getRows() != viewTSize.getRows() || currentTSize.getColumns() != viewTSize.getColumns()){
-						//vWidth = currentTSize.getColumns() - 5; vHeight = currentTSize.getRows() - 2;
-						//view = new MapGen(vWidth,vHeight);
-						//viewTSize = currentTSize;
-						//System.out.println("resizing");
-					//}
-
+					
+					if (currentTSize.getRows() != viewTSize.getRows() || currentTSize.getColumns() != viewTSize.getColumns()){
+						//System.out.println(vWidth + ":" + vHeight);
+						vWidth = currentTSize.getColumns() % 2 == 0 ? currentTSize.getColumns() - 3: currentTSize.getColumns() - 2;
+						vHeight = currentTSize.getRows() % 2 == 0 ? currentTSize.getRows() - 3: currentTSize.getRows() - 2;
+						//System.out.println(vWidth + ":" + vHeight);
+						view = new MapGen(vWidth,vHeight);
+						currentMap = new MapGen (currentMap, vWidth, vHeight);
+						viewTSize = new TerminalSize(currentTSize.getColumns(), currentTSize.getRows());
+					}
+					
 					screen.clear();
 					//screen.putString(0,0," ",Terminal.Color.BLACK,Terminal.Color.WHITE);
 
