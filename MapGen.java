@@ -5,10 +5,20 @@ public class MapGen{
 	private int width, height;
 	private TextCharacter [][] map;
 	private String[][] symMap;
+	private int totalRooms, smallBR;
+	private int shopRoom, spawnRoom, bossRoom, bigBR, treasureRoom = 1;
+	private Random rand;
 
-	MapGen(int width, int height, int vWidth, int vHeight){
+	MapGen(int width, int height, int vWidth, int vHeight, int level){
 		map = new TextCharacter[height][width];
 		this.width = width; this.height = height;
+		smallBR = level;
+		if (level % 5 == 0) {
+			bigBR++;
+			treasureRoom++;
+		}
+		totalRooms = spawnRoom + shopRoom + treasureRoom + smallBR + bigBR + bossRoom;
+		rand = new Random();
 		addBorder(vWidth, vHeight);
 		symMap = createSymMap(width,height, vWidth, vHeight);
 		//printView(symMap,30,20);
@@ -74,6 +84,7 @@ public class MapGen{
 				}
 			}
 		}
+		//int[] startXCorners = {(vWidth-1)/2 + 1, ((vWidth-1)/2 + width - vWidth) - getSpawnRoom[0].length)}; int[] startYCorners = {(vHeight-1)/2 + 1, };
 		int zeroX = (vWidth-1)/2; int zeroY = (vHeight-1)/2;
 		stickOnMap(fauxMap, rooms.getSpawnRoom(), zeroX+1,zeroY+1);
 		stickOnMap(fauxMap, rooms.getBossRoom(), zeroX +56, zeroY +1);

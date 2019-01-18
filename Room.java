@@ -48,7 +48,7 @@ public class Room{
 		return BossRoom;
 	}
 // Helper function to place enemiy spawnpoints in fillroom command
-  public void placeEnemies(String[][] room, int count){
+  private void placeEnemies(String[][] room, int count){
 		while (count > 0) {
 			randRow = rand.nextInt(room.length);
 			while (randRow + (Graphics.LargeEnemy[1].length / 2) >= room.length - 2 || randRow - (Graphics.LargeEnemy[1].length / 2) <= 1) randRow = rand.nextInt(room.length);
@@ -62,7 +62,7 @@ public class Room{
 	}
 //  Helper functions for Lava placement for BattleRooms in fillroom command:
 //  initiateLava creates number of pits of lava to be placed
-	public void initiateLava(String[][] room, int count, int major, int minor) {
+	private void initiateLava(String[][] room, int count, int major, int minor) {
 		randRC = new int[count][2];
 		for (int i = 0; i < count; i++) {
 			randRow = rand.nextInt(room.length);
@@ -74,14 +74,14 @@ public class Room{
 		}
 	}
 //  lavaIsPlaceable checks to see if current position in room filling is part of a designated lava pit
-	public boolean lavaIsPlaceable(String[][] room, int row, int col, int randRow, int randCol, int major, int minor) {
+	private boolean lavaIsPlaceable(String[][] room, int row, int col, int randRow, int randCol, int major, int minor) {
 			if (Math.pow((row - randRow), 2) / (minor * minor) + Math.pow((col - randCol), 2) / (major * major) <= 1) {
 				return true;
 			}
 		return false;
 	}
 //  Fills rooms with room-specific objects (e.g. Treasure in TreasureRoom), as well as shared objects (i.e. walls, doors, floor)
-	public String[][] fillRoom(String[][] room) {
+	private String[][] fillRoom(String[][] room) {
 		if (room.equals(SmallBattleRoom)) initiateLava(SmallBattleRoom, 4, 9, 5);  // initiateLava(room, # of pits, major axis length, minor axis length)
 		if (room.equals(BigBattleRoom)) initiateLava(BigBattleRoom, 5, 9, 5);
 		for (int row = 0; row < room.length; row++) {
