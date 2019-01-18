@@ -8,7 +8,6 @@ public class MapGen{
 	private String[][] symMap;
 	private int totalRooms, smallBR;
 	private int shopRoom, spawnRoom, bossRoom, bigBR, treasureRoom = 1;
-	private Random rand;
 
 	MapGen(int width, int height, int vWidth, int vHeight, int level){
 		map = new TextCharacter[height][width];
@@ -20,7 +19,6 @@ public class MapGen{
 			treasureRoom++;
 		}
 		totalRooms = spawnRoom + shopRoom + treasureRoom + smallBR + bigBR + bossRoom;
-		rand = new Random();
 		addBorder(vWidth, vHeight);
 		symMap = createSymMap(width,height, vWidth, vHeight);
 		//printView(symMap,30,20);
@@ -121,9 +119,10 @@ public class MapGen{
 				}
 			}
 		}
-		//int[] startXCorners = {(vWidth-1)/2 + 1, ((vWidth-1)/2 + width - vWidth) - getSpawnRoom[0].length)}; int[] startYCorners = {(vHeight-1)/2 + 1, };
-		int zeroX = (vWidth-1)/2; int zeroY = (vHeight-1)/2;
-		stickOnMap(fauxMap, rooms.getSpawnRoom(), zeroX+1,zeroY+1);
+		Random rand = new Random();
+		int zeroX = (vWidth-1)/2; int zeroY = (vHeight-1)/2; int maxX = zeroX + width; int maxY = zeroY + height;
+		int[] xValues = {zeroX + 1, maxX - rooms.getSpawnRoom()[0].length}; int[] yValues = {zeroY + 1, maxY - rooms.getSpawnRoom().length};
+		stickOnMap(fauxMap, rooms.getSpawnRoom(), xValues[rand.nextInt(2)],yValues[rand.nextInt(2)]);
 		stickOnMap(fauxMap, rooms.getBossRoom(), zeroX +56, zeroY +1);
 		stickOnMap(fauxMap, generateHallway(29, 9, false), zeroX + 29, zeroY + 4);
 		for (int h = 0; h<height;h++){
@@ -141,7 +140,7 @@ public class MapGen{
 	public static TextCharacter[][] createMap(int width, int height,String[][] symMap, int vWidth, int vHeight){
 		// for testing, fills the string with empty stuff
 		TextCharacter[][] out = new TextCharacter[height][width];
-		int[] red = {244,220,244}; 
+		int[] red = {244,220,244};
 		TextColor.RGB[] colors = {};
 		Random r = new Random();
 		for (int h = 0; h < height; h++){
