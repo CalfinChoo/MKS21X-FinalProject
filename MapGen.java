@@ -8,9 +8,9 @@ public class MapGen{
 	private int vWidth, vHeight;
 	private TextCharacter [][] map;
 	private String[][] symMap;
-	private int totalRooms, smallBR;
+	public static int totalRooms;
 	private static ArrayList<String> roomsToAdd = new ArrayList<>();
-	private int shopRoom = 1, spawnRoom = 1, bossRoom = 1, bigBR = 1, treasureRoom = 1;
+	private int smallBR, shopRoom = 1, spawnRoom = 1, bossRoom = 1, bigBR = 1, treasureRoom = 1;
 	public static int startVariation;
 	private Random rand;
 
@@ -26,11 +26,11 @@ public class MapGen{
 		}
 		rand = new Random();
 		startVariation = rand.nextInt(4);
-		totalRooms = spawnRoom + shopRoom + treasureRoom + smallBR + bigBR + bossRoom;
 		for (int i = 0; i < smallBR; i++) roomsToAdd.add("SmallBR");
 		for (int i = 0; i < bigBR; i++) roomsToAdd.add("BigBR");
 		for (int i = 0; i < treasureRoom; i++) roomsToAdd.add("TreasureRM");
 		roomsToAdd.add("ShopRoom");
+		totalRooms = roomsToAdd.size() + 2;
 		Collections.shuffle(roomsToAdd);
 		addBorder(vWidth, vHeight);
 		symMap = createSymMap(width,height, vWidth, vHeight);
@@ -144,13 +144,16 @@ public class MapGen{
 		stickOnMap(fauxMap, rooms.getBossRoom(), bx, by);
 		ArrayList<int[]> roomCoords = new ArrayList<>();
 		for (int i = 0; i < roomsToAdd.size(); i++) {
+			int attempts = 0;
 			int randXCor = rand.nextInt(maxX - zeroX) + zeroX; int randYCor  = rand.nextInt(maxY - zeroY) + zeroY;
 			String[][] putRoom = new String[0][0];
 			if (roomsToAdd.get(i) == "SmallBR") putRoom = rooms.getSmallBattleRoom(); if (roomsToAdd.get(i) == "BigBR") putRoom = rooms.getBigBattleRoom();
 			if (roomsToAdd.get(i) == "TreasureRM") putRoom = rooms.getTreasureRoom(); if (roomsToAdd.get(i) == "ShopRoom") putRoom = rooms.getShopRoom();
-			while (!roomIsPlaceable(fauxMap, putRoom, randXCor, randYCor, zeroX, zeroY, maxX, maxY)) {randXCor = rand.nextInt(maxX - zeroX) + zeroX + 1; randYCor  = rand.nextInt(maxY - zeroY) + zeroY + 1;}
-			stickOnMap(fauxMap, putRoom, randXCor, randYCor);
-			roomCoords.add(new int[]{randXCor, randYCor});
+			while (!roomIsPlaceable(fauxMap, putRoom, randXCor, randYCor, zeroX, zeroY, maxX, maxY) && attempts < 500) {randXCor = rand.nextInt(maxX - zeroX) + zeroX + 1; randYCor  = rand.nextInt(maxY - zeroY) + zeroY + 1; attempts++;}
+			if (attempts < 500) {
+				stickOnMap(fauxMap, putRoom, randXCor, randYCor);
+				roomCoords.add(new int[]{randXCor, randYCor});
+			}
 		}
 		for(int y = 0; y < height;y++){
 			for (int x = 0; x < width; x++){

@@ -94,22 +94,23 @@ public class Room{
 						}
 					}
 				}
-				if (room.equals(BossRoom)) {
+				else if (room.equals(BossRoom)) {
 				  if ((row < 10 && row > 0) || (row > room.length - 11 && row < room.length - 1) || (col < 10 && col > 0) || (col > room[row].length - 11 && col < room[row].length - 1)) {
 						room[row][col] = "l";
 					}
 					if ((row > 0 && row < room.length - 1 && col >= room[row].length / 2 - 3 && col <= room[row].length / 2 + 3) || (col > 0 && col < room[row].length - 1 && row >= room.length / 2 - 3 && row <= room.length / 2 + 3)) room[row][col] = null;
 				}
-				if (room.equals(TreasureRoom)) {
+				else if (room.equals(TreasureRoom)) {
 					room[12][12] = "t";
 				}
-				if (room.equals(ShopRoom) && (((row == 14 || row == 20) && (col >= 14 && col <= 20)) || (col == 14 || col == 20) && (row >= 14 && row <= 20))) {
+				else if (room.equals(ShopRoom) && (((row == 14 || row == 20) && (col >= 14 && col <= 20)) || (col == 14 || col == 20) && (row >= 14 && row <= 20))) {
 					room[row][col] = "m";
 				}
 				//  Objects shared by all rooms
 				if ((row == 0 || row == room.length - 1 || col == 0 || col == 1 || col == room[row].length - 1 || col == room[row].length - 2)) {
 					room[row][col] = "w";
 				}
+				if (room[row][col] == null) room[row][col] = "f";
 				// if ((col == 0 || col == room[row].length -1) && row == room.length / 2) {
 				// 	for (int count = row - 3; count < row + 4; count++) {
 				// 		room[count][col] = "d";

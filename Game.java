@@ -120,7 +120,7 @@ public class Game{
 
 		Coordinate playerCoord = new Coordinate((vWidth-1)/2 + 3,(vHeight-1)/2 + 2); //player coord must be between vWidth and currentMapWidth - vWidth (same for height)
 		MapGen view = new MapGen(vWidth,vHeight); //player's view
-		int mWidth = 500; int mHeight = 500;
+		int mWidth = 350; int mHeight = 350;
 		MapGen currentMap = new MapGen(mWidth+vWidth,mHeight+vHeight, vWidth, vHeight, currentLevel);
 		updateView(view,currentMap, playerCoord);
 		//MapGen newMap = new MapGen(currentMap, 11,11);
@@ -248,7 +248,7 @@ public class Game{
 
 					placePlayer(screen, view, tlcorner, direction);
 
-					putString(screen,1,0,"playerCoord:("+playerCoord.getX()+","+playerCoord.getY()+")",
+					putString(screen,1,0,"playerCoord:("+playerCoord.getX()+","+playerCoord.getY()+")" + " totalRooms: " + MapGen.totalRooms,
 						TextColor.ANSI.BLACK,new TextColor.RGB(255,255,255));
 					//screen.setCharacter(1,1,new TextCharacter('T', TextColor.ANSI.WHITE, TextColor.ANSI.WHITE));
 					//screen.putString(playerCoord.getX(),playerCoord.getY(),"P", Terminal.Color.YELLOW,Terminal.Color.BLUE);
