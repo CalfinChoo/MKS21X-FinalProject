@@ -115,6 +115,7 @@ public class Game{
 
 		int vWidth = currentTSize.getColumns() % 2 == 0 ? currentTSize.getColumns() - 3: currentTSize.getColumns() - 2;
 		int vHeight = currentTSize.getRows() % 2 == 0 ? currentTSize.getRows() - 3: currentTSize.getRows() - 2;
+		int oldWidth = vWidth; int oldHeight = vHeight;
 		//should always be odd, but the max is even b/c it starts from 0,  (51,35)
 
 		Coordinate playerCoord = new Coordinate((vWidth-1)/2 + 3,(vHeight-1)/2 + 2); //player coord must be between vWidth and currentMapWidth - vWidth (same for height)
@@ -225,10 +226,14 @@ public class Game{
 						//System.out.println(vWidth + ":" + vHeight);
 						vWidth = currentTSize.getColumns() % 2 == 0 ? currentTSize.getColumns() - 3: currentTSize.getColumns() - 2;
 						vHeight = currentTSize.getRows() % 2 == 0 ? currentTSize.getRows() - 3: currentTSize.getRows() - 2;
+						playerCoord.setX(playerCoord.getX() - (oldWidth-1)/2 + (vWidth-1)/2);
+						playerCoord.setY(playerCoord.getY() - (oldHeight-1)/2 + (vHeight-1)/2);
 						//System.out.println(vWidth + ":" + vHeight);
 						view = new MapGen(vWidth,vHeight);
 						currentMap = new MapGen (currentMap, vWidth, vHeight);
 						viewTSize = new TerminalSize(currentTSize.getColumns(), currentTSize.getRows());
+						oldHeight = vHeight;
+						oldWidth = vWidth;
 					}
 
 					screen.clear();
