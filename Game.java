@@ -116,7 +116,7 @@ public class Game{
 		int vHeight = currentTSize.getRows() % 2 == 0 ? currentTSize.getRows() - 3: currentTSize.getRows() - 2;
 		int oldWidth = vWidth; int oldHeight = vHeight;
 		//should always be odd, but the max is even b/c it starts from 0,  (51,35)
-		
+
 		Coordinate playerCoord = new Coordinate((vWidth-1)/2 + 3,(vHeight-1)/2 + 2); //player coord must be between vWidth and currentMapWidth - vWidth (same for height)
 		MapGen view = new MapGen(vWidth,vHeight); //player's view
 		int mWidth = 500; int mHeight = 500;
@@ -130,10 +130,14 @@ public class Game{
 		//test = new MapGen(test,9,11);
 		//printView(test.getSymMap());
 
-		Coordinate spawnPoint = new Coordinate((vWidth-1)/2 + 16,(vHeight-1)/2 + 8);
+		Coordinate spawnPoint = new Coordinate(0, 0);
+		if (MapGen.startVariation == 0) spawnPoint = new Coordinate((vWidth-1)/2 + 16,(vHeight-1)/2 + 8);
+		if (MapGen.startVariation == 1) spawnPoint = new Coordinate((vWidth-1)/2 + mWidth - vWidth + 61,(vHeight-1)/2 + 8);
+		if (MapGen.startVariation == 2) spawnPoint = new Coordinate((vWidth-1)/2 + 16,(vHeight-1)/2 + mHeight - vHeight + 13);
+		if (MapGen.startVariation == 3) spawnPoint = new Coordinate((vWidth-1)/2 + mWidth - vWidth + 61,(vHeight-1)/2 + mHeight - vHeight + 13);
 		playerCoord = new Coordinate(spawnPoint);
 		//playerCoord.setX(534); playerCoord.setY(509);
-
+	
 		//printView(view.getMap());
 		Boolean isLastNull = false;
 		Boolean doorOpen = true;
@@ -216,7 +220,7 @@ public class Game{
 					}
 
 					screen.doResizeIfNecessary(); currentTSize = screen.getTerminalSize();
-					
+
 					if (currentTSize.getRows() != viewTSize.getRows() || currentTSize.getColumns() != viewTSize.getColumns()){
 						//System.out.println(vWidth + ":" + vHeight);
 						vWidth = currentTSize.getColumns() % 2 == 0 ? currentTSize.getColumns() - 3: currentTSize.getColumns() - 2;
@@ -228,7 +232,7 @@ public class Game{
 						playerCoord.setX(playerCoord.getX() + vWidth - oldWidth);
 						playerCoord.setY(playerCoord.getY() + vHeight - oldHeight);
 					}
-					
+
 					screen.clear();
 					//screen.putString(0,0," ",Terminal.Color.BLACK,Terminal.Color.WHITE);
 
