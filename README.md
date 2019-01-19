@@ -51,3 +51,9 @@ Ever wished for a fun game you can use your terminal to open? (I doubt it) well 
   - developed colors for the graphics
   - color maps added to each sprite & created test main for graphics to view colored sprites
 </p>
+<p>Day 10 (1/18/19):
+  - started random map generation: 4 spawn+boss variations, rooms randomly placed
+  - fixed problem of rooms being able to spawn inside each other in the case that they fit inside another's walls
+  - fixed screen resizing
+  - fixed infinite looping that sometimes occurs when attempting to fit rooms (added max attempts for room placements)
+</p>
