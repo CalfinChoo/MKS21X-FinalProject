@@ -98,20 +98,20 @@ public class MapGen{
 	public int getHeight(){
 		return height;
 	}
-	private static void stickOnMap(String[][] bigMap, String[][] room, int xCoord, int yCoord){
-		boolean placeable = true;
+	private static boolean roomIsPlaceable(String[][] bigMap, String[][] room, int xCoord, int yCoord, int zeroX, int zeroY, int maxX, int maxY) {
 		for (int y = 0; y < room.length;y++){
 			for (int x = 0; x < room[0].length; x++){
-				if (bigMap[y+yCoord][x+xCoord] != null) placeable = false;
+				if (yCoord <= zeroY || y+yCoord >= maxY || xCoord <= zeroX || x+xCoord >= maxX || bigMap[y+yCoord][x+xCoord] != null) return false;
 			}
 		}
-		if (placeable == true) {
+		return true;
+	}
+	private static void stickOnMap(String[][] bigMap, String[][] room, int xCoord, int yCoord){
 			for (int y = 0; y < room.length;y++){
 				for (int x = 0; x < room[0].length; x++){
 					bigMap[y+yCoord][x+xCoord] = room[y][x];
 				}
 			}
-		}
 	}
 	private static String[][] generateHallway(int width, int height, boolean up){
 		String[][] out = new String[height][width];
@@ -133,13 +133,6 @@ public class MapGen{
 	private static String[][] createSymMap(int width, int height,int vWidth, int vHeight){
 		String[][] fauxMap = new String[height][width];
 		Room rooms = new Room();
-		for(int y = 0; y < height;y++){
-			for (int x = 0; x < width; x++){
-				if (x < (vWidth-1)/2 || y < (vHeight-1)/2 || x > width - (vWidth-1)/2 - 1 || y > height - (vHeight-1)/2 -1){
-					fauxMap[y][x] = "@";
-				}
-			}
-		}
 		Random rand = new Random();
 		int ax = 0; int ay = 0; int bx = 0; int by = 0;
 		int zeroX = (vWidth-1)/2; int zeroY = (vHeight-1)/2; int maxX = zeroX + width - vWidth; int maxY = zeroY + height - vHeight;
@@ -149,8 +142,22 @@ public class MapGen{
 		if (startVariation == 3) {ax = maxX - rooms.getSpawnRoom()[0].length; ay = maxY - rooms.getSpawnRoom().length; bx = zeroX + 1; by = zeroY + 1;}
 		stickOnMap(fauxMap, rooms.getSpawnRoom(), ax, ay);
 		stickOnMap(fauxMap, rooms.getBossRoom(), bx, by);
+		ArrayList<int[]> roomCoords = new ArrayList<>();
 		for (int i = 0; i < roomsToAdd.size(); i++) {
-
+			int randXCor = rand.nextInt(maxX - zeroX) + zeroX; int randYCor  = rand.nextInt(maxY - zeroY) + zeroY;
+			String[][] putRoom = new String[0][0];
+			if (roomsToAdd.get(i) == "SmallBR") putRoom = rooms.getSmallBattleRoom(); if (roomsToAdd.get(i) == "BigBR") putRoom = rooms.getBigBattleRoom();
+			if (roomsToAdd.get(i) == "TreasureRM") putRoom = rooms.getTreasureRoom(); if (roomsToAdd.get(i) == "ShopRoom") putRoom = rooms.getShopRoom();
+			while (!roomIsPlaceable(fauxMap, putRoom, randXCor, randYCor, zeroX, zeroY, maxX, maxY)) {randXCor = rand.nextInt(maxX - zeroX) + zeroX + 1; randYCor  = rand.nextInt(maxY - zeroY) + zeroY + 1;}
+			stickOnMap(fauxMap, putRoom, randXCor, randYCor);
+			roomCoords.add(new int[]{randXCor, randYCor});
+		}
+		for(int y = 0; y < height;y++){
+			for (int x = 0; x < width; x++){
+				if (x < (vWidth-1)/2 || y < (vHeight-1)/2 || x > width - (vWidth-1)/2 - 1 || y > height - (vHeight-1)/2 -1){
+					fauxMap[y][x] = "@";
+				}
+			}
 		}
 		//stickOnMap(fauxMap, generateHallway(29, 9, false), zeroX + 29, zeroY + 4);
 		for (int h = 0; h<height;h++){

@@ -54,6 +54,7 @@ public class Game{
 				view.setMap(vw,vh, currentMap.getMapP(w,h));
 			}
 		}
+
 	}
 	private static void placePlayer(Screen screen, MapGen view, Coordinate tlcorner, int direction){
 		for (int y = view.getHeight() / 2 - 2 + tlcorner.getY(), gy = 0; gy < 5;gy++,y++){
@@ -136,7 +137,7 @@ public class Game{
 		if (MapGen.startVariation == 3) spawnPoint = new Coordinate((vWidth-1)/2 + mWidth - vWidth + 61,(vHeight-1)/2 + mHeight - vHeight + 13);
 		playerCoord = new Coordinate(spawnPoint);
 		//playerCoord.setX(534); playerCoord.setY(509);
-	
+
 		//printView(view.getMap());
 		Boolean isLastNull = false;
 		Boolean doorOpen = true;
