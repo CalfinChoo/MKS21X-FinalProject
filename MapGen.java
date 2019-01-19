@@ -1,13 +1,19 @@
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.TextColor;
 import java.util.Random;
+import java.util.ArrayList;
+import java.util.Collections;
 public class MapGen{
 	private int width, height;
 	private int vWidth, vHeight;
 	private TextCharacter [][] map;
 	private String[][] symMap;
 	private int totalRooms, smallBR;
-	private int shopRoom, spawnRoom, bossRoom, bigBR, treasureRoom = 1;
+	private static ArrayList<String> roomsToAdd = new ArrayList<>();
+	private int shopRoom = 1, spawnRoom = 1, bossRoom = 1, bigBR = 1, treasureRoom = 1;
+	public static int startVariation;
+	private Random rand;
+
 
 	MapGen(int width, int height, int vWidth, int vHeight, int level){
 		map = new TextCharacter[height][width];
@@ -15,10 +21,17 @@ public class MapGen{
 		this.vWidth = vWidth; this.vHeight = vHeight;
 		smallBR = level;
 		if (level % 5 == 0) {
-			bigBR++;
-			treasureRoom++;
+			bigBR += level / 5;
+			treasureRoom += level / 5;
 		}
+		rand = new Random();
+		startVariation = rand.nextInt(4);
 		totalRooms = spawnRoom + shopRoom + treasureRoom + smallBR + bigBR + bossRoom;
+		for (int i = 0; i < smallBR; i++) roomsToAdd.add("SmallBR");
+		for (int i = 0; i < bigBR; i++) roomsToAdd.add("BigBR");
+		for (int i = 0; i < treasureRoom; i++) roomsToAdd.add("TreasureRM");
+		roomsToAdd.add("ShopRoom");
+		Collections.shuffle(roomsToAdd);
 		addBorder(vWidth, vHeight);
 		symMap = createSymMap(width,height, vWidth, vHeight);
 		//printView(symMap,30,20);
@@ -86,9 +99,17 @@ public class MapGen{
 		return height;
 	}
 	private static void stickOnMap(String[][] bigMap, String[][] room, int xCoord, int yCoord){
+		boolean placeable = true;
 		for (int y = 0; y < room.length;y++){
 			for (int x = 0; x < room[0].length; x++){
-				bigMap[y+yCoord][x+xCoord] = room[y][x];
+				if (bigMap[y+yCoord][x+xCoord] != null) placeable = false;
+			}
+		}
+		if (placeable == true) {
+			for (int y = 0; y < room.length;y++){
+				for (int x = 0; x < room[0].length; x++){
+					bigMap[y+yCoord][x+xCoord] = room[y][x];
+				}
 			}
 		}
 	}
@@ -120,11 +141,18 @@ public class MapGen{
 			}
 		}
 		Random rand = new Random();
-		int zeroX = (vWidth-1)/2; int zeroY = (vHeight-1)/2; int maxX = zeroX + width; int maxY = zeroY + height;
-		int[] xValues = {zeroX + 1, maxX - rooms.getSpawnRoom()[0].length}; int[] yValues = {zeroY + 1, maxY - rooms.getSpawnRoom().length};
-		stickOnMap(fauxMap, rooms.getSpawnRoom(), xValues[rand.nextInt(2)],yValues[rand.nextInt(2)]);
-		stickOnMap(fauxMap, rooms.getBossRoom(), zeroX +56, zeroY +1);
-		stickOnMap(fauxMap, generateHallway(29, 9, false), zeroX + 29, zeroY + 4);
+		int ax = 0; int ay = 0; int bx = 0; int by = 0;
+		int zeroX = (vWidth-1)/2; int zeroY = (vHeight-1)/2; int maxX = zeroX + width - vWidth; int maxY = zeroY + height - vHeight;
+		if (startVariation == 0) {ax = zeroX + 1; ay = zeroY + 1; bx = maxX - rooms.getBossRoom()[0].length; by = maxY - rooms.getBossRoom().length;}
+		if (startVariation == 1) {ax = maxX - rooms.getSpawnRoom()[0].length; ay = zeroY + 1; bx = zeroX + 1; by = maxY - rooms.getBossRoom().length;}
+		if (startVariation == 2) {ax = zeroX + 1; ay = maxY - rooms.getSpawnRoom().length; bx = maxX - rooms.getBossRoom()[0].length; by = zeroY + 1;}
+		if (startVariation == 3) {ax = maxX - rooms.getSpawnRoom()[0].length; ay = maxY - rooms.getSpawnRoom().length; bx = zeroX + 1; by = zeroY + 1;}
+		stickOnMap(fauxMap, rooms.getSpawnRoom(), ax, ay);
+		stickOnMap(fauxMap, rooms.getBossRoom(), bx, by);
+		for (int i = 0; i < roomsToAdd.size(); i++) {
+
+		}
+		//stickOnMap(fauxMap, generateHallway(29, 9, false), zeroX + 29, zeroY + 4);
 		for (int h = 0; h<height;h++){
 			for (int w = 0 ; w<width;w++){
 				if (fauxMap[h][w] == null){fauxMap[h][w] = " ";}
