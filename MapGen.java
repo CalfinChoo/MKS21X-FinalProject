@@ -62,11 +62,6 @@ public class MapGen{
 				}
 			}
 		}
-		for (int h = 0; h<height;h++){
-			for (int w = 0 ; w<width;w++){
-				if (symMap[h][w] == null){symMap[h][w] = " ";}
-			}
-		}
 		map = createMap(width,height,symMap,vWidth, vHeight);
 	}
 
@@ -161,12 +156,10 @@ public class MapGen{
 		return fauxMap;
 	};
 	public static TextCharacter[][] createMap(int width, int height){
-		// for testing, fills the string with empty stuff
 		TextCharacter[][] out = new TextCharacter[height][width];
 		return out;
 	};
 	public static TextCharacter[][] createMap(int width, int height,String[][] symMap, int vWidth, int vHeight){
-		// for testing, fills the string with empty stuff
 		TextCharacter[][] out = new TextCharacter[height][width];
 		int[] red = {244,220,244};
 		TextColor.RGB[] colors = {};
@@ -185,6 +178,9 @@ public class MapGen{
 				}
 				else if(symMap[h][w] == "l"){
 					out[h][w] = new TextCharacter('~', TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 128, 0));
+				}
+				else if(symMap[h][w] == "e"){
+					out[h][w] = new TextCharacter(' ', TextColor.ANSI.DEFAULT, new TextColor.RGB(0, 160, 0));
 				}
 				else {
 					out[h][w] = new TextCharacter(' ', TextColor.ANSI.CYAN, new TextColor.RGB(red[r.nextInt(2)],43,43));
