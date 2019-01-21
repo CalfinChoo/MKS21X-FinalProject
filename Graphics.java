@@ -24,7 +24,7 @@ public class Graphics{
     {
       {"_", "/", "X", "X", "X", "\\", "_"},
       {"(", " ", " ", "o", "~", "o", ")"},
-      {"/", "\\", "X", "X", "/", "\\", "_"},
+      {"/", "\\", "X", "X", "/", ";", "="},
       {"V", "/", "/", "\\", "\\", " ", " "},
       {" ", "H", "b", " ", "H", "b", " "}
     },
@@ -38,7 +38,7 @@ public class Graphics{
     {
       {"_", "/", "X", "X", "X", "\\", "_"},
       {"(", "o", "~", "o", " ", " ", ")"},
-      {"_", "/", "\\", "X", "X", "/", "\\"},
+      {"=", ";", "\\", "X", "X", "/", "\\"},
       {" ", " ", "/", "/", "\\", "\\", "V"},
       {" ", "d", "H", " ", "d", "H", " "}
     }
@@ -55,7 +55,7 @@ public class Graphics{
       {
         {new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38)},
         {new TextColor.RGB(255, 221, 153), TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, new TextColor.RGB(255, 221, 153)},
-        {new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(255, 221, 153)},
+        {new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), TextColor.ANSI.BLACK, TextColor.ANSI.BLACK},
         {new TextColor.RGB(255, 221, 153), TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.DEFAULT},
         {TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT}
       },
@@ -63,13 +63,13 @@ public class Graphics{
         {new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38)},
         {new TextColor.RGB(255, 221, 153), TextColor.ANSI.BLACK, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.BLACK, new TextColor.RGB(255, 221, 153)},
         {new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210)},
-        {new TextColor.RGB(255, 221, 153), TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, new TextColor.RGB(255, 221, 153)},
+        {TextColor.ANSI.BLACK, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, new TextColor.RGB(255, 221, 153)},
         {TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT}
       },
       {
         {new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38)},
         {new TextColor.RGB(255, 221, 153), TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, new TextColor.RGB(255, 221, 153)},
-        {new TextColor.RGB(255, 221, 153), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210)},
+        {TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210)},
         {TextColor.ANSI.DEFAULT, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, new TextColor.RGB(255, 221, 153)},
         {TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT}
       },
