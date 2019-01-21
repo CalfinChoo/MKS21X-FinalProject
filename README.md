@@ -63,4 +63,7 @@ Ever wished for a fun game you can use your terminal to open? (I doubt it) well 
   - hallways connecting rooms added
   - made sprites odd numbered dimensions and minor tweaks to graphics
   - boss room fixed
+  - added enemies to the map
+  - made the enemies move randomly
+  - made sure that resizing the screen doesn't affect the enemies 
 </p>
