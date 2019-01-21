@@ -67,7 +67,7 @@ public class Game{
 	}
 	private static Boolean canMove(Coordinate playerCoord, MapGen map, int direction){
 		if (direction == 0){
-			for (int x = playerCoord.getX() - 3; x<playerCoord.getX() +4;x++){
+			for (int x = playerCoord.getX() - 3; x<=playerCoord.getX() +3;x++){
 				//System.out.println("|"+map.getSymMap()[playerCoord.getY()-3][x]+"|");
 				if (map.getSymMap()[playerCoord.getY()-3][x] == "w"){
 					return false;
@@ -101,6 +101,36 @@ public class Game{
 			return true;
 		}
 		return false;
+	}
+	private static void clearPatch(TextCharacter[][] bigMap, int width, int height, int xCoord, int yCoord){
+		int zeroX = (width-1)/2;
+		int zeroY = (height-1)/2;
+		for (int y = 0; y < height;y++){
+			for (int x = 0; x < width; x++){
+				bigMap[y+yCoord-zeroY][x+xCoord-zeroX] = new TextCharacter(' ', 
+					TextColor.ANSI.DEFAULT, 
+					bigMap[y+yCoord-zeroY][x+xCoord-zeroX].getBackgroundColor()
+					);
+			}
+		}
+			
+	}
+	private static void updateEnemies(MapGen map, Coordinate playerCoord, long time){
+		Enemy badGuy;
+		for (int e = 0; e < map.enemiesLeft; e++){ int direction = -1;
+			badGuy = map.getEnemies().get(e); 
+			int px = playerCoord.getX(); int py = playerCoord.getY();
+			int x = badGuy.getXPos() - px; int y = badGuy.getYPos() - py; 
+			boolean gyx = y > x; boolean gymx = y > -1 * x;
+			if (gyx && gymx){ direction = 0;}
+			else if (!gyx && gymx) {direction = 3;}
+			else if (!gyx && !gymx){direction = 2;}
+			else if (gyx && !gymx) {direction = 1;}
+			clearPatch(map.getMap(), badGuy.getWidth(), badGuy.getHeight(), badGuy.getXPos(),badGuy.getYPos());
+			badGuy.moveRandom(map,time);
+			MapGen.stickEnemyOnMap(map.getMap(), badGuy, badGuy.getWidth(),badGuy.getHeight(),badGuy.getXPos(),badGuy.getYPos(),
+				direction);
+		}
 	}
 	public static void main(String[] args) throws InterruptedException, IOException{
 		Screen screen = new DefaultTerminalFactory().createScreen();
@@ -138,6 +168,8 @@ public class Game{
 		//playerCoord.setX(534); playerCoord.setY(509);
 
 		//printView(view.getMap());
+		//System.out.println(currentMap.enemiesLeft);
+		//System.out.println(currentMap.getEnemies().size());
 		Boolean isLastNull = false;
 		Boolean doorOpen = true;
 		int direction = 2;
@@ -148,7 +180,7 @@ public class Game{
 		try{ // stops the screen in the event of an exception
 			while (running){
 				KeyStroke key = screen.pollInput();
-				if (currentTime - lastUpdTime >= 90){
+				if (currentTime - lastUpdTime >= 61){
 					if (key == null) {isLastNull = true;} else {isLastNull = false;}
 					if (key != null && key.getKeyType() == KeyType.Escape){
 						running = false; break;
@@ -156,13 +188,13 @@ public class Game{
 					if (key != null && key.getKeyType() == KeyType.Character){
 						switch(key.getCharacter()){ // wasd for moving and qezx for diagonal moving
 						case 'w':
-							if (playerCoord.getY() > (view.getHeight() - 1) /2 + 2 && canMove(playerCoord, currentMap, 0)){
+							if (playerCoord.getY() > (view.getHeight() - 1) /2 + 2 && Enemy.canMove(playerCoord, currentMap, 0, 7, 5)){
 								playerCoord.minusY();
 							}
 							direction = 0;
 							break;
 						case 'a':
-							if (playerCoord.getX() > (view.getWidth()-1) / 2 + 3 && canMove(playerCoord,currentMap, 3)){
+							if (playerCoord.getX() > (view.getWidth()-1) / 2 + 3 && Enemy.canMove(playerCoord,currentMap, 3, 7,5)){
 								playerCoord.minusX();
 							}
 							direction = 3;
@@ -240,23 +272,24 @@ public class Game{
 					//screen.putString(10,5,input, Terminal.Color.BLACK,Terminal.Color.WHITE); see input
 					//System.out.println("height: " + currentTSize.getRows());
 					//System.out.println("width: " + currentTSize.getColumns());
+					screen.setCharacter(0,0, new TextCharacter(' ',TextColor.ANSI.BLACK, TextColor.ANSI.WHITE));
 					Coordinate tlcorner = new Coordinate(1,1);
+					updateEnemies(currentMap,playerCoord,currentTime);
+
 					updateView(view,currentMap, playerCoord); //System.out.println(view.getHeight());
 					putToScreen(view,screen, tlcorner);
-
 					placePlayer(screen, view, tlcorner, direction);
-
-					putString(screen,1,0,"playerCoord:("+playerCoord.getX()+","+playerCoord.getY()+")" + " totalRooms: " + MapGen.totalRooms,
-						TextColor.ANSI.BLACK,new TextColor.RGB(255,255,255));
-					//screen.setCharacter(1,1,new TextCharacter('T', TextColor.ANSI.WHITE, TextColor.ANSI.WHITE));
-					//screen.putString(playerCoord.getX(),playerCoord.getY(),"P", Terminal.Color.YELLOW,Terminal.Color.BLUE);
+					//putString(screen,1,0,"PlayerCoord:("+(playerCoord.getX() - (vWidth-1)/2) +","+(playerCoord.getY() - (vHeight-1)/2)+")",
+						//new TextColor.RGB(255,255,255),TextColor.ANSI.BLACK);
+					putString(screen,1,0,"PlayerCoord:("+playerCoord.getX()+","+playerCoord.getY()+")",
+						new TextColor.RGB(255,255,255),TextColor.ANSI.BLACK);
 
 					lastUpdTime = System.currentTimeMillis();
 					screen.refresh();
 				}
 				Thread.sleep(1);
 				if (!isLastNull) {while(screen.pollInput()!=null){}}
-				Thread.sleep(90);
+				Thread.sleep(60);
 
 				currentTime = System.currentTimeMillis();
 			}
@@ -265,6 +298,11 @@ public class Game{
 		}
 		catch(Exception e){
 			e.printStackTrace();
+			if (vWidth < 10 || vHeight < 10){
+				System.out.println("you made the size of the window too small!! seriously why would you do that?");
+			}
+			else {System.out.println("wow! you managed to find a bug. if you really want it fixed comment on github and email calvin and it might get fixed (though I doubt it)");
+			}
 			screen.stopScreen();
 			System.exit(1);
 		}
