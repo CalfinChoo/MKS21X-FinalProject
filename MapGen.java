@@ -32,6 +32,7 @@ public class MapGen{
 		//printView(symMap,30,20);
 		map = createMap(width,height,symMap,vWidth, vHeight);
 		totalRooms = roomsToAdd.size();//roomCoords.size() + 2;
+		Random rand = new Random();
 		for (int h = 0; h < height; h++){
 			for (int w = 0; w<width;w++){
 				if (symMap[h][w] == "e"){
@@ -291,9 +292,9 @@ public class MapGen{
 				else if(symMap[h][w] == "l"){
 					out[h][w] = new TextCharacter('~', TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 128, 0));
 				}
-				else if(symMap[h][w] == "e"){
-					out[h][w] = new TextCharacter(' ', TextColor.ANSI.DEFAULT, new TextColor.RGB(0, 160, 0));
-				}
+				//else if(symMap[h][w] == "e"){
+					//out[h][w] = new TextCharacter(' ', TextColor.ANSI.DEFAULT, new TextColor.RGB(0, 160, 0));
+				//}
 				else {
 					out[h][w] = new TextCharacter(' ', TextColor.ANSI.CYAN, new TextColor.RGB(red[r.nextInt(2)],43,43));
 				}

@@ -180,7 +180,7 @@ public class Game{
 		try{ // stops the screen in the event of an exception
 			while (running){
 				KeyStroke key = screen.pollInput();
-				if (currentTime - lastUpdTime >= 80){
+				if (currentTime - lastUpdTime >= 61){
 					if (key == null) {isLastNull = true;} else {isLastNull = false;}
 					if (key != null && key.getKeyType() == KeyType.Escape){
 						running = false; break;
@@ -289,7 +289,7 @@ public class Game{
 				}
 				Thread.sleep(1);
 				if (!isLastNull) {while(screen.pollInput()!=null){}}
-				Thread.sleep(80);
+				Thread.sleep(60);
 
 				currentTime = System.currentTimeMillis();
 			}

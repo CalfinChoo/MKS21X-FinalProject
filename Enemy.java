@@ -38,7 +38,7 @@ public class Enemy{
 	public Coordinate moveRandom(MapGen map, long time){
 		Random random = new Random();
 		Coordinate old = new Coordinate(coord);
-		if (time - lastMove > 1000){
+		if (time - lastMove > 900){
 			int direction = random.nextInt(8);
 			while (!canMove(coord, map, direction, width, height)){
 				direction = random.nextInt(8);
