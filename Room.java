@@ -1,12 +1,13 @@
 import java.lang.Math;
 import java.util.Random;
+
+/*
+* Contains all the different rooms used in the game.
+* Rooms are saved as 2-Dimensional String Arrays containing the layouts of the rooms.
+* Some rooms include randomized placement of objects while others are always the same.
+*/
+
 public class Room{
-	/*private Terminal.Color[][] SpawnRoomCM = new Terminal.Color[15][15];
-	private Terminal.Color[][] ShopRoomCM = new Terminal.Color[35][35];
-	private Terminal.Color[][] SmallBattleRoomCM = new Terminal.Color[75][75];
-	private Terminal.Color[][] BigBattleRoomCM = new Terminal.Color[95][95];
-	private Terminal.Color[][] TreasureRoomCM = new Terminal.Color[25][25];
-	private Terminal.Color[][] BossRoomCM = new Terminal.Color[115][115]; */
 	private static String[][] SpawnRoom;
 	private static String[][] ShopRoom;
 	private static String[][] SmallBattleRoom;
@@ -16,11 +17,6 @@ public class Room{
 	private int randRow, randCol;
 	private Random rand;
 	private int randRC[][];
-	/*
- * Contains all the different rooms used in the game.
- * Rooms are saved as 2-Dimensional String Arrays containing the layouts of the rooms.
- * Some rooms include randomized placement of objects while others are always the same.
- */
 
 //  Constructs rooms
 	public Room(){
@@ -90,21 +86,16 @@ public class Room{
 	private String[][] fillRoom(String[][] room) {
 		if (room.equals(SmallBattleRoom)) initiateLava(SmallBattleRoom, 4, 9, 5);  // initiateLava(room, # of pits, major axis length, minor axis length)
 		if (room.equals(BigBattleRoom)) initiateLava(BigBattleRoom, 5, 9, 5);
+		if (room.equals(BossRoom)) initiateLava(BossRoom, 7, 9, 5);
 		for (int row = 0; row < room.length; row++) {
 			for (int col = 0; col < room[row].length; col++) {
 				//  Room-specific objects
-				if (room.equals(SmallBattleRoom) || room.equals(BigBattleRoom)) {
+				if (room.equals(SmallBattleRoom) || room.equals(BigBattleRoom) || room.equals(BossRoom)) {
 					for (int i = 0; i < randRC.length; i++) {
 						if (lavaIsPlaceable(room, row, col, randRC[i][1], randRC[i][0], 9, 5)) {
 							room[row][col] = "l";
 						}
 					}
-				}
-				else if (room.equals(BossRoom)) {
-				  if ((row < 10 && row > 0) || (row > room.length - 11 && row < room.length - 1) || (col < 10 && col > 0) || (col > room[row].length - 11 && col < room[row].length - 1)) {
-						room[row][col] = "l";
-					}
-					if ((row > 0 && row < room.length - 1 && col >= room[row].length / 2 - 3 && col <= room[row].length / 2 + 3) || (col > 0 && col < room[row].length - 1 && row >= room.length / 2 - 3 && row <= room.length / 2 + 3)) room[row][col] = null;
 				}
 				else if (room.equals(TreasureRoom)) {
 					room[12][12] = "t";
@@ -147,6 +138,6 @@ public class Room{
 	}
 	public static void main(String[] args){
 		Room rooms = new Room();
-		printView(rooms.getSmallBattleRoom());
+		printView(rooms.getBossRoom());
 	}
 }

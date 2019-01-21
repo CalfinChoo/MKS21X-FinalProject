@@ -2,6 +2,13 @@ import com.googlecode.lanterna.*;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Collections;
+
+/*
+* Contains code for generating the map.
+* The map is layout in the form a grid with connecting hallways, with the start and boss rooms being in opposite corners.
+* The rest of the rooms are randomly placed around on the "grid".
+*/
+
 public class MapGen{
 	private int width, height;
 	private int vWidth, vHeight;
@@ -12,7 +19,7 @@ public class MapGen{
 	private static ArrayList<Coordinate> hallsV = new ArrayList<Coordinate>();
 	private static ArrayList<Coordinate> hallsH = new ArrayList<Coordinate>();
 	private static ArrayList<String[][]> roomsToAdd = new ArrayList<>();
-	private static int shopRoom = 1;
+	private static int shopRoom = 1, treasureRoom;
 	public static int ran;
 	public static ArrayList<Coordinate> roomCoords = new ArrayList<>();
 	public static int startVariation;
@@ -22,16 +29,17 @@ public class MapGen{
 	private static ArrayList<Enemy> enemies = new ArrayList<>();
 	public static int[] enemyOrder;
 
+//  Constructors to generate the map
 	MapGen(int width, int height, int vWidth, int vHeight, int level){
 		map = new TextCharacter[height][width];
 		this.width = width; this.height = height;
 		this.vWidth = vWidth; this.vHeight = vHeight;
 		this.level = level;
+		treasureRoom = level;
 		addBorder(vWidth, vHeight);
 		symMap = createSymMap(width,height, vWidth, vHeight);
-		//printView(symMap,30,20);
 		map = createMap(width,height,symMap,vWidth, vHeight);
-		totalRooms = roomsToAdd.size();//roomCoords.size() + 2;
+		totalRooms = roomsToAdd.size();
 		Random rand = new Random();
 		for (int h = 0; h < height; h++){
 			for (int w = 0; w<width;w++){
@@ -45,7 +53,6 @@ public class MapGen{
 						case 1:
 						enemies.add(new Enemy(w,h,9,7,Graphics.SmallEnemy, Graphics.SmallCM));
 					}
-					//System.out.println(w+":"+h);
 				}
 			}
 		}
@@ -96,6 +103,7 @@ public class MapGen{
 		}
 	}
 
+//  Get and set functions
 	public int getVW(){
 		return vWidth;
 	}
@@ -124,14 +132,8 @@ public class MapGen{
 	public int getHeight(){
 		return height;
 	}
-	// private static boolean roomIsPlaceable(String[][] bigMap, String[][] room, int xCoord, int yCoord, int zeroX, int zeroY, int maxX, int maxY) {
-	// 	for (int y = 0; y < room.length;y++){
-	// 		for (int x = 0; x < room[0].length; x++){
-	// 			if (yCoord <= zeroY || y+yCoord >= maxY || xCoord <= zeroX || x+xCoord >= maxX || bigMap[y+yCoord][x+xCoord] != null) return false;
-	// 		}
-	// 	}
-	// 	return true;
-	// }
+
+//  Helper functions to create the symbol map
 	private static void divideMap(Coordinate topLeft, Coordinate bottomRight) {
 		int width = bottomRight.getX() - topLeft.getX();
 		int height = bottomRight.getY() - topLeft.getY();
@@ -169,11 +171,9 @@ public class MapGen{
 			int xCoord = squares.get(i).getX() + ((squareWidth - rooms.get(i)[0].length) / 2);
 			int yCoord = squares.get(i).getY() + ((squareHeight - rooms.get(i).length) / 2);
 			stickOnMapDebug(bigMap, rooms.get(i), xCoord, yCoord);
-
-			//stickOnMap(bigMap, rooms.get(i), squares.get(i).getX(), squares.get(i).getY());
 		}
-		//stickOnMap(bigMap, Room.getSmallBattleRoom(), squares.get(1).getX() + ((squareWidth - Room.getSmallBattleRoom()[0].length) / 2) - 9, squares.get(0).getY());
 	}
+//  Helper functions to place a room in the map
 	private static void stickOnMap(String[][] bigMap, String[][] room, int xCoord, int yCoord){
 			for (int y = 0; y < room.length;y++){
 				for (int x = 0; x < room[0].length; x++){
@@ -189,6 +189,7 @@ public class MapGen{
 				}
 			}
 	}
+//  Function to generate hallways
 	private static String[][] generateHallway(int width, int height, boolean up){
 		String[][] out = new String[height][width];
 		for (int y = 0; y < height; y++){
@@ -206,25 +207,11 @@ public class MapGen{
 		}
 		return out;
 	}
+//  Function to create the symbol map
 	private static String[][] createSymMap(int width, int height,int vWidth, int vHeight){
 		String[][] fauxMap = new String[height][width];
 		Room rooms = new Room();
-		// Random rand = new Random();
-		// int ax = 0; int ay = 0; int bx = 0; int by = 0;
 		int zeroX = (vWidth-1)/2; int zeroY = (vHeight-1)/2; int maxX = zeroX + width - vWidth; int maxY = zeroY + height - vHeight;
-		// if (startVariation == 0) {ax = zeroX + 1; ay = zeroY + 1; bx = maxX - rooms.getBossRoom()[0].length; by = maxY - rooms.getBossRoom().length;}
-		// if (startVariation == 1) {ax = maxX - rooms.getSpawnRoom()[0].length; ay = zeroY + 1; bx = zeroX + 1; by = maxY - rooms.getBossRoom().length;}
-		// if (startVariation == 2) {ax = zeroX + 1; ay = maxY - rooms.getSpawnRoom().length; bx = maxX - rooms.getBossRoom()[0].length; by = zeroY + 1;}
-		// if (startVariation == 3) {ax = maxX - rooms.getSpawnRoom()[0].length; ay = maxY - rooms.getSpawnRoom().length; bx = zeroX + 1; by = zeroY + 1;}
-		// stickOnMap(fauxMap, rooms.getSpawnRoom(), ax, ay);
-		// stickOnMap(fauxMap, rooms.getBossRoom(), bx, by);
-		// Coordinate spawn = new Coordinate(ax, ay); Coordinate boss = new Coordinate(bx, by);
-		// for (int i = 0; i < roomsToAdd.size(); i++) {
-		// 	int attempts = 0;
-		// 	String[][] putRoom = new String[0][0];
-		// 	if (roomsToAdd.get(i) == "SmallBR") putRoom = rooms.getSmallBattleRoom(); if (roomsToAdd.get(i) == "BigBR") putRoom = rooms.getBigBattleRoom();
-		// 	if (roomsToAdd.get(i) == "TreasureRM") putRoom = rooms.getTreasureRoom(); if (roomsToAdd.get(i) == "ShopRoom") putRoom = rooms.getShopRoom();
-		// }
 		divideMap(new Coordinate(zeroX, zeroY), new Coordinate(maxX, maxY));
 		Random rand = new Random();
 		ran = rand.nextInt(2);
@@ -235,11 +222,20 @@ public class MapGen{
 			int random = rand.nextInt(4);
 			if (random == 0) roomsToAdd.add(rooms.getBigBattleRoom());
 			else if (random == 1) roomsToAdd.add(rooms.getSmallBattleRoom());
-			else if (random == 2) roomsToAdd.add(rooms.getTreasureRoom());
+			else if (random == 2 && treasureRoom > 0) {
+				roomsToAdd.add(rooms.getTreasureRoom());
+				treasureRoom--;
+			}
+			else if (random == 2 && treasureRoom == 0) {
+				i--;
+			}
 			else if (random == 3 && shopRoom == 1) {
 				roomsToAdd.add(rooms.getShopRoom());
 				shopRoom--;
-			} else {i--;}
+			}
+			else if (random == 3 && shopRoom == 0) {
+				i--;
+			}
 			rooms = new Room();
 		}
 		if (ran == 0) {
@@ -253,8 +249,6 @@ public class MapGen{
 				}
 			}
 		}
-
-		//stickOnMap(fauxMap, generateHallway(29, 9, false), zeroX + 29, zeroY + 4);
 		for (int h = 0; h<height;h++){
 			for (int w = 0 ; w<width;w++){
 				if (fauxMap[h][w] == null){fauxMap[h][w] = " ";}
@@ -262,6 +256,7 @@ public class MapGen{
 		}
 		return fauxMap;
 	};
+//  Functions to create visual maps given dimensions and/or a symbol map
 	public static TextCharacter[][] createMap(int width, int height){
 		TextCharacter[][] out = new TextCharacter[height][width];
 		return out;
@@ -276,14 +271,10 @@ public class MapGen{
 				if (symMap[h][w] == "w"){
 					out[h][w] = new TextCharacter(' ', TextColor.ANSI.DEFAULT, new TextColor.RGB(80,80,80));
 				}
-				else if(symMap[h][w] == "start" || symMap[h][w] == "end"){
-					out[h][w] = new TextCharacter('C', TextColor.ANSI.CYAN, new TextColor.RGB(52,210,90));
-				}
 				else if(symMap[h][w] == "p"){
 					out[h][w] = new TextCharacter(' ', TextColor.ANSI.CYAN, new TextColor.RGB(100,100,100));
 				}
 				else if(symMap[h][w] == "d"){
-					//out[h][w] = new TextCharacter(' ', TextColor.ANSI.DEFAULT, new TextColor.RGB(153, 102, 51));
 					out[h][w] = new TextCharacter(' ', TextColor.ANSI.DEFAULT, new TextColor.RGB(100,100,100));
 				}
 				else if(symMap[h][w] == "@"){
@@ -292,25 +283,11 @@ public class MapGen{
 				else if(symMap[h][w] == "l"){
 					out[h][w] = new TextCharacter('~', TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 128, 0));
 				}
-				//else if(symMap[h][w] == "e"){
-					//out[h][w] = new TextCharacter(' ', TextColor.ANSI.DEFAULT, new TextColor.RGB(0, 160, 0));
-				//}
 				else {
 					out[h][w] = new TextCharacter(' ', TextColor.ANSI.CYAN, new TextColor.RGB(red[r.nextInt(2)],43,43));
 				}
 			}
 		}
-		/*enemies.clear(); enemiesLeft = 0;
-		for (int h = 0; h < height; h++){
-			for (int w = 0; w<width;w++){
-				if (symMap[h][w] == "e"){
-					enemiesLeft++;
-					enemies.add(new Enemy(w,h,9,5,Graphics.TinyEnemy, Graphics.TinyCM));
-					//System.out.println(w+":"+h);
-				}
-			}
-		}
-		*/
 		return out;
 	};
 	public static void stickEnemyOnMap(TextCharacter[][] bigMap, Enemy enemy, int width, int height, int xCoord, int yCoord, int direction){
@@ -318,13 +295,12 @@ public class MapGen{
 			int zeroY = (enemy.getHeight()-1)/2;
 			for (int y = 0; y < height;y++){
 				for (int x = 0; x < width; x++){
-					bigMap[y+yCoord-zeroY][x+xCoord-zeroX] = new TextCharacter(enemy.getGraphics()[direction][y][x].charAt(0), 
-						enemy.getCM()[direction][y][x], 
+					bigMap[y+yCoord-zeroY][x+xCoord-zeroX] = new TextCharacter(enemy.getGraphics()[direction][y][x].charAt(0),
+						enemy.getCM()[direction][y][x],
 						bigMap[y+yCoord-zeroY][x+xCoord-zeroX].getBackgroundColor(),
 						SGR.BOLD);
 				}
 			}
-			//System.out.println(enemy.getID());
 	}
 	public void addBorder(int vWidth, int vHeight){
 		for(int y = 0; y < height;y++){
