@@ -107,7 +107,7 @@ public class Game{
 		long lastUpdTime = System.currentTimeMillis();
 		long currentTime = System.currentTimeMillis();
 		Boolean running = true;
-		int currentLevel = 1;
+		int currentLevel = 0;
 
 
 		TerminalSize currentTSize = screen.getTerminalSize();
@@ -120,7 +120,7 @@ public class Game{
 
 		Coordinate playerCoord = new Coordinate((vWidth-1)/2 + 3,(vHeight-1)/2 + 2); //player coord must be between vWidth and currentMapWidth - vWidth (same for height)
 		MapGen view = new MapGen(vWidth,vHeight); //player's view
-		int mWidth = 350; int mHeight = 350;
+		int mWidth = 696; int mHeight = 351;
 		MapGen currentMap = new MapGen(mWidth+vWidth,mHeight+vHeight, vWidth, vHeight, currentLevel);
 		updateView(view,currentMap, playerCoord);
 		//MapGen newMap = new MapGen(currentMap, 11,11);
@@ -132,10 +132,8 @@ public class Game{
 		//printView(test.getSymMap());
 
 		Coordinate spawnPoint = new Coordinate(0, 0);
-		if (MapGen.startVariation == 0) spawnPoint = new Coordinate((vWidth-1)/2 + 16,(vHeight-1)/2 + 8);
-		if (MapGen.startVariation == 1) spawnPoint = new Coordinate((vWidth-1)/2 + mWidth - vWidth + 61,(vHeight-1)/2 + 8);
-		if (MapGen.startVariation == 2) spawnPoint = new Coordinate((vWidth-1)/2 + 16,(vHeight-1)/2 + mHeight - vHeight + 13);
-		if (MapGen.startVariation == 3) spawnPoint = new Coordinate((vWidth-1)/2 + mWidth - vWidth + 61,(vHeight-1)/2 + mHeight - vHeight + 13);
+		if (MapGen.ran == 0) spawnPoint = new Coordinate((vWidth-1)/2 + 116,(vHeight-1)/2 + 58);
+		if (MapGen.ran == 1) spawnPoint = new Coordinate((vWidth-1)/2 + mWidth - vWidth - 40,(vHeight-1)/2 + mHeight - vHeight - 38);
 		playerCoord = new Coordinate(spawnPoint);
 		//playerCoord.setX(534); playerCoord.setY(509);
 
