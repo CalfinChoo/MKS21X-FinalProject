@@ -7,12 +7,12 @@ public class Room{
 	private Terminal.Color[][] BigBattleRoomCM = new Terminal.Color[95][95];
 	private Terminal.Color[][] TreasureRoomCM = new Terminal.Color[25][25];
 	private Terminal.Color[][] BossRoomCM = new Terminal.Color[115][115]; */
-	private String[][] SpawnRoom = new String[15][30];
-	private String[][] ShopRoom = new String[35][75];
-	private String[][] SmallBattleRoom = new String[75][150];
-	private String[][] BigBattleRoom = new String[95][190];
-	private String[][] TreasureRoom = new String[25][50];
-	private String[][] BossRoom = new String[115][230];
+	private static String[][] SpawnRoom;
+	private static String[][] ShopRoom;
+	private static String[][] SmallBattleRoom;
+	private static String[][] BigBattleRoom;
+	private static String[][] TreasureRoom;
+	private static String[][] BossRoom;
 	private int randRow, randCol;
 	private Random rand;
 	private int randRC[][];
@@ -25,26 +25,32 @@ public class Room{
 //  Constructs rooms
 	public Room(){
 		rand = new Random();
+		SpawnRoom = new String[15][30];
+		ShopRoom = new String[35][75];
+		SmallBattleRoom = new String[75][150];
+		BigBattleRoom = new String[95][190];
+		TreasureRoom = new String[25][50];
+		BossRoom = new String[115][230];
 		fillRoom(SpawnRoom);fillRoom(ShopRoom);fillRoom(SmallBattleRoom);
 		fillRoom(TreasureRoom);fillRoom(BossRoom);fillRoom(BigBattleRoom);
 	}
 //  Room getters
-	public String[][] getSpawnRoom() {
+	public static String[][] getSpawnRoom() {
 		return SpawnRoom;
 	}
-	public String[][] getShopRoom() {
+	public static String[][] getShopRoom() {
 		return ShopRoom;
 	}
-	public String[][] getSmallBattleRoom() {
+	public static String[][] getSmallBattleRoom() {
 		return SmallBattleRoom;
 	}
-	public String[][] getBigBattleRoom() {
+	public static String[][] getBigBattleRoom() {
 		return BigBattleRoom;
 	}
-	public String[][] getTreasureRoom() {
+	public static String[][] getTreasureRoom() {
 		return TreasureRoom;
 	}
-	public String[][] getBossRoom() {
+	public static String[][] getBossRoom() {
 		return BossRoom;
 	}
 // Helper function to place enemiy spawnpoints in fillroom command
