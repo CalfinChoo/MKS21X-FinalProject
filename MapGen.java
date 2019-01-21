@@ -1,5 +1,4 @@
-import com.googlecode.lanterna.TextCharacter;
-import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.*;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +13,9 @@ public class MapGen{
 	public static int startVariation;
 	private Random rand;
 
+	public static int enemiesLeft;
+	private static ArrayList<Enemy> enemies = new ArrayList<>();
+	public static int[] enemyOrder;
 
 	MapGen(int width, int height, int vWidth, int vHeight, int level){
 		map = new TextCharacter[height][width];
@@ -36,6 +38,22 @@ public class MapGen{
 		symMap = createSymMap(width,height, vWidth, vHeight);
 		//printView(symMap,30,20);
 		map = createMap(width,height,symMap,vWidth, vHeight);
+		for (int h = 0; h < height; h++){
+			for (int w = 0; w<width;w++){
+				if (symMap[h][w] == "e"){
+					enemiesLeft++;
+					int rande = rand.nextInt(2);
+					switch (rande){
+						case 0:
+						enemies.add(new Enemy(w,h,9,5,Graphics.TinyEnemy, Graphics.TinyCM));
+						break;
+						case 1:
+						enemies.add(new Enemy(w,h,9,7,Graphics.SmallEnemy, Graphics.SmallCM));
+					}
+					//System.out.println(w+":"+h);
+				}
+			}
+		}
 	}
 	MapGen(int width, int height){
 		map = new TextCharacter[height][width];
@@ -63,6 +81,24 @@ public class MapGen{
 			}
 		}
 		map = createMap(width,height,symMap,vWidth, vHeight);
+		for (int e = 0; e<enemies.size();e++){
+			Enemy badGuy = enemies.get(e);
+			badGuy.setXPos(badGuy.getXPos() - (copyMap.getVW() - 1)/2 + (vWidth - 1)/2);
+			badGuy.setYPos(badGuy.getYPos() - (copyMap.getVH() - 1)/2 + (vHeight- 1)/2);
+		}
+	}
+
+
+	public ArrayList<Enemy> getEnemies(){
+		return enemies;
+	}
+	public void removeEnemy(int id){
+		for (int i = 0; i < enemies.size(); i++){
+			if (enemies.get(i).getID() == id){
+				enemies.remove(i);
+				return;
+			}
+		}
 	}
 
 	public int getVW(){
@@ -197,8 +233,32 @@ public class MapGen{
 				}
 			}
 		}
+		/*enemies.clear(); enemiesLeft = 0;
+		for (int h = 0; h < height; h++){
+			for (int w = 0; w<width;w++){
+				if (symMap[h][w] == "e"){
+					enemiesLeft++;
+					enemies.add(new Enemy(w,h,9,5,Graphics.TinyEnemy, Graphics.TinyCM));
+					//System.out.println(w+":"+h);
+				}
+			}
+		}
+		*/
 		return out;
 	};
+	public static void stickEnemyOnMap(TextCharacter[][] bigMap, Enemy enemy, int width, int height, int xCoord, int yCoord, int direction){
+			int zeroX = (enemy.getWidth()-1)/2;
+			int zeroY = (enemy.getHeight()-1)/2;
+			for (int y = 0; y < height;y++){
+				for (int x = 0; x < width; x++){
+					bigMap[y+yCoord-zeroY][x+xCoord-zeroX] = new TextCharacter(enemy.getGraphics()[direction][y][x].charAt(0), 
+						enemy.getCM()[direction][y][x], 
+						bigMap[y+yCoord-zeroY][x+xCoord-zeroX].getBackgroundColor(),
+						SGR.BOLD);
+				}
+			}
+			//System.out.println(enemy.getID());
+	}
 	public void addBorder(int vWidth, int vHeight){
 		for(int y = 0; y < height;y++){
 			for (int x = 0; x < width; x++){
