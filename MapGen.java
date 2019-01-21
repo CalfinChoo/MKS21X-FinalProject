@@ -44,13 +44,20 @@ public class MapGen{
 			for (int w = 0; w<width;w++){
 				if (symMap[h][w] == "e"){
 					enemiesLeft++;
-					int rande = rand.nextInt(2);
+					int rande = rand.nextInt(4);
 					switch (rande){
 						case 0:
 						enemies.add(new Enemy(w,h,9,5,Graphics.TinyEnemy, Graphics.TinyCM));
 						break;
 						case 1:
 						enemies.add(new Enemy(w,h,9,7,Graphics.SmallEnemy, Graphics.SmallCM));
+						break;
+						case 2:
+						enemies.add(new Enemy(w,h,13,9,Graphics.MediumEnemy, Graphics.MediumCM));
+						break;
+						case 3:
+						enemies.add(new Enemy(w,h,31,11,Graphics.LargeEnemy, Graphics.LargeCM));
+						break;
 					}
 				}
 			}
@@ -289,11 +296,12 @@ public class MapGen{
 		}
 		return out;
 	};
-	public static void stickEnemyOnMap(TextCharacter[][] bigMap, Enemy enemy, int width, int height, int xCoord, int yCoord, int direction){
+	public static void stickEnemyOnMap(TextCharacter[][] bigMap, Enemy enemy, int xCoord, int yCoord, int direction){
+			enemy.setDirection(direction);
 			int zeroX = (enemy.getWidth()-1)/2;
 			int zeroY = (enemy.getHeight()-1)/2;
-			for (int y = 0; y < height;y++){
-				for (int x = 0; x < width; x++){
+			for (int y = 0; y < enemy.getHeight();y++){
+				for (int x = 0; x < enemy.getWidth(); x++){
 					bigMap[y+yCoord-zeroY][x+xCoord-zeroX] = new TextCharacter(enemy.getGraphics()[direction][y][x].charAt(0),
 						enemy.getCM()[direction][y][x],
 						bigMap[y+yCoord-zeroY][x+xCoord-zeroX].getBackgroundColor(),

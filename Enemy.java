@@ -9,11 +9,18 @@ public class Enemy{
 	private int id;
 	private int health;
 	public long lastMove;
+	private int direction;
+	public int getDirection(){
+		return direction;
+	}
+	public void setDirection(int d){
+		direction = d;
+	}
 	public int getHeight(){
-		return height;
+		return graphics[direction].length;
 	}
 	public int getWidth(){
-		return width;
+		return graphics[direction][0].length;
 	}
 	public TextColor[][][] getCM(){
 		return graphicsCM;
@@ -40,7 +47,7 @@ public class Enemy{
 		Coordinate old = new Coordinate(coord);
 		if (time - lastMove > 900){
 			int direction = random.nextInt(8);
-			while (!canMove(coord, map, direction, width, height)){
+			while (!canMove(coord, map, direction, this.getWidth(), this.getHeight())){
 				direction = random.nextInt(8);
 			}
 			move(direction);
@@ -85,7 +92,7 @@ public class Enemy{
 		//7,0,4
 		//3,~,1
 		//6,2,5
-		int zeroX = (width- 1)/2; int zeroY = (height-1)/2;
+		int zeroX = (width - 1)/2; int zeroY = (height-1)/2;
 		if (direction == 0){
 			for (int x = enemyCoord.getX() - zeroX; x<=enemyCoord.getX() + zeroX;x++){
 				if (map.getSymMap()[enemyCoord.getY()- zeroY - 1][x] == "w"){

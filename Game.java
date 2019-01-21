@@ -102,11 +102,11 @@ public class Game{
 		}
 		return false;
 	}
-	private static void clearPatch(TextCharacter[][] bigMap, int width, int height, int xCoord, int yCoord){
-		int zeroX = (width-1)/2;
-		int zeroY = (height-1)/2;
-		for (int y = 0; y < height;y++){
-			for (int x = 0; x < width; x++){
+	private static void clearPatch(TextCharacter[][] bigMap, Enemy enemy, int xCoord, int yCoord){
+		int zeroX = (enemy.getWidth()-1)/2;
+		int zeroY = (enemy.getHeight()-1)/2;
+		for (int y = 0; y < enemy.getHeight();y++){
+			for (int x = 0; x < enemy.getWidth(); x++){
 				bigMap[y+yCoord-zeroY][x+xCoord-zeroX] = new TextCharacter(' ', 
 					TextColor.ANSI.DEFAULT, 
 					bigMap[y+yCoord-zeroY][x+xCoord-zeroX].getBackgroundColor()
@@ -126,10 +126,9 @@ public class Game{
 			else if (!gyx && gymx) {direction = 3;}
 			else if (!gyx && !gymx){direction = 2;}
 			else if (gyx && !gymx) {direction = 1;}
-			clearPatch(map.getMap(), badGuy.getWidth(), badGuy.getHeight(), badGuy.getXPos(),badGuy.getYPos());
+			clearPatch(map.getMap(), badGuy, badGuy.getXPos(),badGuy.getYPos());
 			badGuy.moveRandom(map,time);
-			MapGen.stickEnemyOnMap(map.getMap(), badGuy, badGuy.getWidth(),badGuy.getHeight(),badGuy.getXPos(),badGuy.getYPos(),
-				direction);
+			MapGen.stickEnemyOnMap(map.getMap(),badGuy, badGuy.getXPos(),badGuy.getYPos(),direction);
 		}
 	}
 	public static void main(String[] args) throws InterruptedException, IOException{

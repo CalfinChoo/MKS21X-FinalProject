@@ -57,3 +57,13 @@ Ever wished for a fun game you can use your terminal to open? (I doubt it) well 
   - fixed screen resizing
   - fixed infinite looping that sometimes occurs when attempting to fit rooms (added max attempts for room placements)
 </p>
+<p>Day 11 (1/20/19):
+  - scrapped old mapgen for new one based on a grid fashion
+  - spawnroom and bossroom spawn on opposite corners, rest of the rooms are randomly chosen and placed on "grid"
+  - hallways connecting rooms added
+  - made sprites odd numbered dimensions and minor tweaks to graphics
+  - boss room fixed
+  - added enemies to the map
+  - made the enemies move randomly
+  - made sure that resizing the screen doesn't affect the enemies 
+</p>
