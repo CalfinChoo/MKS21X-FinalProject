@@ -51,22 +51,23 @@ public class Enemy{
 		NumOFEnemies++;
  		if (graphics == Graphics.TinyEnemy){
 			type = 'i';
-			health = 15;
+			health = 25;
 		}
  		else if (graphics == Graphics.MediumEnemy){
 			type = 'c';
-			health = 45;
+			health = 75;
 		}
  		else if (graphics == Graphics.SmallEnemy){
 			type = 's';
-			health = 30;
+			health = 50;
  		}
  		else if (graphics == Graphics.LargeEnemy){
 			type = 'd';
-			health = 60;
+			health = 100;
 		}
 		else if (graphics == Graphics.BossOne){
 			type = 'b';
+			health = 150;
 		}
 	}
 	public void recieveDamage(Bullet inflictor) {
