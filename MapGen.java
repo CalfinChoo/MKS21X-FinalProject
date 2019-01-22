@@ -303,7 +303,7 @@ public class MapGen{
 				}
 				else {
 					out[h][w] = new TextCharacter(' ', TextColor.ANSI.CYAN, colors[r.nextInt(3)]);
-				}
+				}//converts the symbol map into the textcharacter map for the user to see
 			}
 		}
 		return out;
@@ -319,7 +319,7 @@ public class MapGen{
 						bigMap[y+yCoord-zeroY][x+xCoord-zeroX].getBackgroundColor(),
 						SGR.BOLD);
 				}
-			}
+			}//adds the enemy to the map based upon it's cooordinates an ddirection
 	}
 	public void addBorder(int vWidth, int vHeight){
 		for(int y = 0; y < height;y++){
@@ -333,7 +333,7 @@ public class MapGen{
 	public String toString(){
 		return "vWidth: "+width + ", " + "vHeight: "+height;
 	}
-	private static void printView(String[][] view, int xmax, int ymax){
+	private static void printView(String[][] view, int xmax, int ymax){ //debugging
 		String out = "";
 		for (int y = 0; y < ymax; y++){
 			for (int x = 0; x < xmax;x++){
@@ -344,7 +344,7 @@ public class MapGen{
 		System.out.println(out);
 		System.out.println("-----------------------------------------------------------------");
 	}
-	private static void printView(String[][] view){
+	private static void printView(String[][] view){ //debugging
 		String out = "";
 		for (int y = 0; y < view.length; y++){
 			for (int x = 0; x < view[0].length;x++){

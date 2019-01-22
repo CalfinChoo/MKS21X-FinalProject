@@ -56,7 +56,7 @@ public class Enemy{
 		health = 10;
 		id = NumOFEnemies;
 		NumOFEnemies++;
- 		if (graphics == Graphics.TinyEnemy){
+ 		if (graphics == Graphics.TinyEnemy){ //gets type based uponn the graphis provided//used for bullets and health 
 			type = 'i';
 			health = 25;
 		}
@@ -97,11 +97,11 @@ public class Enemy{
 			else if (th && !ru) {direction = 7;}
 			else if (!bh && !ru) {direction = 6;}
 			else if (!bh && lu) {direction = 5;}
-			else if (th && lu){direction = 4;}
+			else if (th && lu){direction = 4;} //aiming at the player, can olny shoot in 8 directions (b/c terminal)
 			//System.out.println(direction);
-			map.getBullets().add(new Bullet(new Coordinate(coord), 5, direction, false, type));
+			map.getBullets().add(new Bullet(new Coordinate(coord), 5, direction, false, type)); // normal first attack bullet
 			lastAttack = time;
-			if (type == 'd'){
+			if (type == 'd'){ //adds fancy bullets based upon enemy type
 				map.getBullets().add(new Bullet(new Coordinate(coord.getX() + 1, coord.getY()), 5, direction, false, type));
 				map.getBullets().add(new Bullet(new Coordinate(coord.getX() - 1, coord.getY()), 5, direction, false, type));
 				map.getBullets().add(new Bullet(new Coordinate(coord.getX(), coord.getY() + 1), 5, direction, false, type));
@@ -173,7 +173,7 @@ public class Enemy{
 			}
 		}
 	}
-	public Coordinate moveRandom(MapGen map, long time){
+	public Coordinate moveRandom(MapGen map, long time){ // move the enemy to a random spot
 		Random random = new Random();
 		Coordinate old = new Coordinate(coord);
 		if (time - lastMove > 900){
@@ -186,7 +186,7 @@ public class Enemy{
 		}
 		return old;
 	}
-	public void move(int direction){
+	public void move(int direction){ //condensed move function with diagonal moving
 		switch (direction){
 			case 0:
 			coord.minusY();
@@ -271,7 +271,7 @@ public class Enemy{
 		}
 		return false;
 	}
-	public Coordinate getPos(){
+	public Coordinate getPos(){ //get/set positon
 		return coord;
 	}
 	public int getXPos(){
