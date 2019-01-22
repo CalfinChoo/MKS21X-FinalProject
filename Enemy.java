@@ -140,7 +140,28 @@ public class Enemy{
 				*/
 			}
 			else if (type == 'b'){
-
+				map.getBullets().add(new Bullet(new Coordinate(coord.getX() + 1, coord.getY()), 5, direction, false, type));
+				map.getBullets().add(new Bullet(new Coordinate(coord.getX() - 1, coord.getY()), 5, direction, false, type));
+				map.getBullets().add(new Bullet(new Coordinate(coord.getX(), coord.getY() + 1), 5, direction, false, type));
+				map.getBullets().add(new Bullet(new Coordinate(coord.getX(), coord.getY() - 1), 5, direction, false, type));
+				switch (direction){
+					case 2:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX(), coord.getY()+1), 6, direction, false, 'h'));break;
+					case 3:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX() - 1, coord.getY()), 6, direction, false, 'h'));break;
+					case 0:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX(), coord.getY()-1), 6, direction, false, 'h'));break;
+					case 1:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX() +1, coord.getY()), 6, direction, false, 'h'));break;
+					case 6:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX() -1, coord.getY()+1), 6, direction, false, 'h'));break;
+					case 7:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX()-1, coord.getY()-1), 6, direction, false, 'h'));break;
+					case 4:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX()+1, coord.getY()-1), 6, direction, false, 'h'));break;
+					case 5:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX()+1, coord.getY()+1), 6, direction, false, 'h'));break;
+				}
 			}
 		}
 	}

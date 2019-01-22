@@ -4,7 +4,7 @@ import com.googlecode.lanterna.terminal.*;
 import com.googlecode.lanterna.screen.*;
 import java.io.IOException;
 // javac -cp "lanterna(3).jar;." Game.java && java -cp "lanterna(3).jar;." Game
-public class Game{
+public class Game{ //places a string on the screen
 	private static void putString(Screen screen, int row, int width, String message, TextColor fore, TextColor back){
 		for (int x = 0; x < message.length(); x++){
 			screen.setCharacter(row+x,width, new TextCharacter(message.charAt(x), fore, back));
@@ -15,7 +15,7 @@ public class Game{
 			screen.setCharacter(row,width+x, new TextCharacter(message.charAt(x), fore, back));
 		}
 	}
-	private static void printView(String[][] view){
+	private static void printView(String[][] view){// /for testing
 		String out = "";
 		for (int y = 0; y < view.length; y++){
 			for (int x = 0; x < view[0].length;x++){
@@ -26,7 +26,7 @@ public class Game{
 		System.out.println(out);
 		System.out.println("-----------------------------------------------------------------");
 	}
-	private static void printView(TextCharacter[][] view){
+	private static void printView(TextCharacter[][] view){ //for testing
 		String out = "";
 		for (int y = 0; y < view.length; y++){
 			for (int x = 0; x < view[0].length;x++){
@@ -38,7 +38,7 @@ public class Game{
 		System.out.println("-----------------------------------------------------------------");
 	}
 	private static void putToScreen(MapGen view, Screen screen, Coordinate tlcorner){ //Top Left Corner of the SCREEN
-		//System.out.println(view.getWidth());
+		//places the view on the map
 		for (int y = tlcorner.getY(), my = 0; my < view.getHeight(); y++,my++){
 			for (int x = tlcorner.getX(), mx = 0; mx< view.getWidth(); x++, mx++){
 				screen.setCharacter(x,y,view.getMap()[my][mx]);
@@ -47,6 +47,7 @@ public class Game{
 		}
 	}
 	private static void updateView(MapGen view, MapGen currentMap, Coordinate playerCoord){
+		// updates the view onto the map due to the change in the players coordinates
 		Coordinate topLeft = new Coordinate(playerCoord.getX() - ((view.getWidth() - 1) / 2), playerCoord.getY() - ((view.getHeight() -1)/2));
 		//System.out.println("topleft:("+topLeft.getX()+"," + topLeft.getY()+")");
 		for (int h = topLeft.getY(), vh = 0; vh < view.getHeight(); h++, vh++){
@@ -57,6 +58,7 @@ public class Game{
 
 	}
 	private static void placePlayer(Screen screen, MapGen view, Coordinate tlcorner, int direction){
+		// places the player directly on the screen
 		for (int y = view.getHeight() / 2 - 2 + tlcorner.getY(), gy = 0; gy < 5;gy++,y++){
 			for (int x = view.getWidth() / 2 - 3 + tlcorner.getX(), gx = 0; gx < 7; gx++,x++){
 				screen.setCharacter(x,y,new TextCharacter(Graphics.Player[direction][gy][gx].charAt(0), Graphics.PlayerCM[direction][gy][gx],
@@ -66,6 +68,7 @@ public class Game{
 		}
 	}
 	private static Boolean canMove(Coordinate playerCoord, MapGen map, int direction){
+		//sees if the plaeyr can move
 		if (direction == 0){
 			for (int x = playerCoord.getX() - 3; x<=playerCoord.getX() +3;x++){
 				//System.out.println("|"+map.getSymMap()[playerCoord.getY()-3][x]+"|");
@@ -103,6 +106,7 @@ public class Game{
 		return false;
 	}
 	private static void clearPatch(TextCharacter[][] bigMap, Enemy enemy, int xCoord, int yCoord){
+		// gets rid of the enemy from the screen (replaces them with spaces and the correct background color)
 		int zeroX = (enemy.getWidth()-1)/2;
 		int zeroY = (enemy.getHeight()-1)/2;
 		for (int y = 0; y < enemy.getHeight();y++){
@@ -116,15 +120,17 @@ public class Game{
 
 	}
 	private static void clearOne(TextCharacter[][] bigMap, Coordinate coord){
+		// clear one tile on the screen (for bullets)
 		bigMap[coord.getY()][coord.getX()] = new TextCharacter(' ', TextColor.ANSI.DEFAULT, bigMap[coord.getY()][coord.getX()].getBackgroundColor());
 	}
 	private static void updateEnemies(MapGen map, Coordinate playerCoord, long time){
+		//  updates the enemies shooting and movement
 		Enemy badGuy;
 		for (int e = 0; e < map.getEnemies().size(); e++){ int direction = -1;
 			badGuy = map.getEnemies().get(e);
 			if (badGuy.getHealth() <= 0) {
-				map.getEnemies().remove(e);
-				break;
+				map.getEnemies().remove(e); map.enemiesLeft--;
+				return;//enemies are dereferneced and die when their health is lower than zero
 			}
 			int px = playerCoord.getX(); int py = playerCoord.getY();
 			int x = badGuy.getXPos() - px; int y = badGuy.getYPos() - py;
@@ -132,21 +138,22 @@ public class Game{
 			if (gyx && gymx){ direction = 0;}
 			else if (!gyx && gymx) {direction = 3;}
 			else if (!gyx && !gymx){direction = 2;}
-			else if (gyx && !gymx) {direction = 1;}
-			clearPatch(map.getMap(), badGuy, badGuy.getXPos(),badGuy.getYPos());
-			badGuy.moveRandom(map,time);
-			MapGen.stickEnemyOnMap(map.getMap(),badGuy, badGuy.getXPos(),badGuy.getYPos(),direction);
-			badGuy.attack(map, playerCoord, time);
+			else if (gyx && !gymx) {direction = 1;} //determines where the enemeis are facing using the line y=x and y=-x from the x-y plane
+			clearPatch(map.getMap(), badGuy, badGuy.getXPos(),badGuy.getYPos()); //might not need tis due to screen.clear()
+			badGuy.moveRandom(map,time); // bagguy move randomly
+			MapGen.stickEnemyOnMap(map.getMap(),badGuy, badGuy.getXPos(),badGuy.getYPos(),direction); //add enemy on map
+			badGuy.attack(map, playerCoord, time); //enemy attacks
 		}
 	}
 	private static void updateBullets(MapGen map, long time, Player p){
+		//moves and places the bullets on the map
 		Bullet bullet;
 		for (int b = 0; b < map.getBullets().size(); b++){
 			bullet = map.getBullets().get(b);
 			clearOne(map.getMap(), bullet.getCoord());
 			if (!bullet.speedAway(map, time)){
 				map.getBullets().remove(b);
-				break;
+				return; 
 			}
 			map.setMap(bullet.getCoord().getX(), bullet.getCoord().getY(), new TextCharacter('0', bullet.getColor(),
 				map.getMap()[bullet.getCoord().getY()][bullet.getCoord().getX()].getBackgroundColor(), SGR.BOLD)
@@ -182,7 +189,7 @@ public class Game{
 		boolean lu = badGuy.getXPos() > playerCoord.getX() + 7/2;
 		boolean bh = badGuy.getYPos() < playerCoord.getY() + 5/2;
 		boolean th = badGuy.getYPos() < playerCoord.getY() - 5/2;
-		System.out.println("ru:"+ru+" lu:"+lu+" th:"+th+" bh:"+bh);
+		//System.out.println("ru:"+ru+" lu:"+lu+" th:"+th+" bh:"+bh);
 		//System.out.println("1:"+(!th && bh && lu));
 		int direction = 0;
 		if (ru && !lu && th){direction =0;}
@@ -192,8 +199,7 @@ public class Game{
 		else if (th && !ru) {direction = 7;}
 		else if (!bh && !ru) {direction = 6;}
 		else if (!bh && lu) {direction = 5;}
-		else if (th && lu){direction = 4;}
-		System.out.println(direction);
+		else if (th && lu){direction = 4;} //getting direction to shoot in 
 		map.getBullets().add(new Bullet(new Coordinate(playerCoord), 5, direction, true, 'p'));
 	}
 	public static void main(String[] args) throws InterruptedException, IOException{
@@ -281,37 +287,37 @@ public class Game{
 							direction = 1;
 							break;
 						case 'q':
-							if (playerCoord.getY() > (view.getHeight() - 1) /2 + 2){
+							if (playerCoord.getY() > (view.getHeight() - 1) /2 + 2 && Enemy.canMove(playerCoord, currentMap, 0, 7, 5)){
 								playerCoord.minusY(); // w
 							}
-							if (playerCoord.getX() > (view.getWidth()-1) / 2 + 3){
+							if (playerCoord.getX() > (view.getWidth()-1) / 2 + 3 && Enemy.canMove(playerCoord,currentMap, 3, 7,5)){
 								playerCoord.minusX(); // a
 							}
 							direction = 3;
 							break;
 						case 'e':
-							if (playerCoord.getY() > (view.getHeight() - 1) /2 + 2){
+							if (playerCoord.getY() > (view.getHeight() - 1) /2 + 2 && Enemy.canMove(playerCoord, currentMap, 0, 7, 5)){
 								playerCoord.minusY(); // w
 							}
-							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2) - 3){
+							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2) - 3 && canMove(playerCoord,currentMap,1)){
 								playerCoord.plusX(); // d
 							}
 							direction = 1;
 							break;
 						case 'x':
-							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2) - 3){
+							if(playerCoord.getX() < mWidth + ((vWidth-1) / 2) - 3 && canMove(playerCoord,currentMap,1)){
 								playerCoord.plusX(); // d
 							}
-							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2) - 2){
+							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2) - 2 && canMove(playerCoord,currentMap,2)){
 								playerCoord.plusY(); //s
 							}
 							direction = 1;
 							break;
 						case 'z':
-							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2) - 2){
+							if(playerCoord.getY() < mHeight + ((vHeight-1) / 2) - 2 && canMove(playerCoord,currentMap,2)){
 								playerCoord.plusY(); //s
 							}
-							if (playerCoord.getX() > (view.getWidth()-1) / 2 + 3){
+							if (playerCoord.getX() > (view.getWidth()-1) / 2 + 3 && Enemy.canMove(playerCoord,currentMap, 3, 7,5)){
 								playerCoord.minusX(); // a
 							}
 							direction = 3;
@@ -319,6 +325,7 @@ public class Game{
 						case ' ':
 							if (currentTime - lastShot > 300){
 								shoot(currentMap, playerCoord);
+								lastShot = currentTime;
 							}
 						}
 					}
@@ -359,7 +366,8 @@ public class Game{
 
 					putString(screen,1,0,"PlayerCoord:("+playerCoord.getX()+","+playerCoord.getY()+")",
 						new TextColor.RGB(255,255,255),TextColor.ANSI.BLACK);
-					putString(screen,30,0,"Health: " + p.getHealth(), TextColor.ANSI.RED, TextColor.ANSI.BLACK);
+					putString(screen,24,0,"Health:" + p.getHealth(), TextColor.ANSI.RED, TextColor.ANSI.BLACK);
+					putString(screen,34,0,"Enemies Left:"+ currentMap.getEnemies().size(), TextColor.ANSI.CYAN, TextColor.ANSI.BLACK);
 					lastUpdTime = System.currentTimeMillis();
 					screen.refresh();
 				}
