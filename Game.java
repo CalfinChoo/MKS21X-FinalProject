@@ -273,11 +273,6 @@ public class Game{ //places a string on the screen
 			while (running){
 				KeyStroke key = screen.pollInput();
 				if (currentTime - lastUpdTime >= 61){
-					if (p.getHealth() <= 0){
-						System.out.println("you have died. ");
-						System.out.println("the world will remember you as a failure");
-						running = false; break;
-					}
 					if (p.getHealth() < p.getMaxHealth() && currentTime - healthTime > 250) {
 						p.addToHealth(1);
 						healthTime = currentTime;
