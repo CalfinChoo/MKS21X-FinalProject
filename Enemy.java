@@ -58,6 +58,9 @@ public class Enemy{
  		else if (graphics == Graphics.LargeEnemy){
 			type = 'd';
 		}
+		else if (graphics == Graphics.BossOne){
+			type = 'b';
+		}
 	}
 	public void isHit(MapGen map){
 
@@ -83,6 +86,55 @@ public class Enemy{
 			//System.out.println(direction);
 			map.getBullets().add(new Bullet(new Coordinate(coord), 5, direction, false, type));
 			lastAttack = time;
+			if (type == 'd'){
+				map.getBullets().add(new Bullet(new Coordinate(coord.getX() + 1, coord.getY()), 5, direction, false, type));
+				map.getBullets().add(new Bullet(new Coordinate(coord.getX() - 1, coord.getY()), 5, direction, false, type));
+				map.getBullets().add(new Bullet(new Coordinate(coord.getX(), coord.getY() + 1), 5, direction, false, type));
+				map.getBullets().add(new Bullet(new Coordinate(coord.getX(), coord.getY() - 1), 5, direction, false, type));
+			}
+			else if (type == 's' || type == 'c'){
+				switch (direction){
+					case 0:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX(), coord.getY()+1), 1, direction, false, 'f'));break;
+					case 1:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX() - 1, coord.getY()), 1, direction, false, 'f'));break;
+					case 2:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX(), coord.getY()-1), 1, direction, false, 'f'));break;
+					case 3:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX() +1, coord.getY()), 1, direction, false, 'f'));break;
+					case 4:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX() -1, coord.getY()+1), 1, direction, false, 'f'));break;
+					case 5:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX()-1, coord.getY()-1), 1, direction, false, 'f'));break;
+					case 6:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX()+1, coord.getY()-1), 1, direction, false, 'f'));break;
+					case 7:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX()+1, coord.getY()+1), 1, direction, false, 'f'));break;
+				}
+				/*
+				switch (direction){
+					case 2:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX(), coord.getY()+1), 6, direction, false, 'h'));break;
+					case 3:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX() - 1, coord.getY()), 6, direction, false, 'h'));break;
+					case 0:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX(), coord.getY()-1), 6, direction, false, 'h'));break;
+					case 1:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX() +1, coord.getY()), 6, direction, false, 'h'));break;
+					case 6:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX() -1, coord.getY()+1), 6, direction, false, 'h'));break;
+					case 7:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX()-1, coord.getY()-1), 6, direction, false, 'h'));break;
+					case 4:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX()+1, coord.getY()-1), 6, direction, false, 'h'));break;
+					case 5:
+					map.getBullets().add(new Bullet(new Coordinate(coord.getX()+1, coord.getY()+1), 6, direction, false, 'h'));break;
+				}
+				*/
+			}
+			else if (type == 'b'){
+
+			}
 		}
 	}
 	public Coordinate moveRandom(MapGen map, long time){

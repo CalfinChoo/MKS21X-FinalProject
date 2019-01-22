@@ -149,10 +149,41 @@ public class Game{
 			);
 		}
 	}
+	public static void shoot(MapGen map, Coordinate playerCoord){
+		Enemy badGuy=map.getEnemies().get(0); double closest = 1000;
+		Enemy target = badGuy;
+		for (int e = 0; e < map.enemiesLeft; e++){ 
+			badGuy = map.getEnemies().get(e); 
+			double dist = Math.sqrt(Math.pow(playerCoord.getX() - badGuy.getXPos(),2)+Math.pow(playerCoord.getY()-badGuy.getYPos(),2));
+			if (dist < closest){
+				closest = dist;
+				target = badGuy;
+			}
+		}
+		badGuy = target;
+		boolean ru = badGuy.getXPos() > playerCoord.getX() - 7/2;
+		boolean lu = badGuy.getXPos() > playerCoord.getX() + 7/2;
+		boolean bh = badGuy.getYPos() < playerCoord.getY() + 5/2;
+		boolean th = badGuy.getYPos() < playerCoord.getY() - 5/2;
+		System.out.println("ru:"+ru+" lu:"+lu+" th:"+th+" bh:"+bh);
+		//System.out.println("1:"+(!th && bh && lu));
+		int direction = 0;
+		if (ru && !lu && th){direction =0;}
+		else if(!th && bh && lu){direction = 1;}
+		else if(!bh && ru && !lu){direction = 2;}
+		else if(!ru && !th && bh) {direction = 3;}
+		else if (th && !ru) {direction = 7;}
+		else if (!bh && !ru) {direction = 6;}
+		else if (!bh && lu) {direction = 5;}
+		else if (th && lu){direction = 4;}
+		System.out.println(direction);
+		map.getBullets().add(new Bullet(new Coordinate(playerCoord), 5, direction, true, 'p'));
+	}
 	public static void main(String[] args) throws InterruptedException, IOException{
 		Screen screen = new DefaultTerminalFactory().createScreen();
 		long lastUpdTime = System.currentTimeMillis();
 		long currentTime = System.currentTimeMillis();
+		long lastShot = 0;
 		Boolean running = true;
 		int currentLevel = 0;
 
@@ -264,8 +295,10 @@ public class Game{
 							}
 							direction = 3;
 							break;
-						case 'j':
-
+						case ' ':
+							if (currentTime - lastShot > 300){
+								shoot(currentMap, playerCoord);
+							}
 						}
 					}
 
@@ -293,8 +326,8 @@ public class Game{
 					//System.out.println("width: " + currentTSize.getColumns());
 					screen.setCharacter(0,0, new TextCharacter(' ',TextColor.ANSI.BLACK, TextColor.ANSI.WHITE));
 					Coordinate tlcorner = new Coordinate(1,1);
-					updateEnemies(currentMap,playerCoord,currentTime);
 					updateBullets(currentMap,currentTime);
+					updateEnemies(currentMap,playerCoord,currentTime);
 
 					updateView(view,currentMap, playerCoord); //System.out.println(view.getHeight());
 					putToScreen(view,screen, tlcorner);

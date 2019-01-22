@@ -28,6 +28,8 @@ public class MapGen{
 	private static ArrayList<Enemy> enemies = new ArrayList<>();
 
 	private static ArrayList<Bullet> bullets = new ArrayList<>();
+
+	private static Enemey boss;
 	public ArrayList<Bullet> getBullets(){
 		return bullets;
 	}
@@ -66,6 +68,10 @@ public class MapGen{
 						enemies.add(new Enemy(w,h,31,11,Graphics.LargeEnemy, Graphics.LargeCM));
 						break;
 					}
+				}
+				if (symMap[h][w] == "b"){
+					enemiesLeft++;
+					enemies.add(new Enemy(w,h,21,17,Graphics.BossOne, Graphis.BossOneCM));
 				}
 			}
 		}

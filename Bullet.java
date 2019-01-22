@@ -28,6 +28,14 @@ public class Bullet{
       return new TextColor.RGB(255,255,255);
       case 'c':
       return new TextColor.RGB(255, 221, 153);
+      case 'f':
+      return new TextColor.RGB(160,82,45);
+      case 'h':
+      return TextColor.ANSI.BLACK;
+      case 'p':
+      return TextColor.ANSI.BLUE;
+      case 'b':
+      return TextColor.ANSI.BLACK;
     }
     return new TextColor.RGB(255, 221, 153);
   }
