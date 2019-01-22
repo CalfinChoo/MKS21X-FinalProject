@@ -3,13 +3,16 @@
   
 Ever wished for a fun game you can use your terminal to open? (I doubt it) well look no further!! We plan to create a NetHack-like game that draws inspiration from projectile-hell roguelike games such as Enter the Gungeon and Soul Knight. While there might be some spotty features due to our graphics being stuck in ascii-art, we hope you are pleased with this game.
 # How to play
-  so how do I play this very enticing and awesome game that will definitely be worth my time? you might ask yourself. Well good thing you decided to continue reading the file literally named "readme". first to play this game you must compile and run the Game.java file present in this repository with lanterna(3).jar in your classpath. Or if you are too lazy you can copy and paste this (lanterna(3).jar:." Game.java && java -cp "lanterna(3).jar:." Game) for linux and this (lanterna(3).jar;." Game.java && java -cp "lanterna(3).jar;." Game) for git bash. (and yes we just changed the colons to semicolons right there). Next to play this game that will definitely not be a waste of time and enlighten you beyond the reach of other mortals around you, you must read all the directions. for even though you must have a highly advanced intellect for deciding to play this game you will not be able to fully aprreciate it without reading the directions.
+  So how do I play this very enticing and awesome game that will definitely be worth my time? You might ask yourself. Well good thing you decided to continue reading the file literally named "readme". first to play this game you must compile and run the Game.java file present in this repository with lanterna(3).jar in your classpath. You can do this by typing in "./run.sh". If there are compatibility issues, you must resort to manually running the game. Or if you are too lazy you can copy and paste this (lanterna(3).jar:." Game.java && java -cp "lanterna(3).jar:." Game) for linux and this (lanterna(3).jar;." Game.java && java -cp "lanterna(3).jar;." Game) for git bash. (and yes we just changed the colons to semicolons right there). Next to play this game that will definitely not be a waste of time and enlighten you beyond the reach of other mortals around you, you must read all the directions. For even though you must have a highly advanced intellect for deciding to play this game you will not be able to fully aprreciate it without reading the directions.
  # Directions
-  -use the wasd keys for movement
-  -press the esc key to leave at any time
-  -we have labored day and night to be able to tell you that resizing the screen in-game will not affect it at all
-  -press the space bar to shoot in the direction of the closest enemy (keep in mind this feature is very spotty as it is based upon the center of the enemy and it is hard to get good aiming in a terminal game)
-  - kill all the enemies and the boss to win!
+  1. Use the wasd keys for vertical/horizontal movement, and qezx for diagonal movement
+  2. Press the esc key to leave at any time
+  3. We have labored day and night to be able to tell you that resizing the screen in-game will not affect it at all however if you rapidly change the size it will crash the game
+  4. Press the space bar to shoot in the direction of the closest enemy (keep in mind this feature is very spotty as it is based upon the center of the enemy and it is hard to get good aiming in a terminal game)
+  - Kill all the enemies and the boss to win!
+# Pro-tips
+1. The boss room is always on the other corner of the map from the spawn room
+2. Try to shoot the enemies while standing vertically/horizonatally from them
 # Logs
 <p>Day 1 (1/3/19):
   we learned how to use lanterna, to place strings down and stuff
@@ -73,4 +76,13 @@ Ever wished for a fun game you can use your terminal to open? (I doubt it) well 
   - added enemies to the map
   - made the enemies move randomly
   - made sure that resizing the screen doesn't affect the enemies 
+</p>
+<p>Day 12 (1/21/19):
+  - added shooting and shooting algorithms
+  - added player and enemy attributes
+  - added taking damage and health
+  - added regeneration
+  - added Boss to the map
+  - added more comments
+  - finalized game
 </p>
