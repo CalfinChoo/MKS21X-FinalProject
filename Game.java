@@ -57,13 +57,19 @@ public class Game{ //places a string on the screen
 		}
 
 	}
-	private static void placePlayer(Screen screen, MapGen view, Coordinate tlcorner, int direction){
+	private static void placePlayer(Screen screen, MapGen view, Coordinate tlcorner, int direction, boolean onLava){
 		// places the player directly on the screen
 		for (int y = view.getHeight() / 2 - 2 + tlcorner.getY(), gy = 0; gy < 5;gy++,y++){
 			for (int x = view.getWidth() / 2 - 3 + tlcorner.getX(), gx = 0; gx < 7; gx++,x++){
-				screen.setCharacter(x,y,new TextCharacter(Graphics.Player[direction][gy][gx].charAt(0), Graphics.PlayerCM[direction][gy][gx],
+				if (onLava){
+					screen.setCharacter(x,y,new TextCharacter(Graphics.Player[direction][gy][gx].charAt(0), new TextColor.RGB(255,0,0),
+					view.getMap()[y-tlcorner.getY()][x-tlcorner.getX()].getBackgroundColor(),
+					SGR.BOLD)); //player red when on lava
+				}
+				else {screen.setCharacter(x,y,new TextCharacter(Graphics.Player[direction][gy][gx].charAt(0), Graphics.PlayerCM[direction][gy][gx],
 					view.getMap()[y-tlcorner.getY()][x-tlcorner.getX()].getBackgroundColor(),
 					SGR.BOLD));
+				}
 			}
 		}
 	}
@@ -146,6 +152,16 @@ public class Game{ //places a string on the screen
 			MapGen.stickEnemyOnMap(map.getMap(),badGuy, badGuy.getXPos(),badGuy.getYPos(),direction); //add enemy on map
 			badGuy.attack(map, playerCoord, time); //enemy attacks
 		}
+	}
+	private static boolean onLava(MapGen map, Coordinate playerCoord, Player p){
+		for (int x = playerCoord.getX() - 3; x < playerCoord.getX() + 4; x++){
+			for (int y = playerCoord.getY() - 2; y < playerCoord.getY() + 3; y++){
+				if (map.getSymMap()[y][x] == "l"){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	private static void updateBullets(MapGen map, long time, Player p){
 		//moves and places the bullets on the map
@@ -246,6 +262,8 @@ public class Game{ //places a string on the screen
 		Boolean isLastNull = false;
 		Boolean doorOpen = true;
 		int direction = 2;
+		long healthTime = 0;
+		long lavaTime = 0;
 		//~,0,~
 		//3,~,1
 		//~,2,~
@@ -255,8 +273,9 @@ public class Game{ //places a string on the screen
 			while (running){
 				KeyStroke key = screen.pollInput();
 				if (currentTime - lastUpdTime >= 61){
-					if (p.getHealth() < p.getMaxHealth()) {
+					if (p.getHealth() < p.getMaxHealth() && currentTime - healthTime > 450) {
 						p.addToHealth(1);
+						healthTime = currentTime;
 					}
 					if (key == null) {isLastNull = true;} else {isLastNull = false;}
 					if (key != null && key.getKeyType() == KeyType.Escape){
@@ -358,10 +377,15 @@ public class Game{ //places a string on the screen
 					Coordinate tlcorner = new Coordinate(1,1);
 					updateEnemies(currentMap,playerCoord,currentTime);
 					updateBullets(currentMap,currentTime, p);
+					boolean onLava = onLava(currentMap, playerCoord, p);
+					if (onLava && currentTime-lavaTime > 200){
+						p.addToHealth(-1);
+					}
+
 
 					updateView(view,currentMap, playerCoord); //System.out.println(view.getHeight());
 					putToScreen(view,screen, tlcorner);
-					placePlayer(screen, view, tlcorner, direction);
+					placePlayer(screen, view, tlcorner, direction, onLava);
 					//putString(screen,1,0,"PlayerCoord:("+(playerCoord.getX() - (vWidth-1)/2) +","+(playerCoord.getY() - (vHeight-1)/2)+")",
 						//new TextColor.RGB(255,255,255),TextColor.ANSI.BLACK);
 					p.setCoord(playerCoord);

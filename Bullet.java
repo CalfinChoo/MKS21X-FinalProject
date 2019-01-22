@@ -20,11 +20,11 @@ public class Bullet{
   public Bullet(Coordinate startCoord, int d, int direction, boolean g, char t){
     coord = new Coordinate(startCoord); good = g;
     damage = d;
-    this.direction = direction;
+    this.direction = direction; 
     type = t;
     //System.out.println(startCoord);
   }
-  public TextColor getColor(){
+  public TextColor getColor(){ //different colors for bullet types
     switch (type){
       case 'd':
       return new TextColor.RGB(255,165,0);
@@ -50,7 +50,7 @@ public class Bullet{
       return false;
     }
     if (time - lastMove > 10) {move(direction); lastMove = time;}
-    return true;
+    return true; //moves the bullet one square in its specified direction unless it hit a wall
   }
   /*
   private int getNext(){
@@ -74,7 +74,7 @@ public class Bullet{
   //********************************************************************************
   //*let it be noted that I tried to make shooting along sloped lines but it failed*
   //********************************************************************************
-  private void move(int direction){
+  private void move(int direction){ // moves bullet in the direction
     //7,0,4
     //3,~,1
     //6,2,5

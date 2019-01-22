@@ -75,7 +75,7 @@ public class Enemy{
   }
 	public void attack(MapGen map, Coordinate playerCoord, long time){
 		double dist = Math.sqrt(Math.pow(playerCoord.getX() - coord.getX(),2)+Math.pow(playerCoord.getY() - coord.getY(),2));
-		if (dist <= 30 && time - lastAttack > 800){
+		if (dist <= 45 && time - lastAttack > 800){
 			boolean ru = playerCoord.getX() > (coord.getX() - (getWidth()/2));
 			boolean lu = playerCoord.getX() > coord.getX() + getWidth()/2;
 			boolean bh = playerCoord.getY() < coord.getY() + getHeight()/2;
