@@ -11,6 +11,12 @@ public class Bullet{
   public Coordinate getCoord(){
     return coord;
   }
+  public boolean getGood() {
+    return good;
+  }
+  public int getDamage() {
+    return damage;
+  }
   public Bullet(Coordinate startCoord, int d, int direction, boolean g, char t){
     coord = new Coordinate(startCoord); good = g;
     damage = d;
@@ -49,10 +55,10 @@ public class Bullet{
   /*
   private int getNext(){
     int x = coord.getX(); int y = coord.getY();
-    Coordinate[] surrounding = {new Coordinate(x,y-1),new Coordinate(x+1,y),new Coordinate(x,y+1),new Coordinate(x-1,y), 
+    Coordinate[] surrounding = {new Coordinate(x,y-1),new Coordinate(x+1,y),new Coordinate(x,y+1),new Coordinate(x-1,y),
       new Coordinate(x+1,y-1),new Coordinate(x+1,y+1),new Coordinate(x-1,y+1),new Coordinate(x-1,y-1)
     };
-    int direction = -1; 
+    int direction = -1;
     double smallestDist = Math.sqrt(Math.pow(target.getX() - x,2) + Math.pow(target.getY() - y,2));
     for (int c = 0; c < 8; c++){
       double dist = Math.sqrt(Math.pow(target.getX() - surrounding[c].getX(),2) + Math.pow(target.getY() - surrounding[c].getY(),2));
@@ -104,4 +110,16 @@ public class Bullet{
     }
     return;
   }
+  public boolean checkForPlayer(Player p) {
+    if (Math.abs(p.getCoord().getX() - coord.getX()) < 3 && Math.abs(p.getCoord().getY() - coord.getY()) < 4) {
+      return true;
+  }
+  else return false;
+}
+public boolean checkForEnemy(Enemy e) {
+  if (Math.abs(e.getCoord().getX() - coord.getX()) < 3 && Math.abs(e.getCoord().getY() - coord.getY()) < 4) {
+    return true;
+}
+else return false;
+}
 }
