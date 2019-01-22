@@ -4,7 +4,7 @@ public class Coordinate{
 		this.x = x; this.y = y;
 	}
 	public Coordinate(Coordinate coord){
-		x = coord.getX();
+		x = coord.getX(); //able to make a new coordinate with a coordinate
 		y = coord.getY();
 	}
 	public int getX(){
@@ -19,7 +19,7 @@ public class Coordinate{
 	public void setY(int n){
 		y = n;
 	}
-	public void plusX(){
+	public void plusX(){ // quicl incrementing coordinate methods
 		++x;
 	}
 	public void plusY(){

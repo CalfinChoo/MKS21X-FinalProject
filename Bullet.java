@@ -29,7 +29,7 @@ public class Bullet{
   public Bullet(Coordinate startCoord, int d, int direction, boolean g, char t){
     coord = new Coordinate(startCoord); good = g;
     damage = d;
-    this.direction = direction;
+    this.direction = direction; 
     type = t;
     //System.out.println(startCoord);
   }
@@ -60,7 +60,7 @@ public class Bullet{
       return false;
     }
     if (time - lastMove > 10) {move(direction); lastMove = time;}
-    return true;
+    return true; //moves the bullet one square in its specified direction unless it hit a wall
   }
   /*
   private int getNext(){
