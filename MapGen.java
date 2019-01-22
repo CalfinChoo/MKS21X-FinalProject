@@ -40,7 +40,7 @@ public class MapGen{
 		this.vWidth = vWidth; this.vHeight = vHeight;
 		this.level = level;
 		treasureRoom = level;
-		addBorder(vWidth, vHeight);
+		addBorder(vWidth, vHeight); //adds no go border where you cannot go
 		symMap = createSymMap(width,height, vWidth, vHeight);
 		map = createMap(width,height,symMap,vWidth, vHeight);
 		totalRooms = roomsToAdd.size();
@@ -49,7 +49,7 @@ public class MapGen{
 			for (int w = 0; w<width;w++){
 				if (symMap[h][w] == "e"){
 					enemiesLeft++;
-					int rande = rand.nextInt(7);
+					int rande = rand.nextInt(7); //random enemy generator
 					switch (rande){
 						case 0:
 						case 4:
@@ -68,7 +68,7 @@ public class MapGen{
 						break;
 					}
 				}
-				if (symMap[h][w] == "b"){
+				if (symMap[h][w] == "b"){ //adds boss
 					enemiesLeft++;
 					enemies.add(new Enemy(w,h,21,17,Graphics.BossOne, Graphics.BossOneCM));
 				}
@@ -80,8 +80,8 @@ public class MapGen{
 		this.width = width; this.height = height;
 		map = createMap(width,height);
 	}
-	MapGen(MapGen copyMap, int vWidth, int vHeight){
-		width = copyMap.getWidth() - copyMap.getVW() + vWidth; this.vWidth = vWidth;
+	MapGen(MapGen copyMap, int vWidth, int vHeight){ //mapgen for the resizing map
+		width = copyMap.getWidth() - copyMap.getVW() + vWidth; this.vWidth = vWidth; //new symbol map with the same dimensions
 		height = copyMap.getHeight() - copyMap.getVH() + vHeight; this.vHeight = vHeight;
 		//Coordinate tlcorner = new Coordinate((copyMap.getVW() - 1)/2 - (vWidth - 1)/2, (copyMap.getVH() - 1)/2 - (vHeight - 1)/2);
 		Coordinate tlcorner = new Coordinate((copyMap.getVW() - 1)/2, (copyMap.getVH() - 1)/2);
@@ -91,12 +91,12 @@ public class MapGen{
 			for (int x=tlcorner.getX(), nx = (vWidth-1)/2; nx <width - (vWidth-1)/2 - 1; x++, nx++){
 				//System.out.println(copyMap.getSymMap()[y][x]);
 				symMap[ny][nx] = copyMap.getSymMap()[y][x];
-			}
+			} //copies the symbol map
 		}
 		for(int y = 0; y < height;y++){
 			for (int x = 0; x < width; x++){
 				if (x < (vWidth-1)/2 || y < (vHeight-1)/2 || x > width - (vWidth-1)/2 - 1 || y > height - (vHeight-1)/2 -1){
-					symMap[y][x] = "@";
+					symMap[y][x] = "@";//adds symbol border
 				}
 			}
 		}
@@ -105,11 +105,11 @@ public class MapGen{
 			Enemy badGuy = enemies.get(e);
 			badGuy.setXPos(badGuy.getXPos() - (copyMap.getVW() - 1)/2 + (vWidth - 1)/2);
 			badGuy.setYPos(badGuy.getYPos() - (copyMap.getVH() - 1)/2 + (vHeight- 1)/2);
-		}
+		} //enemy coordinates need to changed in the new map
 	}
 
 
-	public ArrayList<Enemy> getEnemies(){
+	public ArrayList<Enemy> getEnemies(){ //returns the list of enemies
 		return enemies;
 	}
 	public void removeEnemy(int id){

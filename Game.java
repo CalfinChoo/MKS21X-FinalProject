@@ -363,11 +363,12 @@ public class Game{ //places a string on the screen
 						playerCoord.setY(playerCoord.getY() - (oldHeight-1)/2 + (vHeight-1)/2);
 						//System.out.println(vWidth + ":" + vHeight);
 						view = new MapGen(vWidth,vHeight);
-						currentMap = new MapGen (currentMap, vWidth, vHeight);
+						currentMap = new MapGen (currentMap, vWidth, vHeight); //new map with diff border
 						viewTSize = new TerminalSize(currentTSize.getColumns(), currentTSize.getRows());
 						oldHeight = vHeight;
 						oldWidth = vWidth;
-					}
+					} //creates a new map if tthe screen is resized b/c of the border changing
+
 
 					screen.clear();
 					//screen.putString(0,0," ",Terminal.Color.BLACK,Terminal.Color.WHITE);
