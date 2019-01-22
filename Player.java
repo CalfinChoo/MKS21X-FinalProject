@@ -1,27 +1,28 @@
 public class Player extends Person{
   private int health;
   private int maxHealth;
-  private Coordinate myPos;
-  private Weapon weapon;
-  private int facing;
-  public Player(int mHea, Coordinate initialPos, Weapon defaultWeap, int initialDir) {
+  private Coordinate coord;
+  public Player(int mHea, Coordinate pos) {
     maxHealth = mHea;
     health = maxHealth;
-    myPos = initialPos;
-    weapon = defaultWeap;
-    facing = initialDir;
+    coord = pos;
   }
-  public int recieveDamage(int dam, Bullet inflictor) {
-    health -= dam;
-    inflictor = null;
+  public Coordinate getCoord() {
+    return coord;
   }
-  public Coordinate getMyPos() {
-    return myPos;
+  public int getMaxHealth() {
+    return maxHealth;
   }
-  public boolean move() {
-
+  public void addToHealth(int increment) {
+    health += increment;
   }
-  public boolean shoot() {
-    weapon.shoot(myPos, 0);
+  public void setCoord(Coordinate pos) {
+    coord = pos;
+  }
+  public int getHealth() {
+    return health;
+  }
+  public void recieveDamage(Bullet inflictor) {
+      health -= inflictor.getDamage();
   }
 }

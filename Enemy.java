@@ -12,6 +12,9 @@ public class Enemy{
 	public long lastAttack;
 	private int direction;
 	private char type;
+	public int getHealth() {
+		return health;
+	}
 	public char getType(){
 		return type;
 	}
@@ -36,8 +39,8 @@ public class Enemy{
 	public int getID(){
 		return id;
 	}
-	public void looseHealth(int damage){
-		health -= damage;
+	public Coordinate getCoord() {
+		return coord;
 	}
 	Enemy(int x, int y, int width, int height, String[][][] graphics, TextColor[][][] cm){
 		coord = new Coordinate(x,y);
@@ -48,20 +51,24 @@ public class Enemy{
 		NumOFEnemies++;
  		if (graphics == Graphics.TinyEnemy){
 			type = 'i';
+			health = 15;
 		}
  		else if (graphics == Graphics.MediumEnemy){
 			type = 'c';
+			health = 45;
 		}
  		else if (graphics == Graphics.SmallEnemy){
-			type = 's'; 
+			type = 's';
+			health = 30;
  		}
  		else if (graphics == Graphics.LargeEnemy){
 			type = 'd';
+			health = 60;
 		}
 	}
-	public void isHit(MapGen map){
-
-	}
+	public void recieveDamage(Bullet inflictor) {
+      health -= inflictor.getDamage();
+  }
 	public void attack(MapGen map, Coordinate playerCoord, long time){
 		double dist = Math.sqrt(Math.pow(playerCoord.getX() - coord.getX(),2)+Math.pow(playerCoord.getY() - coord.getY(),2));
 		if (dist <= 30 && time - lastAttack > 800){

@@ -107,13 +107,13 @@ public class Game{
 		int zeroY = (enemy.getHeight()-1)/2;
 		for (int y = 0; y < enemy.getHeight();y++){
 			for (int x = 0; x < enemy.getWidth(); x++){
-				bigMap[y+yCoord-zeroY][x+xCoord-zeroX] = new TextCharacter(' ', 
-					TextColor.ANSI.DEFAULT, 
+				bigMap[y+yCoord-zeroY][x+xCoord-zeroX] = new TextCharacter(' ',
+					TextColor.ANSI.DEFAULT,
 					bigMap[y+yCoord-zeroY][x+xCoord-zeroX].getBackgroundColor()
 					);
 			}
 		}
-			
+
 	}
 	private static void clearOne(TextCharacter[][] bigMap, Coordinate coord){
 		bigMap[coord.getY()][coord.getX()] = new TextCharacter(' ', TextColor.ANSI.DEFAULT, bigMap[coord.getY()][coord.getX()].getBackgroundColor());
@@ -121,9 +121,13 @@ public class Game{
 	private static void updateEnemies(MapGen map, Coordinate playerCoord, long time){
 		Enemy badGuy;
 		for (int e = 0; e < map.enemiesLeft; e++){ int direction = -1;
-			badGuy = map.getEnemies().get(e); 
+			badGuy = map.getEnemies().get(e);
+			if (badGuy.getHealth() <= 0) {
+				map.getEnemies().remove(e);
+				break;
+			}
 			int px = playerCoord.getX(); int py = playerCoord.getY();
-			int x = badGuy.getXPos() - px; int y = badGuy.getYPos() - py; 
+			int x = badGuy.getXPos() - px; int y = badGuy.getYPos() - py;
 			boolean gyx = y > x; boolean gymx = y > -1 * x;
 			if (gyx && gymx){ direction = 0;}
 			else if (!gyx && gymx) {direction = 3;}
@@ -135,18 +139,31 @@ public class Game{
 			badGuy.attack(map, playerCoord, time);
 		}
 	}
-	private static void updateBullets(MapGen map, long time){
+	private static void updateBullets(MapGen map, long time, Player p){
 		Bullet bullet;
 		for (int b = 0; b < map.getBullets().size(); b++){
-			bullet = map.getBullets().get(b); 
+			bullet = map.getBullets().get(b);
 			clearOne(map.getMap(), bullet.getCoord());
 			if (!bullet.speedAway(map, time)){
 				map.getBullets().remove(b);
 				break;
 			}
-			map.setMap(bullet.getCoord().getX(), bullet.getCoord().getY(), new TextCharacter('0', bullet.getColor(), 
+			map.setMap(bullet.getCoord().getX(), bullet.getCoord().getY(), new TextCharacter('0', bullet.getColor(),
 				map.getMap()[bullet.getCoord().getY()][bullet.getCoord().getX()].getBackgroundColor(), SGR.BOLD)
 			);
+			if (bullet.checkForPlayer(p) && !bullet.getGood()) {
+				p.recieveDamage(bullet);
+				map.getBullets().remove(b);
+				clearOne(map.getMap(), bullet.getCoord());
+			}
+			for (int e = 0; e < map.enemiesLeft; e++) {
+				Enemy badGuy = map.getEnemies().get(e);
+				if (bullet.checkForEnemy(badGuy) && bullet.getGood()) {
+					badGuy.recieveDamage(bullet);
+					map.getBullets().remove(b);
+					clearOne(map.getMap(), bullet.getCoord());
+				}
+			}
 		}
 	}
 	public static void main(String[] args) throws InterruptedException, IOException{
@@ -193,11 +210,15 @@ public class Game{
 		//~,0,~
 		//3,~,1
 		//~,2,~
+		Player p = new Player(50, playerCoord);
 		screen.startScreen();
 		try{ // stops the screen in the event of an exception
 			while (running){
 				KeyStroke key = screen.pollInput();
 				if (currentTime - lastUpdTime >= 61){
+					if (p.getHealth() < p.getMaxHealth()) {
+						p.addToHealth(1);
+					}
 					if (key == null) {isLastNull = true;} else {isLastNull = false;}
 					if (key != null && key.getKeyType() == KeyType.Escape){
 						running = false; break;
@@ -294,16 +315,18 @@ public class Game{
 					screen.setCharacter(0,0, new TextCharacter(' ',TextColor.ANSI.BLACK, TextColor.ANSI.WHITE));
 					Coordinate tlcorner = new Coordinate(1,1);
 					updateEnemies(currentMap,playerCoord,currentTime);
-					updateBullets(currentMap,currentTime);
+					updateBullets(currentMap,currentTime, p);
 
 					updateView(view,currentMap, playerCoord); //System.out.println(view.getHeight());
 					putToScreen(view,screen, tlcorner);
 					placePlayer(screen, view, tlcorner, direction);
 					//putString(screen,1,0,"PlayerCoord:("+(playerCoord.getX() - (vWidth-1)/2) +","+(playerCoord.getY() - (vHeight-1)/2)+")",
 						//new TextColor.RGB(255,255,255),TextColor.ANSI.BLACK);
+					p.setCoord(playerCoord);
+
 					putString(screen,1,0,"PlayerCoord:("+playerCoord.getX()+","+playerCoord.getY()+")",
 						new TextColor.RGB(255,255,255),TextColor.ANSI.BLACK);
-
+					putString(screen,30,0,"Health: " + p.getHealth(), TextColor.ANSI.RED, TextColor.ANSI.BLACK);
 					lastUpdTime = System.currentTimeMillis();
 					screen.refresh();
 				}

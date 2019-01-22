@@ -49,7 +49,7 @@ public class Room{
 	public static String[][] getBossRoom() {
 		return BossRoom;
 	}
-// Helper function to place enemiy spawnpoints in fillroom command
+// Helper function to place enemy spawnpoints in fillroom command
   private void placeEnemies(String[][] room, int count){
 		while (count > 0) {
 			randRow = rand.nextInt(room.length);
@@ -61,6 +61,9 @@ public class Room{
 				count--;
 			}
 		}
+	}
+	private void placeBoss(String[][] room){
+		room[room.length / 2][room[0].length / 2] = "b";
 	}
 //  Helper functions for Lava placement for BattleRooms in fillroom command:
 //  initiateLava creates number of pits of lava to be placed
@@ -122,6 +125,7 @@ public class Room{
 		}
 		if (room.equals(SmallBattleRoom)) placeEnemies(room, 7); // placeEnemies(room, # of spawnpoints)
 		if (room.equals(BigBattleRoom))	placeEnemies(room, 10);
+		if (room.equals(BossRoom)) placeBoss(room, 1);
 		return room;
 	}
 
