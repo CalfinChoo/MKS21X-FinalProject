@@ -171,7 +171,7 @@ public class Game{ //places a string on the screen
 			clearOne(map.getMap(), bullet.getCoord());
 			if (!bullet.speedAway(map, time)){
 				map.getBullets().remove(b);
-				return; 
+				return;
 			}
 			map.setMap(bullet.getCoord().getX(), bullet.getCoord().getY(), new TextCharacter('0', bullet.getColor(),
 				map.getMap()[bullet.getCoord().getY()][bullet.getCoord().getX()].getBackgroundColor(), SGR.BOLD)
@@ -217,7 +217,7 @@ public class Game{ //places a string on the screen
 		else if (th && !ru) {direction = 7;}
 		else if (!bh && !ru) {direction = 6;}
 		else if (!bh && lu) {direction = 5;}
-		else if (th && lu){direction = 4;} //getting direction to shoot in 
+		else if (th && lu){direction = 4;} //getting direction to shoot in
 		map.getBullets().add(new Bullet(new Coordinate(playerCoord), 5, direction, true, 'p'));
 	}
 	public static void main(String[] args) throws InterruptedException, IOException{
@@ -273,6 +273,11 @@ public class Game{ //places a string on the screen
 			while (running){
 				KeyStroke key = screen.pollInput();
 				if (currentTime - lastUpdTime >= 61){
+					if (p.getHealth() <= 0){
+						System.out.println("you have died. ");
+						System.out.println("the world will remember you as a failure");
+						running = false; break;
+					}
 					if (p.getHealth() < p.getMaxHealth() && currentTime - healthTime > 250) {
 						p.addToHealth(1);
 						healthTime = currentTime;
@@ -397,10 +402,16 @@ public class Game{ //places a string on the screen
 						new TextColor.RGB(255,255,255),TextColor.ANSI.BLACK);
 					putString(screen,24,0,"Health:" + p.getHealth(), TextColor.ANSI.RED, TextColor.ANSI.BLACK);
 					putString(screen,34,0,"Enemies Left:"+ currentMap.getEnemies().size(), TextColor.ANSI.CYAN, TextColor.ANSI.BLACK);
-
+					if (p.getHealth() <= 0){
+						System.out.println("you have died. ");
+						System.out.println("the world will remember you as a failure");
+						running = false;
+						break;
+					}
 					if (currentMap.getEnemies().size() == 0){
 						System.out.println("congratulations you have suceeded where normal people would fail. ");
 						System.out.println("the world will always remember you");
+						running = false;
 						break;
 					}
 					lastUpdTime = System.currentTimeMillis();
