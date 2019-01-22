@@ -27,7 +27,11 @@ public class MapGen{
 
 	public static int enemiesLeft;
 	private static ArrayList<Enemy> enemies = new ArrayList<>();
-	public static int[] enemyOrder;
+	
+	private static ArrayList<Bullet> bullets = new ArrayList<>();
+	public ArrayList<Bullet> getBullets(){
+		return bullets;
+	}
 
 //  Constructors to generate the map
 	MapGen(int width, int height, int vWidth, int vHeight, int level){
@@ -45,12 +49,15 @@ public class MapGen{
 			for (int w = 0; w<width;w++){
 				if (symMap[h][w] == "e"){
 					enemiesLeft++;
-					int rande = rand.nextInt(4);
+					int rande = rand.nextInt(7);
 					switch (rande){
 						case 0:
+						case 4:
+						case 5:
 						enemies.add(new Enemy(w,h,9,5,Graphics.TinyEnemy, Graphics.TinyCM));
 						break;
 						case 1:
+						case 6:
 						enemies.add(new Enemy(w,h,9,7,Graphics.SmallEnemy, Graphics.SmallCM));
 						break;
 						case 2:
@@ -271,7 +278,7 @@ public class MapGen{
 	public static TextCharacter[][] createMap(int width, int height,String[][] symMap, int vWidth, int vHeight){
 		TextCharacter[][] out = new TextCharacter[height][width];
 		int[] red = {244,220,244};
-		TextColor.RGB[] colors = {};
+		TextColor.RGB[] colors = {new TextColor.RGB(64,94,130), new TextColor.RGB(41,94,130), new TextColor.RGB(64,94,130)};
 		Random r = new Random();
 		for (int h = 0; h < height; h++){
 			for (int w = 0; w<width;w++){
@@ -291,7 +298,7 @@ public class MapGen{
 					out[h][w] = new TextCharacter('~', TextColor.ANSI.DEFAULT, new TextColor.RGB(255, 128, 0));
 				}
 				else {
-					out[h][w] = new TextCharacter(' ', TextColor.ANSI.CYAN, new TextColor.RGB(red[r.nextInt(2)],43,43));
+					out[h][w] = new TextCharacter(' ', TextColor.ANSI.CYAN, colors[r.nextInt(3)]);
 				}
 			}
 		}

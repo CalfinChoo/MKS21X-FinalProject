@@ -9,7 +9,12 @@ public class Enemy{
 	private int id;
 	private int health;
 	public long lastMove;
+	public long lastAttack;
 	private int direction;
+	private char type;
+	public char getType(){
+		return type;
+	}
 	public int getDirection(){
 		return direction;
 	}
@@ -41,6 +46,44 @@ public class Enemy{
 		health = 10;
 		id = NumOFEnemies;
 		NumOFEnemies++;
+ 		if (graphics == Graphics.TinyEnemy){
+			type = 'i';
+		}
+ 		else if (graphics == Graphics.MediumEnemy){
+			type = 'c';
+		}
+ 		else if (graphics == Graphics.SmallEnemy){
+			type = 's'; 
+ 		}
+ 		else if (graphics == Graphics.LargeEnemy){
+			type = 'd';
+		}
+	}
+	public void isHit(MapGen map){
+
+	}
+	public void attack(MapGen map, Coordinate playerCoord, long time){
+		double dist = Math.sqrt(Math.pow(playerCoord.getX() - coord.getX(),2)+Math.pow(playerCoord.getY() - coord.getY(),2));
+		if (dist <= 30 && time - lastAttack > 800){
+			boolean ru = playerCoord.getX() > (coord.getX() - (getWidth()/2));
+			boolean lu = playerCoord.getX() > coord.getX() + getWidth()/2;
+			boolean bh = playerCoord.getY() < coord.getY() + getHeight()/2;
+			boolean th = playerCoord.getY() < coord.getY() - getHeight()/2;
+			//System.out.println("ru:"+ru+" lu:"+lu+" th:"+th+" bh:"+bh);
+			//System.out.println("1:"+(!th && bh && lu));
+			int direction = 0;
+			if (ru && !lu && th){direction =0;}
+			else if(!th && bh && lu){direction = 1;}
+			else if(!bh && ru && !lu){direction = 2;}
+			else if(!ru && !th && bh) {direction = 3;}
+			else if (th && !ru) {direction = 7;}
+			else if (!bh && !ru) {direction = 6;}
+			else if (!bh && lu) {direction = 5;}
+			else if (th && lu){direction = 4;}
+			//System.out.println(direction);
+			map.getBullets().add(new Bullet(new Coordinate(coord), 5, direction, false, type));
+			lastAttack = time;
+		}
 	}
 	public Coordinate moveRandom(MapGen map, long time){
 		Random random = new Random();

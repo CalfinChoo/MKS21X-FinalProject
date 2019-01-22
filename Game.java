@@ -115,6 +115,9 @@ public class Game{
 		}
 			
 	}
+	private static void clearOne(TextCharacter[][] bigMap, Coordinate coord){
+		bigMap[coord.getY()][coord.getX()] = new TextCharacter(' ', TextColor.ANSI.DEFAULT, bigMap[coord.getY()][coord.getX()].getBackgroundColor());
+	}
 	private static void updateEnemies(MapGen map, Coordinate playerCoord, long time){
 		Enemy badGuy;
 		for (int e = 0; e < map.enemiesLeft; e++){ int direction = -1;
@@ -129,6 +132,21 @@ public class Game{
 			clearPatch(map.getMap(), badGuy, badGuy.getXPos(),badGuy.getYPos());
 			badGuy.moveRandom(map,time);
 			MapGen.stickEnemyOnMap(map.getMap(),badGuy, badGuy.getXPos(),badGuy.getYPos(),direction);
+			badGuy.attack(map, playerCoord, time);
+		}
+	}
+	private static void updateBullets(MapGen map, long time){
+		Bullet bullet;
+		for (int b = 0; b < map.getBullets().size(); b++){
+			bullet = map.getBullets().get(b); 
+			clearOne(map.getMap(), bullet.getCoord());
+			if (!bullet.speedAway(map, time)){
+				map.getBullets().remove(b);
+				break;
+			}
+			map.setMap(bullet.getCoord().getX(), bullet.getCoord().getY(), new TextCharacter('0', bullet.getColor(), 
+				map.getMap()[bullet.getCoord().getY()][bullet.getCoord().getX()].getBackgroundColor(), SGR.BOLD)
+			);
 		}
 	}
 	public static void main(String[] args) throws InterruptedException, IOException{
@@ -246,6 +264,8 @@ public class Game{
 							}
 							direction = 3;
 							break;
+						case 'j':
+
 						}
 					}
 
@@ -274,6 +294,7 @@ public class Game{
 					screen.setCharacter(0,0, new TextCharacter(' ',TextColor.ANSI.BLACK, TextColor.ANSI.WHITE));
 					Coordinate tlcorner = new Coordinate(1,1);
 					updateEnemies(currentMap,playerCoord,currentTime);
+					updateBullets(currentMap,currentTime);
 
 					updateView(view,currentMap, playerCoord); //System.out.println(view.getHeight());
 					putToScreen(view,screen, tlcorner);
