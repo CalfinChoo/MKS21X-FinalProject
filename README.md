@@ -5,15 +5,16 @@ Ever wished for a fun game you can use your terminal to open? (I doubt it) well 
 # How to play
   so how do I play this very enticing and awesome game that will definitely be worth my time? you might ask yourself. Well good thing you decided to continue reading the file literally named "readme". first to play this game you must compile and run the Game.java file present in this repository with lanterna(3).jar in your classpath. Or if you are too lazy you can copy and paste this (lanterna(3).jar:." Game.java && java -cp "lanterna(3).jar:." Game) for linux and this (lanterna(3).jar;." Game.java && java -cp "lanterna(3).jar;." Game) for git bash. (and yes we just changed the colons to semicolons right there). Next to play this game that will definitely not be a waste of time and enlighten you beyond the reach of other mortals around you, you must read all the directions. for even though you must have a highly advanced intellect for deciding to play this game you will not be able to fully aprreciate it without reading the directions.
  # Directions
-  -use the wasd keys for movement
-  -press the esc key to leave at any time
-  -we have labored day and night to be able to tell you that resizing the screen in-game will not affect it at all however if you rapidly change the size it will crash the game
-  -press the space bar to shoot in the direction of the closest enemy (keep in mind this feature is very spotty as it is based upon the center of the enemy and it is hard to get good aiming in a terminal game)
+  1. use the wasd keys for movement
+  2. press the esc key to leave at any time
+  3. we have labored day and night to be able to tell you that resizing the screen in-game will not affect it at all however if you rapidly change the size it will crash the game
+  4. press the space bar to shoot in the direction of the closest enemy (keep in mind this feature is very spotty as it is based upon the center of the enemy and it is hard to get good aiming in a terminal game)
   - kill all the enemies and the boss to win!
 # pro-tips
 1. the boss room is always on the other corner of the map from the spawn room
 2. try to shoot the enemies while standing vertically/horizonatally from them
 3. don't complain about my spelling
+4. if anything is unsatisfactory, calvin did that part
 # Logs
 <p>Day 1 (1/3/19):
   we learned how to use lanterna, to place strings down and stuff
