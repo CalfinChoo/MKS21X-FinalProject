@@ -1,4 +1,11 @@
 import com.googlecode.lanterna.*;
+
+/*
+*
+* Contains all the attributes, properties, and functions pertaining to the bullets.
+*
+*/
+
 public class Bullet{
   private Coordinate coord;
   private int damage;
@@ -8,6 +15,7 @@ public class Bullet{
   public long lastMove;
   private int direction;
   private char type;
+//  Get commands for bullet properties
   public Coordinate getCoord(){
     return coord;
   }
@@ -17,6 +25,7 @@ public class Bullet{
   public int getDamage() {
     return damage;
   }
+//  Constructs a bullet
   public Bullet(Coordinate startCoord, int d, int direction, boolean g, char t){
     coord = new Coordinate(startCoord); good = g;
     damage = d;
@@ -24,6 +33,7 @@ public class Bullet{
     type = t;
     //System.out.println(startCoord);
   }
+//  Assigns colors to bullets depending on who shot them
   public TextColor getColor(){
     switch (type){
       case 'd':
@@ -74,6 +84,7 @@ public class Bullet{
   //********************************************************************************
   //*let it be noted that I tried to make shooting along sloped lines but it failed*
   //********************************************************************************
+//  Moves the bullet in a certain direction
   private void move(int direction){
     //7,0,4
     //3,~,1
@@ -110,18 +121,19 @@ public class Bullet{
     }
     return;
   }
+//  Bullet checks to see if it is within the hitbox of a target
   public boolean checkForPlayer(Player p) {
     if (Math.abs(p.getCoord().getX() - coord.getX()) < 3 && Math.abs(p.getCoord().getY() - coord.getY()) < 4) {
       return true;
   }
   else return false;
-}
-public boolean checkForEnemy(Enemy e) {
-  if (e.getDirection() == 0 || e.getDirection() == 2) {
-    if (Math.abs(e.getCoord().getX() - coord.getX()) < e.getGraphics()[0][0].length / 2 && Math.abs(e.getCoord().getY() - coord.getY()) < e.getGraphics()[0].length / 2) {
-      return true;
-    }
   }
+  public boolean checkForEnemy(Enemy e) {
+    if (e.getDirection() == 0 || e.getDirection() == 2) {
+      if (Math.abs(e.getCoord().getX() - coord.getX()) < e.getGraphics()[0][0].length / 2 && Math.abs(e.getCoord().getY() - coord.getY()) < e.getGraphics()[0].length / 2) {
+        return true;
+      }
+    }
   else if (e.getDirection() == 1 || e.getDirection() == 3) {
     if (Math.abs(e.getCoord().getX() - coord.getX()) < e.getGraphics()[1][0].length / 2 && Math.abs(e.getCoord().getY() - coord.getY()) < e.getGraphics()[1].length / 2) {
       return true;

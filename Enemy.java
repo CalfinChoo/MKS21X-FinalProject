@@ -1,5 +1,12 @@
 import java.util.Random;
 import com.googlecode.lanterna.*;
+
+/*
+*
+* Contains all the attributes, properties, and functions pertaining to the enemies.
+*
+*/
+
 public class Enemy{
 	private Coordinate coord;
 	private int width, height;
