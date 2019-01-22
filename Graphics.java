@@ -11,20 +11,20 @@ public class Graphics{
  * The common format used in storing the orientations is 1) Up, 2) Right, 3) Down, 4) Left
  */
 
- // Sprite of the player model (7x5)
+ // Sprite of the player model (7x5 vertically, 9x5 horizontally)
   public static String Player[][][] =
   {
     {
       {"_", "/", "X", "X", "X", "\\", "_"},
       {"(", " ", " ", " ", " ", " ", ")"},
       {"/", "\\", "X", "X", "X", "/", "\\"},
-      {"V", "/", ".", "-", ".", "\\", "V"},
+      {"V", "/", ".", "-", ".", "\\", "/"},
       {" ", "d", "b", " ", "d", "b", " "}
     },
     {
       {"_", "/", "X", "X", "X", "\\", "_"},
       {"(", " ", " ", "o", "~", "o", ")"},
-      {"/", "\\", "X", "X", "/", ";", "="},
+      {"/", "\\", "X", "X", "/", "e", "="},
       {"V", "/", "/", "\\", "\\", " ", " "},
       {" ", "H", "b", " ", "H", "b", " "}
     },
@@ -32,13 +32,13 @@ public class Graphics{
       {"_", "/", "X", "X", "X", "\\", "_"},
       {"(", " ", "o", "~", "o", " ", ")"},
       {"/", "\\", "X", "X", "X", "/", "\\"},
-      {"V", "/", ".", "-", ".", "\\", "V"},
+      {"\\", "/", ".", "-", ".", "\\", "V"},
       {" ", "d", "b", " ", "d", "b", " "}
     },
     {
       {"_", "/", "X", "X", "X", "\\", "_"},
       {"(", "o", "~", "o", " ", " ", ")"},
-      {"=", ";", "\\", "X", "X", "/", "\\"},
+      {"=", "a", "\\", "X", "X", "/", "\\"},
       {" ", " ", "/", "/", "\\", "\\", "V"},
       {" ", "d", "H", " ", "d", "H", " "}
     }
@@ -49,14 +49,14 @@ public class Graphics{
         {new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38)},
         {new TextColor.RGB(255, 221, 153), TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, new TextColor.RGB(255, 221, 153)},
         {new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210)},
-        {new TextColor.RGB(255, 221, 153), TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, new TextColor.RGB(255, 221, 153)},
+        {new TextColor.RGB(255, 221, 153), TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLACK},
         {TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT}
       },
       {
         {new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38), new TextColor.RGB(115, 77, 38)},
         {new TextColor.RGB(255, 221, 153), TextColor.ANSI.BLACK, TextColor.ANSI.BLACK, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, TextColor.ANSI.WHITE, new TextColor.RGB(255, 221, 153)},
         {new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), new TextColor.RGB(210, 210, 210), TextColor.ANSI.BLACK, TextColor.ANSI.BLACK},
-        {new TextColor.RGB(255, 221, 153), TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.DEFAULT},
+        {new TextColor.RGB(255, 221, 153), TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE, new TextColor.RGB(255, 221, 153), TextColor.ANSI.DEFAULT},
         {TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT, new TextColor.RGB(140, 140, 140), new TextColor.RGB(140, 140, 140), TextColor.ANSI.DEFAULT}
       },
       {

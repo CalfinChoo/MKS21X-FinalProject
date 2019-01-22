@@ -1,7 +1,6 @@
 import com.googlecode.lanterna.*;
 import java.util.Random;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /*
 * Contains code for generating the map.
