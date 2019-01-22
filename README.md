@@ -7,9 +7,13 @@ Ever wished for a fun game you can use your terminal to open? (I doubt it) well 
  # Directions
   -use the wasd keys for movement
   -press the esc key to leave at any time
-  -we have labored day and night to be able to tell you that resizing the screen in-game will not affect it at all
+  -we have labored day and night to be able to tell you that resizing the screen in-game will not affect it at all however if you rapidly change the size it will crash the game
   -press the space bar to shoot in the direction of the closest enemy (keep in mind this feature is very spotty as it is based upon the center of the enemy and it is hard to get good aiming in a terminal game)
   - kill all the enemies and the boss to win!
+# pro-tips
+1. the boss room is always on the other corner of the map from the spawn room
+2. try to shoot the enemies while standing vertically/horizonatally from them
+3. don't complain about my spelling
 # Logs
 <p>Day 1 (1/3/19):
   we learned how to use lanterna, to place strings down and stuff
