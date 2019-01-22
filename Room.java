@@ -125,7 +125,7 @@ public class Room{
 		}
 		if (room.equals(SmallBattleRoom)) placeEnemies(room, 7); // placeEnemies(room, # of spawnpoints)
 		if (room.equals(BigBattleRoom))	placeEnemies(room, 10);
-		if (room.equals(BossRoom)) placeBoss(room, 1);
+		if (room.equals(BossRoom)) placeBoss(room);
 		return room;
 	}
 

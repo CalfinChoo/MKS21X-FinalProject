@@ -120,7 +120,7 @@ public class Game{
 	}
 	private static void updateEnemies(MapGen map, Coordinate playerCoord, long time){
 		Enemy badGuy;
-		for (int e = 0; e < map.enemiesLeft; e++){ int direction = -1;
+		for (int e = 0; e < map.getEnemies().size(); e++){ int direction = -1;
 			badGuy = map.getEnemies().get(e);
 			if (badGuy.getHealth() <= 0) {
 				map.getEnemies().remove(e);
@@ -156,7 +156,7 @@ public class Game{
 				map.getBullets().remove(b);
 				clearOne(map.getMap(), bullet.getCoord());
 			}
-			for (int e = 0; e < map.enemiesLeft; e++) {
+			for (int e = 0; e < map.getEnemies().size(); e++) {
 				Enemy badGuy = map.getEnemies().get(e);
 				if (bullet.checkForEnemy(badGuy) && bullet.getGood()) {
 					badGuy.recieveDamage(bullet);
@@ -169,7 +169,7 @@ public class Game{
 	public static void shoot(MapGen map, Coordinate playerCoord){
 		Enemy badGuy=map.getEnemies().get(0); double closest = 1000;
 		Enemy target = badGuy;
-		for (int e = 0; e < map.enemiesLeft; e++){ 
+		for (int e = 0; e < map.getEnemies().size(); e++){ 
 			badGuy = map.getEnemies().get(e); 
 			double dist = Math.sqrt(Math.pow(playerCoord.getX() - badGuy.getXPos(),2)+Math.pow(playerCoord.getY()-badGuy.getYPos(),2));
 			if (dist < closest){
