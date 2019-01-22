@@ -26,7 +26,7 @@ public class MapGen{
 
 	public static int enemiesLeft;
 	private static ArrayList<Enemy> enemies = new ArrayList<>();
-	
+
 	private static ArrayList<Bullet> bullets = new ArrayList<>();
 	public ArrayList<Bullet> getBullets(){
 		return bullets;
@@ -277,7 +277,7 @@ public class MapGen{
 	public static TextCharacter[][] createMap(int width, int height,String[][] symMap, int vWidth, int vHeight){
 		TextCharacter[][] out = new TextCharacter[height][width];
 		int[] red = {244,220,244};
-		TextColor.RGB[] colors = {new TextColor.RGB(64,94,130), new TextColor.RGB(41,94,130), new TextColor.RGB(64,94,130)};
+		TextColor.RGB[] colors = {new TextColor.RGB(40, 40, 60), new TextColor.RGB(50, 50, 70), new TextColor.RGB(60, 60, 80)};
 		Random r = new Random();
 		for (int h = 0; h < height; h++){
 			for (int w = 0; w<width;w++){
