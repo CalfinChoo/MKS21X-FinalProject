@@ -117,9 +117,16 @@ public class Bullet{
   else return false;
 }
 public boolean checkForEnemy(Enemy e) {
-  if (Math.abs(e.getCoord().getX() - coord.getX()) < 3 && Math.abs(e.getCoord().getY() - coord.getY()) < 4) {
-    return true;
-}
-else return false;
-}
+  if (e.getDirection() == 0 || e.getDirection() == 2) {
+    if (Math.abs(e.getCoord().getX() - coord.getX()) < e.getGraphics()[0][0].length / 2 && Math.abs(e.getCoord().getY() - coord.getY()) < e.getGraphics()[0].length / 2) {
+      return true;
+    }
+  }
+  else if (e.getDirection() == 1 || e.getDirection() == 3) {
+    if (Math.abs(e.getCoord().getX() - coord.getX()) < e.getGraphics()[1][0].length / 2 && Math.abs(e.getCoord().getY() - coord.getY()) < e.getGraphics()[1].length / 2) {
+      return true;
+    }
+  }
+  return false;
+ }
 }

@@ -129,7 +129,9 @@ public class Game{ //places a string on the screen
 		for (int e = 0; e < map.getEnemies().size(); e++){ int direction = -1;
 			badGuy = map.getEnemies().get(e);
 			if (badGuy.getHealth() <= 0) {
-				map.getEnemies().remove(e); map.enemiesLeft--;
+				map.getEnemies().remove(e);
+				clearPatch(map.getMap(), badGuy, badGuy.getXPos(),badGuy.getYPos());
+				map.enemiesLeft--;
 				return;//enemies are dereferneced and die when their health is lower than zero
 			}
 			int px = playerCoord.getX(); int py = playerCoord.getY();
@@ -176,8 +178,8 @@ public class Game{ //places a string on the screen
 	public static void shoot(MapGen map, Coordinate playerCoord){
 		Enemy badGuy=map.getEnemies().get(0); double closest = 1000;
 		Enemy target = badGuy;
-		for (int e = 0; e < map.getEnemies().size(); e++){ 
-			badGuy = map.getEnemies().get(e); 
+		for (int e = 0; e < map.getEnemies().size(); e++){
+			badGuy = map.getEnemies().get(e);
 			double dist = Math.sqrt(Math.pow(playerCoord.getX() - badGuy.getXPos(),2)+Math.pow(playerCoord.getY()-badGuy.getYPos(),2));
 			if (dist < closest){
 				closest = dist;
