@@ -273,7 +273,7 @@ public class Game{ //places a string on the screen
 			while (running){
 				KeyStroke key = screen.pollInput();
 				if (currentTime - lastUpdTime >= 61){
-					if (p.getHealth() < p.getMaxHealth() && currentTime - healthTime > 450) {
+					if (p.getHealth() < p.getMaxHealth() && currentTime - healthTime > 250) {
 						p.addToHealth(1);
 						healthTime = currentTime;
 					}
