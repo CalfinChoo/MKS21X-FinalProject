@@ -279,6 +279,8 @@ public class Game{ //places a string on the screen
 					}
 					if (key == null) {isLastNull = true;} else {isLastNull = false;}
 					if (key != null && key.getKeyType() == KeyType.Escape){
+						System.out.println("you coward! what could be more important than this game right now!!!");
+						System.out.println("you are not worthy of this awesome game!");
 						running = false; break;
 					}
 					if (key != null && key.getKeyType() == KeyType.Character){
@@ -394,6 +396,12 @@ public class Game{ //places a string on the screen
 						new TextColor.RGB(255,255,255),TextColor.ANSI.BLACK);
 					putString(screen,24,0,"Health:" + p.getHealth(), TextColor.ANSI.RED, TextColor.ANSI.BLACK);
 					putString(screen,34,0,"Enemies Left:"+ currentMap.getEnemies().size(), TextColor.ANSI.CYAN, TextColor.ANSI.BLACK);
+
+					if (currentMap.getEnemies().size() == 0){
+						System.out.println("congratulations you have suceeded where normal people would fail. ");
+						System.out.println("the world will always remember you");
+						break;
+					}
 					lastUpdTime = System.currentTimeMillis();
 					screen.refresh();
 				}
